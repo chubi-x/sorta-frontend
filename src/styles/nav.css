@@ -1,0 +1,90 @@
+@import "./buttons.css";
+
+.nav {
+  @apply h-[15%] w-11/12;
+  @apply flex items-center justify-between;
+  @apply mx-auto pt-4 sm:px-8;
+
+  &__left {
+    @apply flex items-center justify-between;
+    @apply space-x-6;
+  }
+  &__list {
+    @apply font-body text-xs font-semibold;
+    @apply hidden lg:flex;
+    @apply space-x-10;
+  }
+  &__right {
+    display: flex;
+
+    .hamburger {
+      @apply flex-col items-center;
+
+      &__btn {
+        @apply bg-neutral-1;
+        width: 23px;
+        height: 3px;
+        margin: 3px;
+        border-radius: 300px;
+
+        &__middle {
+          width: 16px;
+        }
+        &__bottom {
+          width: 9px;
+        }
+      }
+    }
+  }
+  &__mobile__container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    transition: all 0.3s ease;
+    z-index: 1;
+    @apply w-3/4 sm:w-1/2;
+
+    a {
+      display: block;
+      transition: all 0.3s ease;
+      @apply hover:text-sm;
+    }
+
+    &--closed {
+      width: 0px;
+      opacity: 0;
+    }
+  }
+  &__mobile {
+    align-items: center;
+    height: 100%;
+    @apply w-full;
+    @apply bg-neutral-5;
+    @apply flex flex-col;
+    @apply font-body text-xs font-semibold;
+    @apply space-y-6 pt-10 lg:px-10;
+  }
+  &__cancel {
+    cursor: pointer;
+    position: absolute;
+    left: 5%;
+    top: 20px;
+
+    &__top {
+      rotate: 45deg;
+      transform: translate(2px);
+    }
+    &__bottom {
+      rotate: -45deg;
+      transform: translate(2px);
+    }
+    &__top,
+    &__bottom {
+      display: block;
+      height: 2.5px;
+      width: 20px;
+      background-color: theme("colors.neutral-2");
+    }
+  }
+}

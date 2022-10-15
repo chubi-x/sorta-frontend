@@ -1,0 +1,35 @@
+@import "./buttons.css";
+
+.login {
+  @apply flex items-start justify-center;
+  @apply bg-no-repeat md:bg-cover md:bg-center;
+  @apply h-[85%] w-full;
+
+  background-image: url("../assets/Login.svg");
+  overflow: auto;
+  margin-top: 5px;
+  &__card {
+    @apply border-neutral-6 bg-[white];
+    @apply flex flex-col items-center justify-between text-center;
+    @apply w-10/12 max-w-xs xs:min-h-[75%] sm:min-h-[70%] md:min-h-[60%] xl:min-h-[90%] tall:!min-h-[550px];
+    @apply mx-auto mt-4 py-8 px-8 lg:px-10 lg:py-6;
+
+    box-shadow: 1px 14px 22px 12px rgba(6, 6, 6, 0.03);
+    border-radius: 20px;
+
+    &__title {
+      @apply space-y-2;
+      @apply md:pt-4 lg:pt-0;
+      h1 {
+        @apply font-header text-md font-bold;
+      }
+      p {
+        @apply font-body text-xs;
+      }
+    }
+
+    &__animation {
+      @apply w-11/12 lg:w-[90%];
+    }
+  }
+}

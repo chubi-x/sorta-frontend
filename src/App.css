@@ -1,4 +1,8 @@
-.app{
-    height: 100%;
-    width: 100%;
+@import "./styles/nav.css";
+@import "./styles/login.css";
+
+.app {
+  height: 100%;
+  width: 100%;
 }
+

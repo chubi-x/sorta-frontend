@@ -1,0 +1,42 @@
+.neutral__btn {
+  @apply font-header text-sm font-bold;
+  @apply rounded border-2 border-neutral-6;
+  @apply cursor-pointer;
+
+  &__small {
+    @apply px-2 py-3;
+    @apply text-xs;
+
+    &:hover {
+      @apply border-neutral-2 bg-neutral-2 text-neutral-8;
+    }
+  }
+  &__medium {
+    @apply px-4 py-4;
+
+    &:hover {
+      @apply border-neutral-2 bg-neutral-2 text-neutral-8;
+    }
+  }
+}
+
+.primary__btn {
+  @apply font-header text-sm font-bold text-neutral-7;
+  @apply cursor-pointer;
+  @apply rounded bg-primary-1;
+
+  &__small {
+    @apply px-3 py-3;
+
+    &:hover {
+      @apply bg-primary-1-hover text-neutral-8;
+    }
+  }
+  &__medium {
+    @apply px-4 py-4;
+
+    &:hover {
+      @apply bg-primary-1-hover text-neutral-8;
+    }
+  }
+}
