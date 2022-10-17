@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+
 export function NeutralButton(props: { forNav: boolean }) {
   return (
     <div
@@ -5,7 +8,11 @@ export function NeutralButton(props: { forNav: boolean }) {
         props.forNav ? "hidden lg:block" : ""
       }`}
     >
-      Connect Twitter
+      <a href="http://localhost:3000">
+        Connect Twitter
+        {"   "} <FontAwesomeIcon icon={faTwitter} />
+      </a>
     </div>
   );
 }
+

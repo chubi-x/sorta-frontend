@@ -1,4 +1,4 @@
-import "./App.css";
+import "./assets/styles/App.css";
 import Login from "./pages/Auth/Login";
 import { Navbar } from "./layouts/Navbar";
 function App() {

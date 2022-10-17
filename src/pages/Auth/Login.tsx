@@ -5,7 +5,7 @@ export default function Login() {
     <div className="login">
       <div className="login__card">
         <div className="login__card__title">
-          <h1>Account Login</h1>
+          <h1>Connect Account</h1>
           <p>Hey! Click the button below to connect your twitter account</p>
         </div>
 

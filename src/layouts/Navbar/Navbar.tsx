@@ -1,6 +1,6 @@
-import logo from "../assets/logo.svg";
+import logo from "../../assets/images/logo.svg";
 import { useState } from "react";
-import NeutralButton from "../../components/buttons/NeutralButton";
+import { NeutralButton } from "../../components/buttons/NeutralButton";
 
 export function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -59,3 +59,4 @@ export function Navbar() {
     </>
   );
 }
+
