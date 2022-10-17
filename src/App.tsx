@@ -1,6 +1,6 @@
 import "./App.css";
-import Login from "./pages/Login";
-import Navbar from "./components/Navbar";
+import Login from "./pages/Auth/Login";
+import { Navbar } from "./layouts/Navbar";
 function App() {
   return (
     <div className="app">
