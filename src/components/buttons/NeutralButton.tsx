@@ -1,4 +1,4 @@
-export default function NeutralButton(props: { forNav: boolean }) {
+export function NeutralButton(props: { forNav: boolean }) {
   return (
     <div
       className={`neutral__btn neutral__btn__medium ${

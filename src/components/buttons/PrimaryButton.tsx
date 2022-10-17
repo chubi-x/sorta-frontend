@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-export default function PrimaryButton() {
+export function PrimaryButton() {
   const [authorizeUrl, setAuthorizeUrl] = useState("");
 
   useEffect(() => {
     const abortController = new AbortController();
     const fetchAuthorizeUrl = async () => {
       try {
-        const response = await fetch("http://localhost:3000/authorize", {
+        const response = await fetch("http://localhost:3000", {
           signal: abortController.signal,
           credentials: "include",
         });
@@ -26,14 +26,14 @@ export default function PrimaryButton() {
       }
     };
     // fetch auth url
-    fetchAuthorizeUrl();
+    // fetchAuthorizeUrl();
     return () => {
       abortController.abort();
     };
   }, []);
   return (
     <button className="primary__btn primary__btn__medium">
-      <a href={authorizeUrl}>Connect Twitter</a>
+      <a href={"http://localhost:3000"}>Connect Twitter</a>
     </button>
   );
 }
