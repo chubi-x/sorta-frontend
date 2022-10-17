@@ -1,7 +1,8 @@
 import logo from "../assets/logo.svg";
 import { useState } from "react";
-import NeutralButton from "../utils/NeutralButton";
-export default function Navbar() {
+import NeutralButton from "../../components/buttons/NeutralButton";
+
+export function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
 
   function toggleMobileMenu() {

@@ -1,4 +1,4 @@
-import PrimaryButton from "../utils/PrimaryButton";
+import { PrimaryButton } from "../../components/buttons";
 
 export default function Login() {
   return (
