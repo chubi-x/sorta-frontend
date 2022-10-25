@@ -18,7 +18,7 @@ export function Navbar({ authFunction }: { authFunction: any }) {
           <div className="nav__logo">
             <img src={logo} alt="logo" />
           </div>
-          <ul className="nav__list">
+          <ul className="nav__links">
             <li className="nav__items">
               <a href="#"> How it works</a>
             </li>
@@ -55,9 +55,14 @@ export function Navbar({ authFunction }: { authFunction: any }) {
             <span className="nav__cancel__top"></span>
             <span className="nav__cancel__bottom"></span>
           </div>
-          <a href="#"> How it works</a>
-          <a href="#"> Meet the creators</a>
-          <a href="#"> Contribute</a>
+          <div className="nav__logo mt-6">
+            <img src={logo} alt="logo" />
+          </div>
+          <div className="nav__links mb-16">
+            <a href="#"> How it works</a>
+            <a href="#"> Meet the creators</a>
+            <a href="#"> Contribute</a>
+          </div>
           {isLogged ? null : (
             <NeutralButton forNav={false} authFunction={authFunction} />
           )}{" "}
