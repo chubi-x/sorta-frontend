@@ -1,5 +1,7 @@
 import { Navbar } from "../../layouts/Navbar";
 import { PrimaryButton } from "../../components/buttons";
+import Lottie from "lottie-react";
+import login from "../../assets/lotties/login.json";
 
 export function Login({ authFunction }: { authFunction: any }) {
   return (
@@ -11,16 +13,7 @@ export function Login({ authFunction }: { authFunction: any }) {
             <h1>Connect Account</h1>
             <p>Hey! Click the button below to connect your twitter account</p>
           </div>
-
-          <lottie-player
-            src="https://assets8.lottiefiles.com/packages/lf20_duUhpb7PXY.json"
-            mode="bounce"
-            background="transparent"
-            speed="1"
-            class="login__card__animation"
-            loop
-            autoplay
-          ></lottie-player>
+          <Lottie animationData={login} loop={true} autoplay={true} />
 
           <PrimaryButton authFunction={authFunction} />
         </div>
