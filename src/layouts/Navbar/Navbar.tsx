@@ -1,9 +1,12 @@
 import logo from "../../assets/images/logo.svg";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { LoginContext } from "../../helpers/Context";
+
 import { NeutralButton } from "../../components/buttons/NeutralButton";
 
-export function Navbar() {
+export function Navbar({ authFunction }: { authFunction: any }) {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const { isLogged } = useContext(LoginContext);
 
   function toggleMobileMenu() {
     setMobileMenu(!mobileMenu);
@@ -36,7 +39,9 @@ export function Navbar() {
             <span className="hamburger__btn hamburger__btn__middle"></span>
             <span className="hamburger__btn hamburger__btn__bottom"></span>
           </div>
-          <NeutralButton forNav={true} />
+          {isLogged ? null : (
+            <NeutralButton forNav={true} authFunction={authFunction} />
+          )}
         </div>
       </nav>
       {/* mobile menu */}
@@ -53,7 +58,9 @@ export function Navbar() {
           <a href="#"> How it works</a>
           <a href="#"> Meet the creators</a>
           <a href="#"> Contribute</a>
-          <NeutralButton forNav={false} />
+          {isLogged ? null : (
+            <NeutralButton forNav={false} authFunction={authFunction} />
+          )}{" "}
         </div>
       </aside>
     </>

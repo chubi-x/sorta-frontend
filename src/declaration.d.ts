@@ -7,3 +7,35 @@ declare namespace JSX {
     "lottie-player": any;
   }
 }
+
+interface Oauth {
+  url: string;
+  state: string;
+  codeVerifier: string;
+  codeChallenge: string;
+}
+interface CallbackQueryParams {
+  error?: string;
+  state: string;
+  code?: string;
+}
+
+interface ServerResponse {
+  message?: string;
+  data?: object;
+  success: boolean;
+  error?: string;
+}
+interface UserResponse {
+  message: string;
+  data: User;
+  success: boolean;
+}
+interface User {
+  id: string;
+  name: string;
+  verified: boolean;
+  username: string;
+  pfp: string;
+}
+

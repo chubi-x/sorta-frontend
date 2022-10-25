@@ -1,18 +1,23 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 
-export function NeutralButton(props: { forNav: boolean }) {
+export function NeutralButton({
+  authFunction,
+  forNav,
+}: {
+  authFunction: any;
+  forNav: boolean;
+}) {
   return (
-    <div
+    <button
       className={`neutral__btn neutral__btn__medium ${
-        props.forNav ? "hidden lg:block" : ""
+        forNav ? "hidden lg:block" : ""
       }`}
+      onClick={authFunction}
     >
-      <a href="http://localhost:3000">
-        Connect Twitter
-        {"   "} <FontAwesomeIcon icon={faTwitter} />
-      </a>
-    </div>
+      Connect Twitter
+      {"   "} <FontAwesomeIcon icon={faTwitter} />
+    </button>
   );
 }
 
