@@ -11,8 +11,12 @@ export function Dashboard() {
       const userResponse: UserResponse = await fetchUser(abortController);
       if (userResponse.success) {
         setUser((prev) => {
-          return { ...userResponse.data };
+          return {
+            ...prev,
+            ...userResponse.data,
+          };
         });
+        localStorage.setItem("user", JSON.stringify({ ...user }));
       }
     };
     returnUser();
@@ -27,3 +31,4 @@ export function Dashboard() {
     </>
   );
 }
+
