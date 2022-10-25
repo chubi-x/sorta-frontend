@@ -10,6 +10,7 @@ export function OauthCallback() {
 
   localStorage.setItem("callbackParams", JSON.stringify(queryString));
   // console.log(window.opener);
-  // self.close();
+  self.close();
   return <h1>Login successful! You can close this window.</h1>;
 }
+
