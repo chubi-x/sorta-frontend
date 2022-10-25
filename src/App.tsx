@@ -11,13 +11,13 @@ import { LoginContext } from "./helpers/Context";
 import "./assets/styles/App.css";
 
 function App() {
-  const [authWindow, setAuthWindow] = useState<Window>();
   const [oauthData, setOauthData] = useState<Oauth>();
   const [callbackParams, setCallbackParams] = useState<CallbackQueryParams>();
-  const [isLogged, setIsLogged] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<User>();
-
+  const [user, setUser] = useState<User>(
+    JSON.parse(localStorage.getItem("user")!) || { isLogged: false }
+  );
+  
   function readCallbackMessage(event: StorageEvent) {
     const callbackParams: CallbackQueryParams = JSON.parse(
       localStorage.getItem("callbackParams")!
@@ -53,7 +53,9 @@ function App() {
         );
         if (oauthResponse.success) {
           setLoading(false);
-          setIsLogged(true);
+          setUser((prev) => {
+            return { ...prev, isLogged: true };
+          });
         } else {
           setLoading(false);
           alert(oauthResponse.error);
@@ -66,7 +68,6 @@ function App() {
     };
     if (oauthData && callbackParams) {
       oauthCompleteFunction();
-      console.log("complete oauth");
     }
     return () => {
       abortController.abort();
@@ -75,16 +76,16 @@ function App() {
 
   // logic to set root element
   let root: JSX.Element = <></>;
-  if (isLogged) {
+  if (user.isLogged) {
     root = <Dashboard />;
   } else if (loading) {
     root = <Loading />;
-  } else if (!isLogged) {
+  } else if (!user.isLogged) {
     root = <Login authFunction={authFunction} />;
   }
   //  root = isLogged ? <User /> : <Login authFunction={authFunction} />;
   return (
-    <LoginContext.Provider value={{ user, isLogged, setUser, oauthData }}>
+    <LoginContext.Provider value={{ user, setUser, oauthData }}>
       <div className="app">
         <Routes>
           <Route path="/" element={root} />

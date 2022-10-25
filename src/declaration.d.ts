@@ -37,5 +37,6 @@ interface User {
   verified: boolean;
   username: string;
   pfp: string;
+  isLogged: boolean;
 }
 
