@@ -26,10 +26,11 @@ interface ServerResponse {
   success: boolean;
   error?: string;
 }
-interface UserResponse {
-  message: string;
+interface BookmarksResponse extends ServerResponse {
+  data: Bookmarks;
+}
+interface UserResponse extends ServerResponse {
   data: User;
-  success: boolean;
 }
 interface User {
   id: string;
@@ -38,5 +39,15 @@ interface User {
   username: string;
   pfp: string;
   isLogged: boolean;
+}
+
+interface Bookmarks {
+  data: [];
+  meta: object;
+}
+
+interface Bookmark {
+  text: string;
+  id: string;
 }
 
