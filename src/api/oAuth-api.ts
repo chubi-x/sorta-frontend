@@ -10,7 +10,6 @@ export async function fetchOauth(
     mode: "cors",
   });
   const responseData = await response.json();
-  // localStorage.setItem("oauth", JSON.stringify({ ...responseData.data.oauth }));
   setOauthData(() => {
     return { ...responseData.data.oauth };
   });
@@ -32,3 +31,4 @@ export async function completeOauth(
   const response = await request.json();
   return response;
 }
+
