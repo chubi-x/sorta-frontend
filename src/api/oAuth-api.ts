@@ -28,7 +28,7 @@ export async function completeOauth(
     },
     body: JSON.stringify({ callbackParams, oauthData }),
   });
-  const response = await request.json();
+  const response: ServerResponse = await request.json();
   return response;
 }
 
