@@ -10,7 +10,7 @@ export function Loading() {
   useEffect(() => {
     const abortController = new AbortController();
     const completeOauthFunction = async () => {
-      const oauthResponse: ServerResponse = await completeOauth(
+      const oauthResponse = await completeOauth(
         callback.callbackParams,
         oauth.oauthData,
         abortController
@@ -25,9 +25,10 @@ export function Loading() {
         // setLoading(false);
       }
     };
-    if (callback.callbackParams && oauth.oauthData) {
-      completeOauthFunction();
-    }
+    completeOauthFunction();
+    return () => {
+      abortController.abort();
+    };
   }, []);
   return (
     <div className="mx-auto flex h-full w-full items-center justify-center bg-neutral-6">

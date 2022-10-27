@@ -29,6 +29,16 @@ interface ServerResponse {
 interface BookmarksResponse extends ServerResponse {
   data: Bookmarks;
 }
+interface Bookmarks {
+  data: [];
+  meta: object;
+}
+
+interface Bookmark {
+  text: string;
+  id: string;
+}
+
 interface UserResponse extends ServerResponse {
   data: User;
 }
@@ -39,15 +49,5 @@ interface User {
   username: string;
   pfp: string;
   isLogged: boolean;
-}
-
-interface Bookmarks {
-  data: [];
-  meta: object;
-}
-
-interface Bookmark {
-  text: string;
-  id: string;
 }
 
