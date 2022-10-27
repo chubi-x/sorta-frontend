@@ -1,5 +1,5 @@
-@import "./nav.css";
-@import "./login.css";
+@import "./components/nav.css";
+@import "./pages/login.css";
 
 .app {
   height: 100%;
