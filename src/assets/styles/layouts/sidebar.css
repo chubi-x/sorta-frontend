@@ -33,7 +33,6 @@
     h1 {
       @apply xs:text-xs md:text-sm;
     }
-    // width: 243px;
     &--active {
       @apply bg-neutral-6;
       @apply text-primary-1;
