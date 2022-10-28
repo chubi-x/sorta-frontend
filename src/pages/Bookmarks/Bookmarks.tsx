@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchBookmarks } from "../../api/bookmarks-api";
+import { NewCategoryButton } from "../../components/buttons";
 import { Bookmark } from "./Bookmark";
 export function Bookmarks() {
   const [bookmarks, setBookmarks] = useState<Bookmarks>();
@@ -21,6 +22,7 @@ export function Bookmarks() {
   }, []);
   return (
     <div>
+      <NewCategoryButton />
       {bookmarks?.data?.map((bookmark: Bookmark) => (
         <Bookmark bookmark={bookmark} />
       ))}
