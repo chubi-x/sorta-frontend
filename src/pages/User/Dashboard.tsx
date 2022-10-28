@@ -1,12 +1,26 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
 import { Sidebar } from "../../layouts/Sidebar";
 import { Bookmarks } from "../Bookmarks";
 
+export interface ActiveContext {
+  bookmarksActive: boolean;
+  categoriesActive: boolean;
+  setBookmarksActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setCategoriesActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
 export function Dashboard() {
   const { user, setUser } = useContext(LoginContext);
+  const [bookmarksActive, setBookmarksActive] = useState(true);
+  const [categoriesActive, setCategoriesActive] = useState(false);
 
+  const activeTabContext: ActiveContext = {
+    bookmarksActive,
+    setBookmarksActive,
+    categoriesActive,
+    setCategoriesActive,
+  };
   useEffect(() => {
     const abortController = new AbortController();
     const returnUser = async () => {
@@ -35,12 +49,12 @@ export function Dashboard() {
   }, []);
   return (
     <div className="flex h-full">
-      <Sidebar />
+      <Sidebar activeTab={activeTabContext} />
       <main className="mx-auto w-3/5 pt-10">
         <img src={user?.pfp} alt="profile pic" />
         <h1>Welcome, {user?.name}</h1>
 
-        {user.isLogged && <Bookmarks />}
+        {bookmarksActive && <Bookmarks />}
       </main>
     </div>
   );
