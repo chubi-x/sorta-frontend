@@ -1,5 +1,6 @@
-@import "./components/nav.css";
 @import "./pages/login.css";
+@import "./layouts/navbar.css";
+@import "./layouts/sidebar.css";
 
 .app {
   height: 100%;

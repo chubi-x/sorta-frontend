@@ -11,7 +11,7 @@ export function Bookmarks() {
       if (response?.success) {
         setBookmarks({ ...response.data });
       } else {
-        alert(response?.error);
+        alert(response?.message);
       }
     };
     getBookmarks();

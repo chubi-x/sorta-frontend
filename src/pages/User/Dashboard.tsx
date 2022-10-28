@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
+import { Sidebar } from "../../layouts/Sidebar";
 import { Bookmarks } from "../Bookmarks";
 
 export function Dashboard() {
@@ -33,12 +34,15 @@ export function Dashboard() {
     };
   }, []);
   return (
-    <>
-      <img src={user?.pfp} alt="profile pic" />
-      <h1>Welcome, {user?.name}</h1>
+    <div className="flex h-full">
+      <Sidebar />
+      <main className="mx-auto w-3/5 pt-10">
+        <img src={user?.pfp} alt="profile pic" />
+        <h1>Welcome, {user?.name}</h1>
 
-      {user.isLogged && <Bookmarks />}
-    </>
+        {user.isLogged && <Bookmarks />}
+      </main>
+    </div>
   );
 }
 

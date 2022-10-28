@@ -1,4 +1,4 @@
-import logo from "../../assets/images/logo.svg";
+import logo from "../../assets/icons/logo.svg";
 import { useState } from "react";
 
 import { NeutralButton } from "../../components/buttons/NeutralButton";
