@@ -25,7 +25,7 @@ export function Dashboard() {
     const abortController = new AbortController();
     const returnUser = async () => {
       const userResponse: UserResponse = await fetchUser(abortController);
-      if (userResponse.success) {
+      if (userResponse?.success) {
         setUser((prev) => {
           return {
             ...prev,
@@ -35,7 +35,7 @@ export function Dashboard() {
         localStorage.setItem("user", JSON.stringify({ ...user }));
       } else {
         // if not logged in backend, log out in frontend
-        if (userResponse.message?.includes("not logged in")) {
+        if (userResponse?.message?.includes("not logged in")) {
           setUser((prev) => {
             return { ...prev, isLogged: false };
           });
@@ -46,11 +46,11 @@ export function Dashboard() {
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [user.isLogged]);
   return (
     <div className="flex h-full">
       <Sidebar activeTab={activeTabContext} />
-      <main className="mx-auto w-3/5 pt-10">
+      <main className="mx-auto w-3/5 pt-10 font-body">
         {/* <img src={user?.pfp} alt="profile pic" /> */}
         <h1 className="font-header text-md font-bold text-primary-1">
           Hello! {user?.name}
