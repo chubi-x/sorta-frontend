@@ -47,6 +47,7 @@ interface Bookmark {
     authorPfp: string;
     authorUsername: string;
     authorVerified: string;
+    createdAt: string;
   };
 }
 
