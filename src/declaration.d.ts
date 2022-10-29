@@ -48,6 +48,8 @@ interface Bookmark {
     authorUsername: string;
     authorVerified: string;
     createdAt: string;
+    urls: [];
+    attachments: [];
   };
 }
 
