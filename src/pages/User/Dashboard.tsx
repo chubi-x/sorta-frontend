@@ -61,10 +61,16 @@ export function Dashboard() {
       <Sidebar activeTab={activeTabContext} />
       <div className="divider"></div>
       <main id="main">
-        {/* <img src={user?.pfp} alt="profile pic" /> */}
-        <h1 className="font-header text-md font-bold text-primary-1">
-          Hello! {user?.name}
-        </h1>
+        <div className="user__header flex items-center space-x-3">
+          <img
+            src={user?.pfp}
+            alt="profile pic"
+            className="w-10 rounded-full"
+          />
+          <h1 className="font-header text-md font-bold text-primary-1">
+            Hello! {user?.name}
+          </h1>
+        </div>
         <p className="my-2 text-neutral-4">
           {bookmarksActive
             ? " See all your bookmarked tweets"
