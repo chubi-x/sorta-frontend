@@ -12,7 +12,8 @@ export function Bookmarks() {
       if (response?.success) {
         setBookmarks({ ...response.data });
       } else {
-        alert(response?.message);
+        // alert(response?.message);
+        console.log("error fetching bookmarks");
       }
     };
     getBookmarks();
@@ -23,9 +24,13 @@ export function Bookmarks() {
   return (
     <div>
       <NewCategoryButton />
-      {bookmarks?.data?.map((bookmark: Bookmark) => (
-        <Bookmark bookmark={bookmark} />
-      ))}
+      <div className="bookmarks mt-10">
+        {bookmarks?.data.map((bookmark: Bookmark) =>
+          bookmark?.status === "fulfilled" ? (
+            <Bookmark bookmark={bookmark} key={bookmark.value.id} />
+          ) : null
+        )}
+      </div>
     </div>
   );
 }
