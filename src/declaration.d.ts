@@ -30,13 +30,16 @@ interface BookmarksResponse extends ServerResponse {
   data: Bookmarks;
 }
 interface Bookmarks {
-  data: [];
+  data: Bookmark[];
   meta: object;
 }
 
 interface Bookmark {
-  text: string;
-  id: string;
+  status: "fulfilled" | "rejected";
+  value: {
+    text: string;
+    id: string;
+  };
 }
 
 interface UserResponse extends ServerResponse {
