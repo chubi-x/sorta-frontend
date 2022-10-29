@@ -1,9 +1,10 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
 import { Sidebar } from "../../layouts/Sidebar";
 import { Bookmarks } from "../Bookmarks";
-
+import up from "../../assets/icons/up.svg";
 export interface ActiveContext {
   bookmarksActive: boolean;
   categoriesActive: boolean;
@@ -21,6 +22,7 @@ export function Dashboard() {
     categoriesActive,
     setCategoriesActive,
   };
+
   useEffect(() => {
     const abortController = new AbortController();
     const returnUser = async () => {
@@ -47,21 +49,34 @@ export function Dashboard() {
       abortController.abort();
     };
   }, [user.isLogged]);
+
+  function scrollToTop() {
+    document.getElementById("main")!.scrollTo({
+      top: 1,
+      behavior: "smooth",
+    });
+  }
   return (
-    <div className="flex h-full">
+    <div className="dashboard">
       <Sidebar activeTab={activeTabContext} />
-      <main className="mx-auto w-3/5 pt-10 font-body">
+      <div className="divider"></div>
+      <main id="main">
         {/* <img src={user?.pfp} alt="profile pic" /> */}
         <h1 className="font-header text-md font-bold text-primary-1">
           Hello! {user?.name}
         </h1>
-        <p className="mt-2 text-neutral-4">
+        <p className="my-2 text-neutral-4">
           {bookmarksActive
             ? " See all your bookmarked tweets"
             : " See all your categories"}
         </p>
         {bookmarksActive && <Bookmarks />}
       </main>
+
+      <div className="top" onClick={scrollToTop}>
+        {/* <FontAwesomeIcon icon={} /> */}
+        <img src={up} alt="scroll to top button" />
+      </div>
     </div>
   );
 }

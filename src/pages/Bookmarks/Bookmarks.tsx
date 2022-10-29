@@ -22,16 +22,19 @@ export function Bookmarks() {
     };
   }, []);
   return (
-    <div>
+    <>
       <NewCategoryButton />
-      <div className="bookmarks mt-10">
-        {bookmarks?.data.map((bookmark: Bookmark) =>
-          bookmark?.status === "fulfilled" ? (
-            <Bookmark bookmark={bookmark} key={bookmark.value.id} />
-          ) : null
-        )}
+
+      <div className="bookmarks">
+        <div className="mt-10">
+          {bookmarks?.data.map((bookmark: Bookmark) =>
+            bookmark?.status === "fulfilled" ? (
+              <Bookmark bookmark={bookmark} key={bookmark.value.id} />
+            ) : null
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

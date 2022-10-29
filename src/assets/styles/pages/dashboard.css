@@ -1,0 +1,44 @@
+.dashboard {
+  @apply flex justify-evenly;
+  @apply h-full;
+}
+.divider {
+  @apply border-l border-neutral-6;
+  @apply w-20;
+}
+main {
+  @apply max-h-full w-3/5;
+  @apply font-body;
+  @apply pt-10;
+  @apply overflow-auto;
+}
+.bookmarks {
+  @apply h-screen w-5/6;
+  @apply pb-10 pr-5;
+}
+.bookmark {
+  //   @apply;
+}
+
+.top {
+  @apply absolute top-[90%] left-[90%];
+  @apply cursor-pointer;
+  @apply rounded-full;
+  @apply flex flex-col items-center;
+  @apply p-2;
+  @apply h-8;
+
+  &:hover {
+    @apply bg-primary-1;
+    img {
+      filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(193deg)
+        brightness(103%) contrast(103%);
+    }
+  }
+  img {
+    width: 15px;
+
+    filter: invert(40%) sepia(85%) saturate(3313%) hue-rotate(213deg)
+      brightness(99%) contrast(104%);
+  }
+}

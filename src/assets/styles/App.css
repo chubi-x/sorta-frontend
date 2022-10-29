@@ -1,7 +1,7 @@
-@import "./pages/login.css";
 @import "./layouts/navbar.css";
 @import "./layouts/sidebar.css";
-
+@import "./pages/login.css";
+@import "./pages/dashboard.css";
 .app {
   height: 100%;
   width: 100%;

@@ -43,7 +43,7 @@
 
 .new-category-btn {
   @apply flex;
-  @apply mt-8 py-4 px-6;
+  @apply my-8 py-4 px-6;
   @apply hover:bg-neutral-6;
   @apply rounded-md border border-primary-1;
   @apply font-medium text-primary-1;
