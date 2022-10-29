@@ -26,6 +26,9 @@ interface ServerResponse {
   success: boolean;
   error?: string;
 }
+interface OauthResponse extends ServerResponse {
+  data: Oauth;
+}
 interface BookmarksResponse extends ServerResponse {
   data: Bookmarks;
 }
