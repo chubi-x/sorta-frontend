@@ -42,6 +42,11 @@ interface Bookmark {
   value: {
     text: string;
     id: string;
+    authorId: string;
+    authorName: string;
+    authorPfp: string;
+    authorUsername: string;
+    authorVerified: string;
   };
 }
 
