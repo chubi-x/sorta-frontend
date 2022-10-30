@@ -3,7 +3,7 @@ import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
 import { Sidebar } from "../../layouts";
 import { Bookmarks } from "../Bookmarks";
-import up from "../../assets/icons/up.svg";
+import arrowUp from "../../assets/icons/up.svg";
 export interface ActiveContext {
   bookmarksActive: boolean;
   categoriesActive: boolean;
@@ -79,8 +79,7 @@ export function Dashboard() {
       </main>
 
       <div className="top" onClick={scrollToTop}>
-        {/* <FontAwesomeIcon icon={} /> */}
-        <img src={up} alt="scroll to top button" />
+        <img src={arrowUp} alt="scroll to top button" />
       </div>
     </div>
   );
