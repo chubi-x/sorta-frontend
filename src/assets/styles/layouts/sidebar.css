@@ -6,11 +6,11 @@
   @apply text-primary-1;
 
   &__logo {
-    @apply flex items-center;
-    @apply space-x-2;
+    @apply flex items-center self-start;
+    @apply space-x-2 pl-8;
 
     h1 {
-      @apply font-header text-[20px] font-bold;
+      @apply font-header text-[25px] font-extrabold;
     }
   }
   &__buttons {

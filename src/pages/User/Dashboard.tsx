@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
-import { Sidebar } from "../../layouts/Sidebar";
+import { Sidebar } from "../../layouts";
 import { Bookmarks } from "../Bookmarks";
 import up from "../../assets/icons/up.svg";
 export interface ActiveContext {
@@ -48,7 +48,7 @@ export function Dashboard() {
     return () => {
       abortController.abort();
     };
-  }, [user.isLogged]);
+  }, [bookmarksActive]);
 
   function scrollToTop() {
     document.getElementById("main")!.scrollTo({

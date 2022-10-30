@@ -1,8 +1,9 @@
-import logo from "../../assets/icons/logo.svg";
-import home from "../../assets/icons/bookmark.svg";
-import categories from "../../assets/icons/categories.svg";
-import logout from "../../assets/icons/logout.svg";
-import { ActiveContext } from "../../pages/User";
+import logo from "../assets/logo/logo.svg";
+import bookmarks from "../assets/icons/bookmarks.svg";
+import categories from "../assets/icons/categories.svg";
+import logout from "../assets/icons/logout.svg";
+
+import { ActiveContext } from "../pages/User";
 
 export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
   function toggleBookmarks() {
@@ -26,8 +27,8 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
           }`}
           onClick={toggleBookmarks}
         >
-          <img className="sidebar__icon" src={home} alt="home icon" />
-          <h1>Home</h1>
+          <img className="sidebar__icon" src={bookmarks} alt="bookmarks icon" />
+          <h1>Bookmarks</h1>
         </div>
         <div
           className={`sidebar__button ${

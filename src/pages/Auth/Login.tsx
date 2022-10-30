@@ -5,7 +5,7 @@ import { fetchOauth } from "../../api";
 import Lottie from "lottie-react";
 import login from "../../assets/lotties/login.json";
 
-import { Navbar } from "../../layouts/Navbar";
+import { Navbar } from "../../layouts";
 import { PrimaryButton } from "../../components/buttons";
 
 export function Login() {

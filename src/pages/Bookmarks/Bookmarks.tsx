@@ -28,15 +28,19 @@ export function Bookmarks() {
 
       <div className="bookmarks">
         <div className="flex justify-between text-primary-1">
-          <p className="font-semibold">All Tweets</p>
+          <p className="font-semibold">{bookmarks?.data.length} Bookmark(s)</p>
           <p className="flex cursor-pointer space-x-2 font-medium">
             <img src={help} alt="help icon" /> <span>Need Help?</span>
           </p>
         </div>
         <div className="mt-6">
-          {bookmarks?.data.map((bookmark: Bookmark) =>
+          {bookmarks?.data.map((bookmark: Bookmark, index: number) =>
             bookmark?.status === "fulfilled" ? (
-              <Bookmark bookmark={bookmark} key={bookmark.value.id} />
+              <Bookmark
+                bookmark={bookmark}
+                key={bookmark.value.id}
+                index={index}
+              />
             ) : null
           )}
         </div>
