@@ -14,14 +14,14 @@ main {
 }
 .bookmarks {
   @apply h-screen w-5/6;
-  @apply pb-10 pr-5;
+  @apply pr-5;
 }
 .bookmark__card {
   @apply relative;
   @apply border border-neutral-6;
   @apply py-8 px-6;
   @apply flex items-start justify-between space-x-4;
-
+  @apply h-[full];
   &__author {
     &__img {
       img {
