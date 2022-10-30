@@ -91,7 +91,7 @@ main {
   }
 }
 
-.top {
+.arrowUp {
   @apply absolute top-[90%] left-[80%];
   @apply cursor-pointer;
   @apply rounded-full;

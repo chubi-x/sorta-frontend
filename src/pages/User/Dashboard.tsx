@@ -78,7 +78,7 @@ export function Dashboard() {
         {bookmarksActive && <Bookmarks />}
       </main>
 
-      <div className="top" onClick={scrollToTop}>
+      <div className="arrowUp" onClick={scrollToTop}>
         <img src={arrowUp} alt="scroll to top button" />
       </div>
     </div>
