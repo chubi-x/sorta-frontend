@@ -8,7 +8,7 @@ import "./assets/styles/App.css";
 function App() {
   const [oauthData, setOauthData] = useState<Oauth>();
   const [callbackParams, setCallbackParams] = useState<CallbackQueryParams>();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User>(
     JSON.parse(localStorage.getItem("user")!) || { isLogged: false }
   );
@@ -25,10 +25,9 @@ function App() {
 
   // logic to set root element
   let root: JSX.Element = <></>;
-  // if (user.isLogged) {
-  //   root = <Dashboard />;
-  // }
-  if (loading) {
+  if (user.isLogged) {
+    root = <Dashboard />;
+  } else if (loading) {
     root = <Loading />;
   } else if (!user.isLogged) {
     root = <Login />;
