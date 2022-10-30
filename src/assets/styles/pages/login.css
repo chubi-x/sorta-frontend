@@ -6,8 +6,9 @@
   @apply h-[85%] w-full;
 
   background-image: url("../../images/Login.svg");
-  overflow: auto;
+  // overflow: auto;
   margin-top: 5px;
+
   &__card {
     @apply border-neutral-6 bg-[white];
     @apply flex flex-col items-center justify-between text-center;

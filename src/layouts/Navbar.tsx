@@ -1,9 +1,10 @@
-import logo from "../assets/icons/logo.svg";
+import logo from "../assets/logo/logo.svg";
+import logoWhite from "../assets/logo/logo-white.svg";
 import { useState } from "react";
 
 import { NeutralButton } from "../components/buttons/NeutralButton";
 
-export function Navbar({ authFunction }: { authFunction: any }) {
+export function Navbar({ authFunction }: { authFunction?: any }) {
   const [mobileMenu, setMobileMenu] = useState(false);
 
   function toggleMobileMenu() {
@@ -15,6 +16,7 @@ export function Navbar({ authFunction }: { authFunction: any }) {
         <div className="nav__left">
           <div className="nav__logo">
             <img src={logo} alt="logo" />
+            <h1>Sorta</h1>
           </div>
           <ul className="nav__links">
             <li className="nav__items">
@@ -46,20 +48,23 @@ export function Navbar({ authFunction }: { authFunction: any }) {
           !mobileMenu ? "nav__mobile__container--closed" : ""
         } lg:hidden `}
       >
-        <div className={`nav__mobile`}>
+        <div className="nav__mobile">
           <div className="nav__cancel" onClick={toggleMobileMenu}>
             <span className="nav__cancel__top"></span>
             <span className="nav__cancel__bottom"></span>
           </div>
-          <div className="nav__logo mt-6">
-            <img src={logo} alt="logo" />
+          <div className="nav__logo nav__logo__mobile mt-14">
+            <img src={logoWhite} alt="logo" />
+            <h1>Sorta</h1>
           </div>
           <div className="nav__links mb-16">
             <a href="#"> How it works</a>
             <a href="#"> Meet the creators</a>
             <a href="#"> Contribute</a>
           </div>
-          <NeutralButton forNav={false} authFunction={authFunction} />
+          <div className="mb-10">
+            <NeutralButton forNav={false} authFunction={authFunction} />
+          </div>
         </div>
       </aside>
     </>
