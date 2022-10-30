@@ -1,9 +1,9 @@
-.neutral__btn {
+.neutral-btn {
   @apply font-header text-sm font-bold;
   @apply rounded border-2 border-neutral-6;
   @apply cursor-pointer;
 
-  &__small {
+  &--small {
     @apply px-2 py-3;
     @apply text-xs;
 
@@ -11,7 +11,7 @@
       @apply border-neutral-2 bg-neutral-2 text-neutral-8;
     }
   }
-  &__medium {
+  &--medium {
     @apply px-4 py-4;
 
     &:hover {
@@ -20,19 +20,19 @@
   }
 }
 
-.primary__btn {
+.primary-btn {
   @apply font-header text-sm font-bold text-neutral-7;
   @apply cursor-pointer;
   @apply rounded bg-primary-1;
 
-  &__small {
+  &--small {
     @apply px-3 py-3;
 
     &:hover {
       @apply bg-primary-1-hover text-neutral-8;
     }
   }
-  &__medium {
+  &--medium {
     @apply px-4 py-4;
 
     &:hover {
@@ -40,3 +40,15 @@
     }
   }
 }
+
+.new-category-btn {
+  @apply flex;
+  @apply my-8 py-4 px-6;
+  @apply hover:bg-neutral-6;
+  @apply rounded-md border border-primary-1;
+  @apply font-medium text-primary-1;
+  img {
+    @apply ml-1;
+  }
+}
+

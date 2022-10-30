@@ -1,33 +1,34 @@
+import { completeOauth } from "../../api";
+import { useContext, useEffect, useState } from "react";
+import { LoginContext } from "../../helpers/Context";
 import loading from "../../assets/lotties/loading.json";
 import Lottie from "lottie-react";
-import { completeOauth } from "../../api";
-import { useContext, useEffect } from "react";
-import { LoginContext } from "../../helpers/Context";
 
 export function Loading() {
-  const { setUser, setLoading, callback, oauth } = useContext(LoginContext);
-
+  const { setUser, setLoading, oauth } = useContext(LoginContext);
+  const [callbackParams, setCallbackParams] = useState<CallbackQueryParams>(
+    JSON.parse(localStorage.getItem("callbackParams")!)
+  );
   useEffect(() => {
     const abortController = new AbortController();
+
     const completeOauthFunction = async () => {
-      const oauthResponse = await completeOauth(
-        callback.callbackParams,
+      let oauthResponse = await completeOauth(
+        callbackParams,
         oauth.oauthData,
         abortController
       );
-      if (oauthResponse.success) {
+      if (oauthResponse?.success) {
         setUser((prev) => {
           return { ...prev, isLogged: true };
         });
         setLoading(false);
-      } else {
-        // alert("from loading" + oauthResponse.error);
-        // setLoading(false);
       }
     };
     completeOauthFunction();
     return () => {
       abortController.abort();
+      localStorage.removeItem("callbackParams");
     };
   }, []);
   return (

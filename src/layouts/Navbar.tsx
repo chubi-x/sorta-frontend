@@ -1,7 +1,7 @@
-import logo from "../../assets/images/logo.svg";
+import logo from "../assets/icons/logo.svg";
 import { useState } from "react";
 
-import { NeutralButton } from "../../components/buttons/NeutralButton";
+import { NeutralButton } from "../components/buttons/NeutralButton";
 
 export function Navbar({ authFunction }: { authFunction: any }) {
   const [mobileMenu, setMobileMenu] = useState(false);

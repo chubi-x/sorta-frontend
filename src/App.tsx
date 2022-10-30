@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoginContext } from "./helpers/Context";
 import { Routes, Route } from "react-router-dom";
 import { Loading, Login, OauthCallback } from "./pages/Auth";
@@ -12,6 +12,16 @@ function App() {
   const [user, setUser] = useState<User>(
     JSON.parse(localStorage.getItem("user")!) || { isLogged: false }
   );
+
+  function readCallbackMessage(event: StorageEvent) {
+    setLoading(true);
+  }
+  useEffect(() => {
+    window.addEventListener("storage", readCallbackMessage);
+    return () => {
+      window.removeEventListener("storage", readCallbackMessage);
+    };
+  }, []);
 
   // logic to set root element
   let root: JSX.Element = <></>;

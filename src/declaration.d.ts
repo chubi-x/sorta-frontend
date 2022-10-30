@@ -26,17 +26,31 @@ interface ServerResponse {
   success: boolean;
   error?: string;
 }
+interface OauthResponse extends ServerResponse {
+  data: Oauth;
+}
 interface BookmarksResponse extends ServerResponse {
   data: Bookmarks;
 }
 interface Bookmarks {
-  data: [];
+  data: Bookmark[];
   meta: object;
 }
 
 interface Bookmark {
-  text: string;
-  id: string;
+  status: "fulfilled" | "rejected";
+  value: {
+    text: string;
+    id: string;
+    authorId: string;
+    authorName: string;
+    authorPfp: string;
+    authorUsername: string;
+    authorVerified: string;
+    createdAt: string;
+    urls: [];
+    attachments: [];
+  };
 }
 
 interface UserResponse extends ServerResponse {

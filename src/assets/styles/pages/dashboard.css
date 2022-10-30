@@ -1,0 +1,113 @@
+.dashboard {
+  @apply flex justify-evenly;
+  @apply h-full;
+}
+.divider {
+  @apply border-l border-neutral-6;
+  @apply w-20;
+}
+main {
+  @apply max-h-full w-3/5;
+  @apply font-body;
+  @apply pt-10;
+  @apply overflow-auto;
+}
+.bookmarks {
+  @apply h-screen w-5/6;
+  @apply pb-10 pr-5;
+}
+.bookmark__card {
+  @apply relative;
+  @apply border border-neutral-6;
+  @apply py-8 px-6;
+  @apply flex items-start justify-between space-x-4;
+
+  &__author {
+    &__img {
+      img {
+        @apply w-auto max-w-none;
+        @apply rounded-full;
+      }
+    }
+    &__details {
+      @apply flex items-center;
+      @apply space-x-2;
+      @apply mb-2;
+    }
+  }
+
+  &__details {
+    @apply pr-8;
+  }
+
+  &__more__btn {
+    @apply ml-auto;
+    @apply flex items-center;
+    @apply space-x-1 p-1;
+    @apply cursor-pointer;
+    @apply rounded-lg;
+
+    span {
+      @apply block;
+      @apply h-1 w-1;
+      @apply bg-neutral-4;
+      @apply rounded-full;
+    }
+
+    &:hover {
+      @apply bg-neutral-5;
+
+      span {
+        @apply bg-neutral-2;
+      }
+    }
+  }
+
+  &__tooltip {
+    @apply absolute left-3/4 top-12;
+    @apply z-10;
+    @apply h-28 w-48;
+    @apply rounded-lg border border-neutral-6 bg-neutral-8;
+    @apply flex flex-col justify-between;
+    @apply text-[14px] text-neutral-3;
+    transform: scale(1);
+    box-shadow: 3px 5px 3px 1px #716f8c1a;
+
+    div {
+      @apply flex items-center;
+      @apply space-x-2;
+      @apply cursor-pointer;
+      @apply h-1/2;
+      @apply px-5;
+      @apply hover:bg-neutral-6;
+
+      img[alt="add icon"] {
+        width: 25px;
+      }
+      img[alt="delete icon"] {
+        width: 25px;
+      }
+    }
+  }
+}
+
+.top {
+  @apply absolute top-[90%] left-[90%];
+  @apply cursor-pointer;
+  @apply rounded-full;
+  @apply flex flex-col items-center;
+  @apply p-2;
+  @apply h-8;
+
+  &:hover {
+    @apply bg-primary-1;
+    img {
+      @apply brightness-[103%] contrast-[103%] hue-rotate-[193deg] invert saturate-0 sepia;
+    }
+  }
+  img {
+    width: 15px;
+    filter: invert(40%) sepia(85%) saturate(3313%) hue-rotate(213deg)
+      brightness(99%) contrast(104%);
+  }
+}

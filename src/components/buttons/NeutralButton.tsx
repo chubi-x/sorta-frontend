@@ -10,7 +10,7 @@ export function NeutralButton({
 }) {
   return (
     <button
-      className={`neutral__btn neutral__btn__medium ${
+      className={`neutral-btn neutral-btn--medium ${
         forNav ? "hidden lg:block" : ""
       }`}
       onClick={authFunction}

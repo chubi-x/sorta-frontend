@@ -1,4 +1,4 @@
-@import "./buttons.css";
+@import "../components/buttons.css";
 
 .nav {
   @apply h-[15%] w-11/12;
