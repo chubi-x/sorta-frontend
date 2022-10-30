@@ -9,14 +9,17 @@ export default function BookmarkTooltip(props: any) {
 
   return (
     <div ref={wrapperRef} className="bookmark__card__tooltip">
-      <div>
+      <div className="bookmark__card__tooltip__item">
         <img src={add} alt="add icon" />
         <span>Add to category</span>
       </div>
-      <div>
+      <div className="h-[1px] border-t border-neutral-6"></div>
+
+      <div className="bookmark__card__tooltip__item">
         <img src={deleteIcon} alt="delete icon" />
         <span>Delete</span>
       </div>
     </div>
   );
 }
+

@@ -1,10 +1,10 @@
 .dashboard {
-  @apply flex justify-evenly;
+  @apply flex justify-start;
   @apply h-full;
+  @apply space-x-20;
 }
 .divider {
-  @apply border-l border-neutral-6;
-  @apply w-20;
+  @apply w-1;
 }
 main {
   @apply max-h-full w-3/5;
@@ -73,7 +73,7 @@ main {
     transform: scale(1);
     box-shadow: 3px 5px 3px 1px #716f8c1a;
 
-    div {
+    &__item {
       @apply flex items-center;
       @apply space-x-2;
       @apply cursor-pointer;
@@ -92,7 +92,7 @@ main {
 }
 
 .top {
-  @apply absolute top-[90%] left-[90%];
+  @apply absolute top-[90%] left-[80%];
   @apply cursor-pointer;
   @apply rounded-full;
   @apply flex flex-col items-center;
@@ -111,3 +111,4 @@ main {
       brightness(99%) contrast(104%);
   }
 }
+
