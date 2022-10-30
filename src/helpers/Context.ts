@@ -1,22 +1,29 @@
 import React, { createContext } from "react";
 
-interface CallbackParamsInterface {
+interface CallbackParamsContext {
   callbackParams: CallbackQueryParams | undefined;
   setCallbackParams: React.Dispatch<
     React.SetStateAction<CallbackQueryParams | undefined>
   >;
 }
-interface OauthInterface {
+interface OauthContext {
   oauthData: Oauth | undefined;
   setOauthData: React.Dispatch<React.SetStateAction<Oauth | undefined>>;
 }
-interface LoginContextInterface {
+
+interface LoadingContext {
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface UserContext {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-
-  callback: CallbackParamsInterface;
-  oauth: OauthInterface;
+}
+interface LoginContextInterface {
+  userContext: UserContext;
+  loadingContext: LoadingContext;
+  oauthContext: OauthContext;
 }
 
 export const LoginContext = createContext({} as LoginContextInterface);

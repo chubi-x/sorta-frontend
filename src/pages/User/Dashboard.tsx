@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
@@ -12,7 +11,7 @@ export interface ActiveContext {
   setCategoriesActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export function Dashboard() {
-  const { user, setUser } = useContext(LoginContext);
+  const { userContext } = useContext(LoginContext);
   const [bookmarksActive, setBookmarksActive] = useState(true);
   const [categoriesActive, setCategoriesActive] = useState(false);
 
@@ -28,17 +27,17 @@ export function Dashboard() {
     const returnUser = async () => {
       const userResponse: UserResponse = await fetchUser(abortController);
       if (userResponse?.success) {
-        setUser((prev) => {
+        userContext.setUser((prev) => {
           return {
             ...prev,
             ...userResponse.data,
           };
         });
-        localStorage.setItem("user", JSON.stringify({ ...user }));
+        localStorage.setItem("user", JSON.stringify({ ...userContext.user }));
       } else {
         // if not logged in backend, log out in frontend
         if (userResponse?.message?.includes("not logged in")) {
-          setUser((prev) => {
+          userContext.setUser((prev) => {
             return { ...prev, isLogged: false };
           });
         }
@@ -63,12 +62,12 @@ export function Dashboard() {
       <main id="main">
         <div className="user__header flex items-center space-x-3">
           <img
-            src={user?.pfp}
+            src={userContext.user?.pfp}
             alt="profile pic"
             className="w-10 rounded-full"
           />
           <h1 className="font-header text-md font-bold text-primary-1">
-            Hello! {user?.name}
+            Hello! {userContext.user?.name}
           </h1>
         </div>
         <p className="my-2 text-neutral-4">

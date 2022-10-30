@@ -6,9 +6,10 @@ import Lottie from "lottie-react";
 import { Navbar } from "../../layouts";
 
 export function Loading() {
-  const { setUser, setLoading, oauth } = useContext(LoginContext);
+  const { userContext, loadingContext, oauthContext } =
+    useContext(LoginContext);
   const [callbackParams, setCallbackParams] = useState<CallbackQueryParams>(
-    JSON.parse(localStorage.getItem("callbackParams")!)
+    JSON.parse(localStorage.getItem("callbackParams")!) || null
   );
   useEffect(() => {
     const abortController = new AbortController();
@@ -16,14 +17,14 @@ export function Loading() {
     const completeOauthFunction = async () => {
       let oauthResponse = await completeOauth(
         callbackParams,
-        oauth.oauthData,
+        oauthContext.oauthData,
         abortController
       );
       if (oauthResponse?.success) {
-        setUser((prev) => {
+        userContext.setUser((prev) => {
           return { ...prev, isLogged: true };
         });
-        setLoading(false);
+        loadingContext.setLoading(false);
       }
     };
     completeOauthFunction();
@@ -34,7 +35,7 @@ export function Loading() {
   }, []);
   return (
     <>
-      <Navbar />
+      <Navbar loading={loadingContext.loading} />
       <div className="login flex items-center justify-start">
         <div className="login__card flex h-1 justify-center">
           <Lottie

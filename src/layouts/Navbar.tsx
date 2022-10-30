@@ -4,7 +4,13 @@ import { useState } from "react";
 
 import { NeutralButton } from "../components/buttons/NeutralButton";
 
-export function Navbar({ authFunction }: { authFunction?: any }) {
+export function Navbar({
+  authFunction,
+  loading,
+}: {
+  authFunction?: any;
+  loading?: boolean;
+}) {
   const [mobileMenu, setMobileMenu] = useState(false);
 
   function toggleMobileMenu() {
@@ -39,7 +45,9 @@ export function Navbar({ authFunction }: { authFunction?: any }) {
             <span className="hamburger__btn hamburger__btn__middle"></span>
             <span className="hamburger__btn hamburger__btn__bottom"></span>
           </div>
-          <NeutralButton forNav={true} authFunction={authFunction} />
+          {!loading && (
+            <NeutralButton forNav={true} authFunction={authFunction} />
+          )}
         </div>
       </nav>
       {/* mobile menu */}
@@ -63,7 +71,9 @@ export function Navbar({ authFunction }: { authFunction?: any }) {
             <a href="#"> Contribute</a>
           </div>
           <div className="mb-10">
-            <NeutralButton forNav={false} authFunction={authFunction} />
+            {!loading && (
+              <NeutralButton forNav={false} authFunction={authFunction} />
+            )}
           </div>
         </div>
       </aside>

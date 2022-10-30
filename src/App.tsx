@@ -35,11 +35,9 @@ function App() {
   return (
     <LoginContext.Provider
       value={{
-        user,
-        setUser,
-        setLoading,
-        oauth: { oauthData, setOauthData },
-        callback: { callbackParams, setCallbackParams },
+        userContext: { user, setUser },
+        loadingContext: { loading, setLoading },
+        oauthContext: { oauthData, setOauthData },
       }}
     >
       <div className="app">

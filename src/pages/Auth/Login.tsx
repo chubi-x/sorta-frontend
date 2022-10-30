@@ -9,10 +9,10 @@ import { Navbar } from "../../layouts";
 import { PrimaryButton } from "../../components/buttons";
 
 export function Login() {
-  const { oauth } = useContext(LoginContext);
+  const { oauthContext, loadingContext } = useContext(LoginContext);
 
   function authFunction() {
-    window.open(oauth.oauthData?.url, "", "width=700;height=700")!;
+    window.open(oauthContext.oauthData?.url, "", "width=700;height=700")!;
   }
 
   // Begin oauth process
@@ -22,10 +22,9 @@ export function Login() {
       const responseData = await fetchOauth(abortController);
       console.log(responseData);
       if (responseData?.success) {
-        console.log("success");
-        oauth.setOauthData(() => responseData?.data);
+        oauthContext.setOauthData(() => responseData?.data);
       } else {
-        alert("error fetching oauth");
+        console.log("error fetching oauth\n");
         console.log(responseData);
       }
     };
