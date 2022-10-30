@@ -37,6 +37,7 @@ export function Bookmark({
           <img
             src={bookmark?.value?.authorPfp}
             alt="bookmark tweet author profile picture"
+            loading="eager"
           />
         </div>
         <div className="bookmark__card__details">
