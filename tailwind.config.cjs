@@ -37,6 +37,7 @@ module.exports = {
     extend: {
       fontFamily: {
         header: ["DM Sans"],
+        "header-2": ["Jost"],
         body: ["Poppins"],
       },
       fontSize: {
