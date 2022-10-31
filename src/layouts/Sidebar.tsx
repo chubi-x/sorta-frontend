@@ -1,9 +1,10 @@
 import logo from "../assets/logo/logo.svg";
-import bookmarks from "../assets/icons/bookmarks.svg";
-import categories from "../assets/icons/categories.svg";
-import logout from "../assets/icons/logout.svg";
+import bookmarksIcon from "../assets/icons/bookmarks.svg";
+import categoriesIcon from "../assets/icons/categories.svg";
+import logoutIcon from "../assets/icons/logout.svg";
 
 import { ActiveContext } from "../pages/User";
+import { SidebarButton } from "../components/buttons";
 
 export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
   function toggleBookmarks() {
@@ -21,33 +22,21 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
         <h1>Sorta</h1>
       </div>
       <div className="sidebar__buttons">
-        <div
-          className={`sidebar__button ${
-            activeTab.bookmarksActive ? "sidebar__button--active" : ""
-          }`}
-          onClick={toggleBookmarks}
-        >
-          <img className="sidebar__icon" src={bookmarks} alt="bookmarks icon" />
-          <h1>Bookmarks</h1>
-        </div>
-        <div
-          className={`sidebar__button ${
-            activeTab.categoriesActive ? "sidebar__button--active" : ""
-          }`}
-          onClick={toggleCategories}
-        >
-          <img
-            className="sidebar__icon"
-            src={categories}
-            alt="categories icon"
-          />
-          <h1>Categories</h1>
-        </div>
-        <div className="sidebar__button">
-          <img className="sidebar__icon" src={logout} alt="logout icon" />
-          <h1>Logout</h1>
-        </div>
+        <SidebarButton
+          icon={bookmarksIcon}
+          active={activeTab.bookmarksActive}
+          toggle={toggleBookmarks}
+          text="Bookmarks"
+        />
+        <SidebarButton
+          icon={categoriesIcon}
+          active={activeTab.categoriesActive}
+          toggle={toggleCategories}
+          text="Categories"
+        />
+        <SidebarButton icon={logoutIcon} text="Logout" />
       </div>
     </div>
   );
 }
+
