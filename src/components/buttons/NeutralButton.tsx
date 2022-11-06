@@ -15,8 +15,10 @@ export function NeutralButton({
       }`}
       onClick={authFunction}
     >
-      Connect Twitter
-      {"   "} <FontAwesomeIcon icon={faTwitter} />
+      <span>Connect</span>
+      <span className="mt-[1px]">
+        <FontAwesomeIcon icon={faTwitter} />
+      </span>
     </button>
   );
 }

@@ -13,6 +13,8 @@
   }
   &--medium {
     @apply px-4 py-4;
+    @apply space-x-3;
+    @apply flex justify-center;
 
     &:hover {
       @apply border-neutral-2 bg-neutral-2 text-neutral-8;
@@ -34,6 +36,8 @@
   }
   &--medium {
     @apply px-4 py-4;
+    @apply space-x-3;
+    @apply flex;
 
     &:hover {
       @apply bg-primary-1-hover text-neutral-8;
