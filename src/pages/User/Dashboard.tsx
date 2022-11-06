@@ -66,8 +66,9 @@ export function Dashboard() {
             alt="profile pic"
             className="w-10 rounded-full"
           />
-          <h1 className="font-header text-md font-bold text-primary-1">
-            Hello! {userContext.user?.name}
+          <h1 className="font-header-2 text-md font-medium text-primary-1">
+            <span className="font-body text-[20px] font-normal">Hello</span>{" "}
+            {userContext.user?.name}!
           </h1>
         </div>
         <p className="my-2 text-neutral-4">
