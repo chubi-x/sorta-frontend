@@ -2,7 +2,7 @@
 
 .login {
   @apply flex items-start justify-center;
-  @apply bg-no-repeat md:bg-cover md:bg-center;
+  @apply bg-no-repeat md:bg-cover md:bg-right-bottom;
   @apply h-[85%] w-full;
 
   background-image: url("../../images/Login.svg");
@@ -11,7 +11,7 @@
 
   &__card {
     @apply border-neutral-6 bg-[white];
-    @apply flex flex-col items-center justify-between text-center;
+    @apply flex flex-col items-center justify-center text-center;
     @apply w-10/12 max-w-xs xs:min-h-[75%] sm:min-h-[70%] md:min-h-[60%] xl:min-h-[90%] tall:!min-h-[550px];
     @apply mx-auto mt-4 py-8 px-8 lg:px-10 lg:py-6;
 
@@ -22,7 +22,8 @@
       @apply space-y-2;
       @apply md:pt-4 lg:pt-0;
       h1 {
-        @apply font-header text-md font-bold;
+        @apply font-header text-[20px] font-bold;
+        letter-spacing: 0px;
       }
       p {
         @apply font-body text-xs;
@@ -30,7 +31,8 @@
     }
 
     &__animation {
-      @apply w-11/12 lg:w-[90%];
+      @apply w-11/12 lg:w-[80%];
+      @apply mb-4;
     }
   }
 }
