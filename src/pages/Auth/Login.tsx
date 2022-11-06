@@ -40,9 +40,13 @@ export function Login() {
         <div className="login__card">
           <div className="login__card__title">
             <h1>Connect Account</h1>
-            <p>Hey! Click the button below to connect your twitter account</p>
+            <p className="text-xs">
+              Hey! Click the button below to connect your twitter account
+            </p>
           </div>
-          <Lottie animationData={login} loop={true} autoplay={true} />
+          <div className="login__card__animation">
+            <Lottie animationData={login} loop={true} autoplay={true} />
+          </div>
 
           <PrimaryButton authFunction={authFunction} />
         </div>
