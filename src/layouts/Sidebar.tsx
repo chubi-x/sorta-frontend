@@ -5,8 +5,11 @@ import logoutIcon from "../assets/icons/logout.svg";
 
 import { ActiveContext } from "../pages/User";
 import { SidebarButton } from "../components/buttons";
+import { useNavigate } from "react-router";
 
 export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
+  const navigate = useNavigate();
+
   function toggleBookmarks() {
     activeTab.setBookmarksActive(true);
     activeTab.setCategoriesActive(false);
@@ -14,6 +17,9 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
   function toggleCategories() {
     activeTab.setCategoriesActive(true);
     activeTab.setBookmarksActive(false);
+  }
+  function logout() {
+    navigate("/logout");
   }
   return (
     <div className="sidebar">
@@ -34,7 +40,7 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
           toggle={toggleCategories}
           text="Categories"
         />
-        <SidebarButton icon={logoutIcon} text="Logout" />
+        <SidebarButton icon={logoutIcon} text="Logout" toggle={logout} />
       </div>
     </div>
   );
