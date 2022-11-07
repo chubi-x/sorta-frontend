@@ -2,10 +2,10 @@
 
 .login {
   @apply flex items-start justify-center;
-  @apply bg-no-repeat md:bg-cover md:bg-right-bottom;
+  @apply bg-cover md:bg-[length:100%] md:bg-bottom;
   @apply h-[85%] w-full;
 
-  background-image: url("../../images/Login.svg");
+  background-image: url("../../images/login.png");
   // overflow: auto;
   margin-top: 5px;
 
