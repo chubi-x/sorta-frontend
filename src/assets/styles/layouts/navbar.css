@@ -6,12 +6,15 @@
   @apply mx-auto pt-4 sm:px-8;
 
   &__logo {
-    @apply flex items-center self-start;
-    @apply space-x-2 pl-8;
+    @apply flex items-start;
+    @apply space-x-2 pl-12;
+    @apply h-full;
 
-    h1 {
-      @apply font-header text-[25px] font-extrabold;
+    span {
+      @apply mb-1 block;
+      @apply font-header-2 text-[20px] font-bold;
       @apply text-primary-1;
+      // @apply mt-1;
     }
 
     &__mobile {
@@ -25,14 +28,15 @@
     @apply space-x-6;
 
     .nav__links {
+      @apply h-full;
       @apply font-body text-xs font-semibold;
-      @apply hidden lg:flex;
+      @apply hidden items-end lg:flex lg:self-center;
       @apply space-x-10;
     }
   }
 
   &__right {
-    display: flex;
+    @apply mb-1 flex;
 
     .hamburger {
       @apply flex-col items-center;

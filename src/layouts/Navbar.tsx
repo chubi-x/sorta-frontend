@@ -22,7 +22,7 @@ export function Navbar({
         <div className="nav__left">
           <div className="nav__logo">
             <img src={logo} alt="logo" />
-            <h1>Sorta</h1>
+            <span>Sorta</span>
           </div>
           <ul className="nav__links">
             <li className="nav__items">
