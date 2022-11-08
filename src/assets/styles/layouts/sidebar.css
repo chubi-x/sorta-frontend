@@ -7,9 +7,16 @@
   @apply space-y-10 px-2 pt-10;
   @apply text-primary-1;
 
+  &__logo__container {
+    @apply w-full;
+    @apply pl-6;
+    // @apply flex justify-between;
+  }
+
   &__logo {
-    @apply flex items-center self-start;
-    @apply space-x-2 pl-8;
+    @apply flex items-center;
+    @apply space-x-2;
+    @apply pl-4;
 
     h1 {
       @apply font-header text-[25px] font-extrabold;
@@ -26,10 +33,20 @@
     @apply flex items-center;
     @apply rounded-xl;
     @apply font-medium text-neutral-4;
-    @apply w-4/5;
-    @apply py-3 pl-4;
+    @apply h-14 w-4/5;
+    // @apply pl-3;
     @apply space-x-4;
     @apply cursor-pointer;
+
+    &__image {
+      @apply h-full w-[55px];
+      @apply rounded-xl;
+      // @apply ml-3;
+      @apply flex justify-center;
+      img {
+        @apply w-1/2;
+      }
+    }
 
     h1 {
       @apply xs:text-xs md:text-sm;
@@ -38,6 +55,12 @@
       @apply bg-neutral-6;
       @apply text-primary-1;
       @apply font-semibold;
+    }
+
+    &:hover {
+      .sidebar__button__image {
+        @apply bg-neutral-6;
+      }
     }
   }
   &__icon {

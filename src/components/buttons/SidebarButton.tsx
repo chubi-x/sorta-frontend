@@ -14,8 +14,11 @@ export function SidebarButton({
       className={`sidebar__button ${active ? "sidebar__button--active" : ""}`}
       onClick={toggle}
     >
-      <img className="sidebar__icon" src={icon} alt="bookmarks icon" />
+      <div className="sidebar__button__image">
+        <img className="sidebar__icon" src={icon} alt="bookmarks icon" />
+      </div>
       <h1>{text}</h1>
     </div>
   );
 }
+
