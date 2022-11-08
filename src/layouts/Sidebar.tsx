@@ -23,9 +23,11 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
   }
   return (
     <div className="sidebar">
-      <div className="sidebar__logo">
-        <img src={logo} alt="logo" />
-        <h1>Sorta</h1>
+      <div className="sidebar__logo__container">
+        <div className="sidebar__logo">
+          <img src={logo} alt="logo" />
+          <h1>Sorta</h1>
+        </div>
       </div>
       <div className="sidebar__buttons">
         <SidebarButton
