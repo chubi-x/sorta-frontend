@@ -1,7 +1,7 @@
 @import "../components/buttons.css";
 
 .nav {
-  @apply h-[15%] w-11/12;
+  @apply h-[70px] w-11/12;
   @apply flex items-center justify-between;
   @apply mx-auto pt-4 sm:px-8;
 
