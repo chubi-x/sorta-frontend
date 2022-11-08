@@ -20,7 +20,6 @@ export function Login() {
     const abortController = new AbortController();
     const fetchOauthFunction = async () => {
       const responseData = await fetchOauth(abortController);
-      console.log(responseData);
       if (responseData?.success) {
         oauthContext.setOauthData(() => responseData?.data);
       } else {
