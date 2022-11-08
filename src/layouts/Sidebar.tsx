@@ -6,6 +6,7 @@ import logoutIcon from "../assets/icons/logout.svg";
 import { ActiveContext } from "../pages/User";
 import { SidebarButton } from "../components/buttons";
 import { useNavigate } from "react-router";
+import { logoutUser } from "../api";
 
 export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
   const navigate = useNavigate();
@@ -19,7 +20,10 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
     activeTab.setBookmarksActive(false);
   }
   function logout() {
-    navigate("/logout");
+    const controller = new AbortController();
+    const logout = async () => await logoutUser(controller);
+    logout();
+    location.reload();
   }
   return (
     <div className="sidebar">

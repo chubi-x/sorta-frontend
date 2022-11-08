@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { LoginContext } from "./helpers/Context";
 import { Routes, Route } from "react-router-dom";
-import { Loading, Login, Logout, OauthCallback } from "./pages/Auth";
+import { Loading, Login, OauthCallback } from "./pages/Auth";
 import { Dashboard } from "./pages/User";
 import "./assets/styles/App.css";
 
@@ -44,7 +44,6 @@ function App() {
         <Routes>
           <Route path="/" element={root} />
           <Route path="/oauth/callback/:query" element={<OauthCallback />} />
-          <Route path="/logout" element={<Logout />} />
         </Routes>
       </div>
     </LoginContext.Provider>
