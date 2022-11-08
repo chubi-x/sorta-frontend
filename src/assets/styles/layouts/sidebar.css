@@ -39,6 +39,7 @@
     @apply cursor-pointer;
 
     &__image {
+      transition: background-color 0.4s ease;
       @apply h-full w-[55px];
       @apply rounded-xl;
       // @apply ml-3;
@@ -51,7 +52,9 @@
     h1 {
       @apply xs:text-xs md:text-sm;
     }
-    &--active {
+    &--active,
+    &:focus {
+      transition: background-color 0.4s ease;
       @apply bg-neutral-6;
       @apply text-primary-1;
       @apply font-semibold;

@@ -12,6 +12,7 @@ export function SidebarButton({
   return (
     <div
       className={`sidebar__button ${active ? "sidebar__button--active" : ""}`}
+      tabIndex={1}
       onClick={toggle}
     >
       <div className="sidebar__button__image">
