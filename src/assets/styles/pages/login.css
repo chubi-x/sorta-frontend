@@ -19,7 +19,7 @@
     border-radius: 20px;
 
     &__title {
-      @apply space-y-2;
+      @apply space-y-4;
       @apply md:pt-4 lg:pt-0;
       h1 {
         @apply font-header text-[20px] font-bold;
