@@ -11,12 +11,12 @@ export function NeutralButton({
   return (
     <button
       className={`neutral-btn neutral-btn--medium ${
-        forNav ? "hidden lg:block" : ""
+        forNav ? "hidden lg:flex" : ""
       }`}
       onClick={authFunction}
     >
       <span>Connect</span>
-      <span className="mt-[1px]">
+      <span className="mt-[1px] block">
         <FontAwesomeIcon icon={faTwitter} />
       </span>
     </button>
