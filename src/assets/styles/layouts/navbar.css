@@ -17,8 +17,14 @@
     }
 
     &__mobile {
+      @apply h-auto;
+      @apply pl-0;
+      @apply items-center justify-start;
+      @apply w-1/3;
+
       h1 {
         @apply text-neutral-8;
+        @apply text-[20px];
       }
     }
   }
@@ -75,21 +81,21 @@
     }
   }
   &__mobile {
-    align-items: center;
-    height: 120vh;
-    @apply w-full;
+    @apply h-[120vh] w-full;
     @apply bg-primary-1;
-    @apply flex flex-col;
+    @apply flex flex-col items-center;
     @apply font-body text-xs font-semibold text-neutral-8;
+
     .nav__links {
       @apply space-y-16 pt-10 lg:px-10;
+      @apply w-1/3;
+      @apply flex flex-col items-start;
+      @apply text-start;
     }
   }
   &__cancel {
-    cursor: pointer;
-    position: absolute;
-    left: 5%;
-    top: 20px;
+    @apply absolute top-[20px] left-[5%];
+    @apply cursor-pointer;
 
     &__top {
       rotate: 45deg;
