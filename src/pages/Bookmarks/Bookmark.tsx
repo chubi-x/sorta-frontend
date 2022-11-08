@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import BookmarkTooltip from "../../components/tooltips/BookmarkTooltip";
 import verified from "../../assets/icons/verified.svg";
 export function Bookmark({
