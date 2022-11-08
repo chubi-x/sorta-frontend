@@ -6,15 +6,14 @@
   @apply mx-auto pt-4 sm:px-8;
 
   &__logo {
-    @apply flex items-start;
+    @apply mb-[5px];
+    @apply flex justify-center;
     @apply space-x-2 pl-12;
     @apply h-full;
 
     span {
-      @apply mb-1 block;
       @apply font-header-2 text-[20px] font-bold;
       @apply text-primary-1;
-      // @apply mt-1;
     }
 
     &__mobile {
