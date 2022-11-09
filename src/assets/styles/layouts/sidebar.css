@@ -1,6 +1,6 @@
 .sidebar {
   // @apply absolute left-0 top-0;
-  @apply h-full w-1/5;
+  @apply h-full w-[300px];
   @apply border-r border-neutral-6;
 
   @apply flex flex-col items-center;
@@ -35,11 +35,10 @@
     @apply font-medium text-neutral-4;
     @apply h-14 w-4/5;
     // @apply pl-3;
-    @apply space-x-4;
+    @apply space-x-3;
     @apply cursor-pointer;
 
     &__image {
-      transition: background-color 0.4s ease;
       @apply h-full w-[55px];
       @apply rounded-xl;
       // @apply ml-3;
@@ -52,9 +51,7 @@
     h1 {
       @apply xs:text-xs md:text-sm;
     }
-    &--active,
-    &:focus {
-      transition: background-color 0.4s ease;
+    &--active {
       @apply bg-neutral-6;
       @apply text-primary-1;
       @apply font-semibold;
