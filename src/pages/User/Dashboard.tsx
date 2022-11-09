@@ -1,19 +1,43 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+
 import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
 import { Sidebar } from "../../layouts";
 import { Bookmarks } from "../Bookmarks";
+import { NewCategoryButton } from "../../components/buttons";
 import arrowUp from "../../assets/icons/up.svg";
+import help from "../../assets/icons/help.svg";
+
 export interface ActiveContext {
   bookmarksActive: boolean;
   categoriesActive: boolean;
   setBookmarksActive: React.Dispatch<React.SetStateAction<boolean>>;
   setCategoriesActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
+export interface BookmarksContext {
+  bookmarks: Bookmarks | undefined;
+  setBookmarks: React.Dispatch<React.SetStateAction<Bookmarks | undefined>>;
+  ref: (node?: Element | null | undefined) => void;
+}
 export function Dashboard() {
   const { userContext } = useContext(LoginContext);
   const [bookmarksActive, setBookmarksActive] = useState(true);
   const [categoriesActive, setCategoriesActive] = useState(false);
+
+  const [bookmarks, setBookmarks] = useState<Bookmarks>();
+  const { ref, inView, entry } = useInView({
+    root: document.querySelector(".dashboard"),
+    initialInView: true,
+    threshold: 1,
+    rootMargin: "-175px",
+  });
+
+  const bookmarksContext: BookmarksContext = {
+    bookmarks,
+    setBookmarks,
+    ref,
+  };
 
   const activeTabContext: ActiveContext = {
     bookmarksActive,
@@ -50,7 +74,7 @@ export function Dashboard() {
   }, [bookmarksActive]);
 
   function scrollToTop() {
-    document.getElementById("main")!.scrollTo({
+    document.getElementById("main")?.scrollTo({
       top: 1,
       behavior: "smooth",
     });
@@ -58,7 +82,6 @@ export function Dashboard() {
   return (
     <div className="dashboard">
       <Sidebar activeTab={activeTabContext} />
-      <div className="divider"></div>
       <main id="main">
         <div className="user__header flex items-center space-x-3">
           <img
@@ -66,7 +89,7 @@ export function Dashboard() {
             alt="profile pic"
             className="w-10 rounded-full"
           />
-          <h1 className="font-header-2 text-md font-medium text-primary-1">
+          <h1 className="user__name font-header-2 text-md font-medium text-primary-1">
             <span className="font-body text-[20px] font-normal">Hello</span>{" "}
             {userContext.user?.name}!
           </h1>
@@ -76,7 +99,30 @@ export function Dashboard() {
             ? " See all your bookmarked tweets"
             : " See all your categories"}
         </p>
-        {bookmarksActive && <Bookmarks />}
+        <div
+          className={`sticky top-[-40px] z-50 w-full bg-neutral-7 ${
+            !inView
+              ? "new-category-container flex items-center justify-between pr-36"
+              : ""
+          }`}
+        >
+          <NewCategoryButton />
+          <div
+            className={`flex h-10 w-[80%]  text-primary-1 ${
+              !inView ? "w-auto justify-end" : "justify-between"
+            }`}
+          >
+            <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
+              {bookmarks?.data.length} Bookmark(s)
+            </p>
+            <p className="flex cursor-pointer items-center space-x-2 font-medium">
+              <img src={help} alt="help icon" width={"20px"} />{" "}
+              <span>Need Help?</span>
+            </p>
+          </div>
+        </div>
+
+        {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
       </main>
 
       <div className="arrowUp" onClick={scrollToTop}>

@@ -11,6 +11,10 @@ main {
   @apply font-body;
   @apply pt-10;
   @apply overflow-auto;
+
+  .new-category-container {
+    box-shadow: 3px 10px 4px -6px rgba(0, 0, 0, 0.04);
+  }
 }
 .bookmarks {
   @apply h-screen w-5/6;
@@ -102,7 +106,7 @@ main {
 }
 
 .arrowUp {
-  @apply absolute top-[90%] left-[80%];
+  @apply absolute top-[90%] left-[75%];
   @apply cursor-pointer;
   @apply rounded-full;
   @apply flex flex-col items-center;
