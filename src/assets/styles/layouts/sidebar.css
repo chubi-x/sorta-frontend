@@ -56,6 +56,11 @@
       @apply text-primary-1;
       @apply font-semibold;
     }
+    &--collapsed {
+      .sidebar__button__image {
+        @apply bg-neutral-6;
+      }
+    }
 
     &:hover {
       .sidebar__button__image {

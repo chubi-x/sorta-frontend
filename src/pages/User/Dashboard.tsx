@@ -14,6 +14,7 @@ export interface ActiveContext {
   categoriesActive: boolean;
   setBookmarksActive: React.Dispatch<React.SetStateAction<boolean>>;
   setCategoriesActive: React.Dispatch<React.SetStateAction<boolean>>;
+  inView: boolean;
 }
 export interface BookmarksContext {
   bookmarks: Bookmarks | undefined;
@@ -44,6 +45,7 @@ export function Dashboard() {
     setBookmarksActive,
     categoriesActive,
     setCategoriesActive,
+    inView,
   };
 
   useEffect(() => {

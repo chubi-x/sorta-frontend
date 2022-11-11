@@ -13,6 +13,7 @@ export type SidebarButtonProps = {
   text: string;
   active?: boolean;
   toggle: () => void;
+  showText: boolean;
 };
 
 export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
@@ -38,22 +39,25 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
       text: "Bookmarks",
       active: activeTab.bookmarksActive,
       toggle: toggleBookmarks,
+      showText: activeTab.inView,
     },
     {
       icon: categoriesIcon,
       text: "Categories",
       active: activeTab.categoriesActive,
       toggle: toggleCategories,
+      showText: activeTab.inView,
     },
     {
       icon: logoutIcon,
       text: "Logout",
       toggle: logout,
+      showText: activeTab.inView,
     },
   ];
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${!activeTab.inView ? "w-[200px]" : ""}`}>
       <div className="sidebar__logo__container">
         <div className="sidebar__logo">
           <img src={logo} alt="logo" />
@@ -61,14 +65,18 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
         </div>
       </div>
       <div className="sidebar__buttons">
-        {sidebarButtons.map(({ icon, text, active, toggle }) => (
-          <SidebarButton
-            icon={icon}
-            text={text}
-            active={active}
-            toggle={toggle}
-          />
-        ))}
+        {sidebarButtons.map(
+          ({ icon, text, active, toggle, showText }, index) => (
+            <SidebarButton
+              icon={icon}
+              text={text}
+              active={active}
+              toggle={toggle}
+              showText={showText}
+              key={index}
+            />
+          )
+        )}
       </div>
     </div>
   );
