@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 
 import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
-import { Sidebar } from "../../layouts";
+import { Menu } from "../../layouts";
 import { Bookmarks } from "../Bookmarks";
 import { NewCategoryButton } from "../../components/buttons";
 import logo from "../../assets/logo/logo.svg";
@@ -84,7 +84,7 @@ export function Dashboard() {
   }
   return (
     <div className="dashboard">
-      <Sidebar activeTab={activeTabContext} />
+      <Menu activeTab={activeTabContext} />
       <main id="main">
         <div className="menu__logo__container mb-14 pl-0">
           <div className="menu__logo pl-0">

@@ -1,26 +1,26 @@
-import { SidebarButtonProps } from "../../layouts";
+import { MenuButtonProps } from "../../layouts";
 
-export function SidebarButton({
+export function MenuButton({
   icon,
   text,
   active,
   toggle,
   showText,
-}: SidebarButtonProps) {
-  let sidebarButtonClass = "";
+}: MenuButtonProps) {
+  let menuButtonClass = "";
   if (active && showText) {
-    sidebarButtonClass = "menu__button--active";
+    menuButtonClass = "menu__button--active";
   } else if (active) {
-    sidebarButtonClass = "menu__button--collapsed justify-center";
+    menuButtonClass = "menu__button--collapsed justify-center";
   } else if (showText) {
-    sidebarButtonClass += "justify-start";
+    menuButtonClass += "justify-start";
   } else {
-    sidebarButtonClass += "justify-center";
+    menuButtonClass += "justify-center";
   }
 
   return (
     <div
-      className={`menu__button ${sidebarButtonClass}`}
+      className={`menu__button ${menuButtonClass}`}
       tabIndex={1}
       onClick={toggle}
     >

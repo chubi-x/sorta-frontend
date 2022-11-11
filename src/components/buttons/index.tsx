@@ -1,5 +1,5 @@
 export * from "./NeutralButton";
 export * from "./PrimaryButton";
 export * from "./NewCategoryButton";
-export * from "./SidebarButton";
+export * from "./MenuButton";
 

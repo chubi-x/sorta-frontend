@@ -4,11 +4,10 @@ import categoriesIcon from "../assets/icons/categories.svg";
 import logoutIcon from "../assets/icons/logout.svg";
 
 import { ActiveContext } from "../pages/User";
-import { SidebarButton } from "../components/buttons";
-import { useNavigate } from "react-router";
+import { MenuButton } from "../components/buttons";
 import { logoutUser } from "../api";
 
-export type SidebarButtonProps = {
+export type MenuButtonProps = {
   icon: string;
   text: string;
   active?: boolean;
@@ -16,9 +15,7 @@ export type SidebarButtonProps = {
   showText: boolean;
 };
 
-export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
-  const navigate = useNavigate();
-
+export function Menu({ activeTab }: { activeTab: ActiveContext }) {
   function toggleBookmarks() {
     activeTab.setBookmarksActive(true);
     activeTab.setCategoriesActive(false);
@@ -33,7 +30,7 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
     logout();
     location.reload();
   }
-  const sidebarButtons: SidebarButtonProps[] = [
+  const menuButtons: MenuButtonProps[] = [
     {
       icon: bookmarksIcon,
       text: "Bookmarks",
@@ -65,18 +62,16 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
         </div>
       </div>
       <div className="menu__buttons">
-        {sidebarButtons.map(
-          ({ icon, text, active, toggle, showText }, index) => (
-            <SidebarButton
-              icon={icon}
-              text={text}
-              active={active}
-              toggle={toggle}
-              showText={showText}
-              key={index}
-            />
-          )
-        )}
+        {menuButtons.map(({ icon, text, active, toggle, showText }, index) => (
+          <MenuButton
+            icon={icon}
+            text={text}
+            active={active}
+            toggle={toggle}
+            showText={showText}
+            key={index}
+          />
+        ))}
       </div>
     </div>
   );
