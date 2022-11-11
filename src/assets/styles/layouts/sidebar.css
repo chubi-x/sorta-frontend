@@ -19,6 +19,7 @@
 
     h1 {
       @apply font-header text-[25px] font-extrabold;
+      @apply text-primary-1;
     }
   }
   &__buttons {

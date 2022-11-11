@@ -6,6 +6,7 @@ import { LoginContext } from "../../helpers/Context";
 import { Sidebar } from "../../layouts";
 import { Bookmarks } from "../Bookmarks";
 import { NewCategoryButton } from "../../components/buttons";
+import logo from "../../assets/logo/logo.svg";
 import arrowUp from "../../assets/icons/up.svg";
 import help from "../../assets/icons/help.svg";
 
@@ -85,6 +86,12 @@ export function Dashboard() {
     <div className="dashboard">
       <Sidebar activeTab={activeTabContext} />
       <main id="main">
+        <div className="menu__logo__container mb-14 pl-0">
+          <div className="menu__logo pl-0">
+            <img src={logo} alt="logo" />
+            <h1>Sorta</h1>
+          </div>
+        </div>
         <div className="user__header flex items-center space-x-3">
           <img
             src={userContext.user?.pfp}
