@@ -14,6 +14,7 @@ export function Bookmarks({
     const getBookmarks = async () => {
       const response = await fetchBookmarks(abortController);
       if (response?.success) {
+        console.log(response);
         bookmarksContext.setBookmarks({ ...response.data });
       } else {
         // alert(response?.message);
@@ -31,14 +32,11 @@ export function Bookmarks({
       <div className="bookmarks">
         <div className="mt-6">
           {bookmarksContext.bookmarks?.data.map(
-            (bookmark: Bookmark, index: number) =>
-              bookmark?.status === "fulfilled" ? (
-                <Bookmark
-                  bookmark={bookmark}
-                  key={bookmark.value.id}
-                  index={index}
-                />
-              ) : null
+            (bookmark: Bookmark, index: number) => (
+              // bookmark?.status === "fulfilled" ? (
+              <Bookmark bookmark={bookmark} key={bookmark.id} index={index} />
+            )
+            // ) : null
           )}
         </div>
       </div>

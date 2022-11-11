@@ -38,19 +38,19 @@ interface Bookmarks {
 }
 
 interface Bookmark {
-  status: "fulfilled" | "rejected";
-  value: {
-    text: string;
-    id: string;
-    authorId: string;
-    authorName: string;
-    authorPfp: string;
-    authorUsername: string;
-    authorVerified: string;
-    createdAt: string;
-    urls: [];
-    attachments: [];
-  };
+  // status: "fulfilled" | "rejected";
+  // value: {
+  text: string;
+  id: string;
+  author_id: string;
+  author_name: string;
+  author_pfp: string;
+  author_username: string;
+  author_verified: string;
+  created_at: string;
+  // urls: [];
+  // attachments: [];
+  // };
 }
 
 interface UserResponse extends ServerResponse {

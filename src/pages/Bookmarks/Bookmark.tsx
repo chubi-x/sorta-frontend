@@ -35,7 +35,7 @@ export function Bookmark({
       <div className="flex space-x-4">
         <div className="bookmark__card__author__img">
           <img
-            src={bookmark?.value?.authorPfp}
+            src={bookmark?.author_pfp}
             alt="bookmark tweet author profile picture"
             loading="eager"
           />
@@ -43,21 +43,21 @@ export function Bookmark({
         <div className="bookmark__card__details">
           <div className="bookmark__card__author__details">
             <h1 className="max-w-[200px] font-semibold">
-              {bookmark?.value?.authorName}
+              {bookmark?.author_name}
             </h1>
 
-            {bookmark?.value?.authorVerified && (
+            {bookmark?.author_verified && (
               <img src={verified} alt="twitter verified icon" />
             )}
             <p className="text-xs text-neutral-2 underline">
-              @{bookmark?.value?.authorUsername}
+              @{bookmark?.author_username}
             </p>
             <span className="block h-1 w-1 rounded-full bg-neutral-4"></span>
             <p className="text-xs text-neutral-2">
-              {convertDate(bookmark?.value?.createdAt)}
+              {convertDate(bookmark?.created_at)}
             </p>
           </div>
-          <h1 className="relative z-[0]">{bookmark?.value?.text}</h1>
+          <h1 className="relative z-[0]">{bookmark?.text}</h1>
         </div>
       </div>
       <div
