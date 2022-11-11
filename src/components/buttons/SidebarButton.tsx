@@ -9,9 +9,9 @@ export function SidebarButton({
 }: SidebarButtonProps) {
   let sidebarButtonClass = "";
   if (active && showText) {
-    sidebarButtonClass = "sidebar__button--active";
+    sidebarButtonClass = "menu__button--active";
   } else if (active) {
-    sidebarButtonClass = "sidebar__button--collapsed justify-center";
+    sidebarButtonClass = "menu__button--collapsed justify-center";
   } else if (showText) {
     sidebarButtonClass += "justify-start";
   } else {
@@ -20,14 +20,14 @@ export function SidebarButton({
 
   return (
     <div
-      className={`sidebar__button ${sidebarButtonClass} `}
+      className={`menu__button ${sidebarButtonClass}`}
       tabIndex={1}
       onClick={toggle}
     >
-      <div className="sidebar__button__image">
-        <img className="sidebar__icon" src={icon} alt="bookmarks icon" />
+      <div className="menu__button__image">
+        <img className="menu__icon" src={icon} alt="bookmarks icon" />
       </div>
-      {showText && <h1>{text}</h1>}
+      {showText && <h1 className="hidden lg:block">{text}</h1>}
     </div>
   );
 }

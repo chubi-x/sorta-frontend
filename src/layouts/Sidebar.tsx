@@ -57,14 +57,14 @@ export function Sidebar({ activeTab }: { activeTab: ActiveContext }) {
   ];
 
   return (
-    <div className={`sidebar ${!activeTab.inView ? "w-[200px]" : ""}`}>
-      <div className="sidebar__logo__container">
-        <div className="sidebar__logo">
+    <div className={`menu ${!activeTab.inView ? "w-[200px]" : ""}`}>
+      <div className="menu__logo__container">
+        <div className="menu__logo">
           <img src={logo} alt="logo" />
           <h1>Sorta</h1>
         </div>
       </div>
-      <div className="sidebar__buttons">
+      <div className="menu__buttons">
         {sidebarButtons.map(
           ({ icon, text, active, toggle, showText }, index) => (
             <SidebarButton

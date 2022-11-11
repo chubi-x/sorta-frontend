@@ -56,13 +56,13 @@
       @apply font-semibold;
     }
     &--collapsed {
-      .sidebar__button__image {
+      .menu__button__image {
         @apply bg-neutral-6;
       }
     }
 
     &:hover {
-      .sidebar__button__image {
+      .menu__button__image {
         @apply bg-neutral-6;
       }
     }
