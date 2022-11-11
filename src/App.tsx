@@ -7,13 +7,12 @@ import "./assets/styles/App.css";
 
 function App() {
   const [oauthData, setOauthData] = useState<Oauth>();
-  const [callbackParams, setCallbackParams] = useState<CallbackQueryParams>();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User>(
     JSON.parse(localStorage.getItem("user")!) || { isLogged: false }
   );
 
-  function readCallbackMessage(event: StorageEvent) {
+  function readCallbackMessage() {
     setLoading(true);
   }
   useEffect(() => {

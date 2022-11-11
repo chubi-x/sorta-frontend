@@ -25,6 +25,9 @@ export function Loading() {
           return { ...prev, isLogged: true };
         });
         loadingContext.setLoading(false);
+      } else if (oauthResponse?.error?.includes("denied")) {
+        alert(oauthResponse?.error);
+        loadingContext.setLoading(false);
       }
     };
     completeOauthFunction();
