@@ -1,0 +1,86 @@
+.bookmarks {
+  @apply h-screen w-5/6;
+  @apply pr-5;
+}
+.bookmark__card {
+  @apply relative;
+  @apply border border-neutral-6;
+  @apply py-8 px-6;
+  @apply flex items-start justify-between;
+  @apply h-auto w-full;
+  &__author {
+    &__img {
+      img {
+        @apply w-auto max-w-none;
+        @apply rounded-full;
+      }
+    }
+    &__details {
+      @apply flex items-center;
+      @apply space-x-2;
+      @apply mb-2;
+    }
+  }
+
+  &__details {
+    @apply pr-8;
+  }
+
+  &__more__btn {
+    @apply ml-auto;
+    @apply flex items-center;
+    @apply space-x-1 p-1;
+    @apply cursor-pointer;
+    @apply rounded-lg;
+    @apply bg-neutral-6;
+
+    span {
+      @apply block;
+      @apply h-1 w-1;
+      @apply bg-neutral-4;
+      @apply rounded-full;
+    }
+
+    &:hover {
+      span {
+        @apply bg-neutral-2;
+      }
+    }
+  }
+
+  &__tooltip {
+    @apply absolute right-[23px] top-14;
+    @apply z-10;
+    @apply h-28 w-48;
+    @apply rounded-lg bg-neutral-8;
+    @apply flex flex-col justify-between;
+    @apply text-[14px] text-neutral-3;
+    transform: scale(1);
+    box-shadow: 3px 5px 3px 1px #716f8c1a;
+
+    &__item {
+      @apply border-x border-t border-neutral-6;
+      @apply flex items-center;
+      @apply space-x-2;
+      @apply cursor-pointer;
+      @apply h-1/2 w-full;
+      @apply px-5;
+      @apply hover:bg-neutral-6;
+
+      img[alt="add icon"] {
+        width: 25px;
+      }
+      img[alt="delete icon"] {
+        width: 25px;
+      }
+
+      &__top {
+        @apply rounded-t-lg;
+      }
+      &__bottom {
+        @apply rounded-b-lg;
+        @apply border-b;
+      }
+    }
+  }
+}
