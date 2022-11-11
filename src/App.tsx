@@ -24,14 +24,13 @@ function App() {
   }, []);
 
   // logic to set root element
-  let root: JSX.Element = <></>;
+  let root: JSX.Element = <Login />;
   if (user.isLogged) {
     root = <Dashboard />;
   } else if (loading) {
     root = <Loading />;
-  } else if (!user.isLogged) {
-    root = <Login />;
   }
+
   return (
     <LoginContext.Provider
       value={{
