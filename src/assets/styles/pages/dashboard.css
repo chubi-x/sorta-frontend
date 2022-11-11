@@ -7,7 +7,7 @@
   @apply w-1;
 }
 main {
-  @apply max-h-full w-3/5;
+  @apply max-h-full w-4/5;
   @apply font-body;
   @apply pt-10;
   @apply overflow-auto;
@@ -106,7 +106,7 @@ main {
 }
 
 .arrowUp {
-  @apply absolute top-[90%] left-[75%];
+  @apply absolute top-[90%] left-[85%];
   @apply cursor-pointer;
   @apply rounded-full;
   @apply flex flex-col items-center;
