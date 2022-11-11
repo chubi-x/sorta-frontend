@@ -14,7 +14,6 @@ export function Bookmarks({
     const getBookmarks = async () => {
       const response = await fetchBookmarks(abortController);
       if (response?.success) {
-        console.log(response);
         bookmarksContext.setBookmarks({ ...response.data });
       } else {
         // alert(response?.message);
