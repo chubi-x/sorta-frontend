@@ -1,14 +1,11 @@
+import { SidebarButtonProps } from "../../layouts";
+
 export function SidebarButton({
   icon,
-  toggle,
-  active,
   text,
-}: {
-  icon: any;
-  toggle?: any;
-  active?: boolean;
-  text: string;
-}) {
+  active,
+  toggle,
+}: SidebarButtonProps) {
   return (
     <div
       className={`sidebar__button ${active ? "sidebar__button--active" : ""}`}
