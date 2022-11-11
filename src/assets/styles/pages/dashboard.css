@@ -1,12 +1,9 @@
 @import "./bookmarks.css";
 
 .dashboard {
-  @apply flex justify-start;
+  @apply flex justify-center md:justify-start;
   @apply h-full;
   @apply space-x-20;
-}
-.divider {
-  @apply w-1;
 }
 main {
   @apply max-h-full w-4/5;
@@ -20,7 +17,7 @@ main {
 }
 
 .arrowUp {
-  @apply absolute top-[90%] left-[85%];
+  @apply absolute top-[90%] right-[100px];
   @apply cursor-pointer;
   @apply rounded-full;
   @apply flex flex-col items-center;
