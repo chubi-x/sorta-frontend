@@ -3,37 +3,18 @@
 .dashboard {
   @apply flex justify-center md:justify-start;
   @apply h-full;
-  @apply space-x-20;
+  @apply md:space-x-20;
+  @apply relative;
+  @apply overflow-hidden;
 }
 main {
-  @apply max-h-full w-4/5;
+  @apply h-[80%] w-4/5 md:h-[90%];
   @apply font-body;
   @apply pt-10;
   @apply overflow-auto;
 
   .new-category-container {
     box-shadow: 3px 10px 4px -6px rgba(0, 0, 0, 0.04);
-  }
-}
-
-.arrowUp {
-  @apply absolute top-[90%] right-[100px];
-  @apply cursor-pointer;
-  @apply rounded-full;
-  @apply flex flex-col items-center;
-  @apply p-2;
-  @apply h-8;
-
-  &:hover {
-    @apply bg-primary-1;
-    img {
-      @apply brightness-[103%] contrast-[103%] hue-rotate-[193deg] invert saturate-0 sepia;
-    }
-  }
-  img {
-    width: 15px;
-    filter: invert(40%) sepia(85%) saturate(3313%) hue-rotate(213deg)
-      brightness(99%) contrast(104%);
   }
 }
 

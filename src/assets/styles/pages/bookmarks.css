@@ -1,5 +1,5 @@
 .bookmarks {
-  @apply h-screen w-full lg:w-5/6;
+  @apply h-[90%] w-full lg:w-5/6;
   @apply pr-5;
 }
 .bookmark__card {

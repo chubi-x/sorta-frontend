@@ -76,17 +76,11 @@ export function Dashboard() {
     };
   }, [bookmarksActive]);
 
-  function scrollToTop() {
-    document.getElementById("main")?.scrollTo({
-      top: 1,
-      behavior: "smooth",
-    });
-  }
   return (
     <div className="dashboard">
       <Menu activeTab={activeTabContext} />
       <main id="main">
-        <div className="menu__logo__container mb-14 pl-0">
+        <div className="menu__logo__container mb-14 pl-0 md:hidden">
           <div className="menu__logo pl-0">
             <img src={logo} alt="logo" />
             <h1>Sorta</h1>
@@ -109,7 +103,7 @@ export function Dashboard() {
             : " See all your categories"}
         </p>
         <div
-          className={`sticky top-[-40px] z-50 w-full bg-neutral-7 ${
+          className={`sticky top-[-40px] z-10 w-full bg-neutral-7 ${
             !inView
               ? "new-category-container flex items-center justify-between pr-36"
               : ""
@@ -133,10 +127,6 @@ export function Dashboard() {
 
         {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
       </main>
-
-      <div className="arrowUp" onClick={scrollToTop}>
-        <img src={arrowUp} alt="scroll to top button" />
-      </div>
     </div>
   );
 }

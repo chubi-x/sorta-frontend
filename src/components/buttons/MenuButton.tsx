@@ -6,12 +6,13 @@ export function MenuButton({
   active,
   toggle,
   showText,
+  mobileClass,
 }: MenuButtonProps) {
   let menuButtonClass = "";
   if (active && showText) {
     menuButtonClass = "menu__button--active";
   } else if (active) {
-    menuButtonClass = "menu__button--collapsed justify-center";
+    menuButtonClass = "menu__button--collapsed";
   } else if (showText) {
     menuButtonClass += "justify-start";
   } else {
@@ -20,7 +21,7 @@ export function MenuButton({
 
   return (
     <div
-      className={`menu__button ${menuButtonClass}`}
+      className={`menu__button ${menuButtonClass} ${mobileClass}`}
       tabIndex={1}
       onClick={toggle}
     >
