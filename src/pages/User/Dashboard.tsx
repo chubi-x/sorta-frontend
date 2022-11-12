@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { fetchUser } from "../../api";
@@ -16,6 +16,7 @@ export interface ActiveContext {
   setBookmarksActive: React.Dispatch<React.SetStateAction<boolean>>;
   setCategoriesActive: React.Dispatch<React.SetStateAction<boolean>>;
   inView: boolean;
+  scrollRef: React.RefObject<HTMLDivElement>;
 }
 export interface BookmarksContext {
   bookmarks: Bookmarks | undefined;
@@ -26,7 +27,6 @@ export function Dashboard() {
   const { userContext } = useContext(LoginContext);
   const [bookmarksActive, setBookmarksActive] = useState(true);
   const [categoriesActive, setCategoriesActive] = useState(false);
-
   const [bookmarks, setBookmarks] = useState<Bookmarks>();
   const { ref, inView, entry } = useInView({
     root: document.querySelector(".dashboard"),
@@ -34,6 +34,7 @@ export function Dashboard() {
     threshold: 1,
     rootMargin: "-175px",
   });
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const bookmarksContext: BookmarksContext = {
     bookmarks,
@@ -47,8 +48,8 @@ export function Dashboard() {
     categoriesActive,
     setCategoriesActive,
     inView,
+    scrollRef,
   };
-
   useEffect(() => {
     const abortController = new AbortController();
     const returnUser = async () => {
@@ -79,54 +80,55 @@ export function Dashboard() {
   return (
     <div className="dashboard">
       <Menu activeTab={activeTabContext} />
-      <main id="main">
-        <div className="menu__logo__container mb-14 pl-0 md:hidden">
-          <div className="menu__logo pl-0">
-            <img src={logo} alt="logo" />
-            <h1>Sorta</h1>
+      <div className="main-container">
+        <main id="main" ref={scrollRef}>
+          <div className="menu__logo__container mb-14 pl-0 md:hidden">
+            <div className="menu__logo pl-0">
+              <img src={logo} alt="logo" />
+              <h1>Sorta</h1>
+            </div>
           </div>
-        </div>
-        <div className="user__header flex items-center space-x-3">
-          <img
-            src={userContext.user?.pfp}
-            alt="profile pic"
-            className="w-10 rounded-full"
-          />
-          <h1 className="user__name font-header-2 text-md font-medium text-primary-1">
-            <span className="font-body text-[20px] font-normal">Hello</span>{" "}
-            {userContext.user?.name}!
-          </h1>
-        </div>
-        <p className="my-2 text-neutral-4">
-          {bookmarksActive
-            ? " See all your bookmarked tweets"
-            : " See all your categories"}
-        </p>
-        <div
-          className={`sticky top-[-40px] z-10 w-full bg-neutral-7 ${
-            !inView
-              ? "new-category-container flex items-center justify-between pr-36"
-              : ""
-          }`}
-        >
-          <NewCategoryButton />
+          <div className="user__header flex items-center space-x-3">
+            <img
+              src={userContext.user?.pfp}
+              alt="profile pic"
+              className="w-10 rounded-full"
+            />
+            <h1 className="user__name font-header-2 text-md font-medium text-primary-1">
+              <span className="font-body text-[20px] font-normal">Hello</span>{" "}
+              {userContext.user?.name}!
+            </h1>
+          </div>
+          <p className="my-2 text-neutral-4">
+            {bookmarksActive
+              ? " See all your bookmarked tweets"
+              : " See all your categories"}
+          </p>
           <div
-            className={`flex h-10 w-[80%]  text-primary-1 ${
-              !inView ? "w-auto justify-end" : "justify-between"
+            className={`sticky top-[-40px] z-50 w-full bg-neutral-7 ${
+              !inView
+                ? "new-category-container flex items-center justify-between pr-36"
+                : ""
             }`}
           >
-            <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
-              {bookmarks?.data.length} Bookmark(s)
-            </p>
-            <p className="flex cursor-pointer items-center space-x-2 font-medium">
-              <img src={help} alt="help icon" width={"20px"} />{" "}
-              <span>Need Help?</span>
-            </p>
+            <NewCategoryButton />
+            <div
+              className={`flex h-10 w-[80%]  text-primary-1 ${
+                !inView ? "w-auto justify-end" : "justify-between"
+              }`}
+            >
+              <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
+                {bookmarks?.data.length} Bookmark(s)
+              </p>
+              <p className="flex cursor-pointer items-center space-x-2 font-medium">
+                <img src={help} alt="help icon" width={"20px"} />{" "}
+                <span>Need Help?</span>
+              </p>
+            </div>
           </div>
-        </div>
-
-        {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
-      </main>
+          {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
+        </main>
+      </div>
     </div>
   );
 }

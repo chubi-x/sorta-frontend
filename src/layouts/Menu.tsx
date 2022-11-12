@@ -32,6 +32,7 @@ export function Menu({ activeTab }: { activeTab: ActiveContext }) {
   }, []);
 
   function toggleBookmarks() {
+    activeTab.scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
     activeTab.setBookmarksActive(true);
     activeTab.setCategoriesActive(false);
   }
