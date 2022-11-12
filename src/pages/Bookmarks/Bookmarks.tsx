@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchBookmarks } from "../../api/bookmarks-api";
 import { Bookmark } from "./Bookmark";
 import help from "../../assets/icons/help.svg";
@@ -25,6 +25,7 @@ export function Bookmarks({
       abortController.abort();
     };
   }, []);
+
   return (
     <>
       <div className="scroll ref" ref={bookmarksContext.ref}></div>
