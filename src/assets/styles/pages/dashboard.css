@@ -3,15 +3,25 @@
 .dashboard {
   @apply flex justify-center md:justify-start;
   @apply h-full;
-  @apply md:space-x-20;
+  @apply md:space-x-40;
   @apply relative;
   @apply overflow-hidden;
 }
-main {
+.main-container {
   @apply h-[80%] w-4/5 md:h-[90%];
+  // @apply md:pl-32;
+}
+main {
+  @apply h-full w-full;
   @apply font-body;
+  @apply overflow-y-scroll;
   @apply pt-10;
-  @apply overflow-auto;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 
   .new-category-container {
     box-shadow: 3px 10px 4px -6px rgba(0, 0, 0, 0.04);
