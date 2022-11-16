@@ -15,7 +15,6 @@
   &__logo__container {
     @apply w-full;
     @apply pl-6;
-    @apply hidden md:block;
   }
 
   &__logo {
@@ -62,12 +61,12 @@
       @apply text-primary-1;
       @apply font-semibold;
     }
-    &--collapsed {
-      @apply justify-center;
-      .menu__button__image {
-        @apply bg-neutral-6;
-      }
-    }
+    // &--collapsed {
+    //   @apply justify-center;
+    //   .menu__button__image {
+    //     @apply bg-neutral-6;
+    //   }
+    // }
 
     &:hover {
       .menu__button__image {
@@ -80,11 +79,14 @@
   }
 
   &__mobile {
+    .menu__logo__container {
+      @apply hidden;
+    }
     &__container {
       @apply fixed left-[100%] bottom-0;
       @apply flex justify-start;
       // @apply px-10;
-      @apply h-[100vw];
+      @apply h-[100vw] w-20;
       @apply z-30;
       @apply bg-neutral-7;
       transform: rotate(-90deg);
@@ -99,10 +101,39 @@
 
     &__buttons {
       @apply h-[100vw] justify-center;
+      @apply space-y-14;
     }
     &__button {
+      @apply w-auto;
+      @apply space-x-0;
       @apply rotate-90;
+
+      h1 {
+        @apply max-w-0;
+        overflow: hidden;
+      }
+
+      &--active {
+        @apply w-auto pr-4;
+        transition: all 0.5s ease-in-out;
+
+        h1 {
+          @apply visible block max-w-[200px];
+          @apply text-[14px];
+
+          animation: buttonText 0.5s ease-in-out;
+        }
+      }
     }
+  }
+}
+
+@keyframes buttonText {
+  0% {
+    max-width: 0px;
+  }
+  100% {
+    max-width: 200px;
   }
 }
 

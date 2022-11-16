@@ -8,7 +8,7 @@
   &__logo {
     @apply mb-[5px];
     @apply flex justify-center;
-    @apply space-x-2 pl-12;
+    @apply space-x-2 pl-4 md:pl-12;
     @apply h-full;
 
     span {

@@ -1,60 +1,105 @@
 .bookmarks {
-  @apply h-[90%] w-full lg:w-5/6;
+  @apply mt-6 pb-32;
+
+  &__wrapper {
+    @apply h-full w-full lg:w-5/6;
+  }
 }
 .bookmark__card {
   @apply relative;
   @apply border border-neutral-6;
-  @apply py-8 px-6;
+  @apply py-8 px-2 md:px-6;
   @apply flex items-start justify-between;
   @apply h-auto w-full;
+
+  &__details {
+    @apply flex flex-col items-start;
+    @apply w-[90%];
+    @apply overflow-hidden;
+  }
   &__author {
     &__img {
+      @apply w-[20%] md:w-auto;
+      @apply mr-[5px] md:mr-3;
       img {
-        @apply w-auto max-w-none;
+        @apply w-[45px] max-w-none;
         @apply rounded-full;
       }
     }
+
     &__details {
-      @apply flex items-center;
-      @apply space-x-2;
+      @apply flex items-start;
       @apply mb-2;
+      @apply space-x-2;
+      @apply w-full;
+      @apply whitespace-nowrap;
+    }
+    &__names__container {
+      @apply flex;
+      @apply space-x-2;
+      @apply w-auto;
+    }
+    &__name {
+      @apply text-[14px];
+      @apply max-w-[100px] md:max-w-[250px];
+      @apply overflow-hidden;
+      @apply overflow-ellipsis;
+      @apply font-semibold;
+    }
+    &__username {
+      @apply max-w-[50px] md:max-w-none;
+      @apply overflow-hidden;
+      @apply overflow-ellipsis;
+      @apply text-xs text-neutral-2 underline;
     }
   }
+  &__date {
+    @apply md:max-w-none;
+    @apply overflow-hidden md:overflow-visible;
+    @apply overflow-ellipsis;
+  }
 
-  &__details {
-    @apply pr-8;
+  &__text {
+    @apply text-[14px];
+    @apply whitespace-normal;
+    @apply relative z-[0];
   }
 
   &__more__btn {
-    @apply ml-auto;
-    @apply flex items-center;
-    @apply space-x-1 p-1;
-    @apply cursor-pointer;
-    @apply rounded-lg;
-    @apply bg-neutral-6;
+    &__container {
+      @apply flex justify-center;
+      @apply h-[10px] w-[20px];
+      @apply ml-auto;
+      // @apply p-1;
+      @apply bg-neutral-6;
+      @apply cursor-pointer;
+      @apply rounded-lg;
+    }
 
-    span {
+    @apply flex items-center;
+    @apply space-x-1;
+
+    div {
       @apply block;
-      @apply h-1 w-1;
+      @apply h-[2px] w-[2px];
       @apply bg-neutral-4;
       @apply rounded-full;
     }
 
     &:hover {
-      span {
+      div {
         @apply bg-neutral-2;
       }
     }
   }
 
   &__tooltip {
-    @apply absolute right-[23px] top-14;
+    @apply absolute top-14 right-[7px] md:right-[23px];
     @apply z-10;
     @apply h-28 w-48;
     @apply rounded-lg bg-neutral-8;
     @apply flex flex-col justify-between;
     @apply text-[14px] text-neutral-3;
-    transform: scale(1);
     box-shadow: 3px 5px 3px 1px #716f8c1a;
 
     &__item {
