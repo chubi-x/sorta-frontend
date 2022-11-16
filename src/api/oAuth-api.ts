@@ -1,7 +1,8 @@
 export async function fetchOauth(abortController: AbortController) {
   try {
-    const request = await fetch("https://localhost:3000/authorize", {
+    const request = await fetch(`${import.meta.env.VITE_API_URL!}/authorize`, {
       signal: abortController.signal,
+      headers: { "ngrok-skip-browser-warning": "true" },
     });
     const response: OauthResponse = await request.json();
     return response;
@@ -15,15 +16,19 @@ export async function completeOauth(
   abortController: AbortController
 ) {
   try {
-    const request = await fetch("https://localhost:3000/oauth/complete", {
-      signal: abortController.signal,
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({ callbackParams, oauthData }),
-    });
+    const request = await fetch(
+      `${import.meta.env.VITE_API_URL!}/oauth/complete`,
+      {
+        signal: abortController.signal,
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "ngrok-skip-browser-warning": "true",
+        },
+        body: JSON.stringify({ callbackParams, oauthData }),
+      }
+    );
     const response: ServerResponse = await request.json();
     return response;
   } catch (err) {

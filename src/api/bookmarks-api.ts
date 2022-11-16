@@ -1,8 +1,9 @@
 export async function fetchBookmarks(abortController: AbortController) {
   try {
-    const request = await fetch("https://localhost:3000/bookmarks", {
+    const request = await fetch(`${import.meta.env.VITE_API_URL!}/bookmarks`, {
       credentials: "include",
       signal: abortController.signal,
+      headers: { "ngrok-skip-browser-warning": "true" },
     });
     const response: BookmarksResponse = await request.json();
     return response;
