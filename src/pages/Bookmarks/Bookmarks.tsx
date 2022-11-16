@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-import { useEffect, useState } from "react";
-=======
 import { useEffect, useMemo } from "react";
->>>>>>> Stashed changes
 import { fetchBookmarks } from "../../api/bookmarks-api";
 import { Bookmark } from "./Bookmark";
 import { BookmarksContext } from "../User";
@@ -16,13 +12,9 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
     const getBookmarks = async () => {
       const response = await fetchBookmarks(abortController);
       if (response?.success) {
-<<<<<<< Updated upstream
-        console.log(response);
-=======
         // const bookmarks =
         // bookmarksContext.setBookmarks({ ...response.data });
         localStorage.setItem("bookmarks", JSON.stringify(response.data));
->>>>>>> Stashed changes
         bookmarksContext.setBookmarks({ ...response.data });
       } else {
         // alert(response?.message);
@@ -36,8 +28,6 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
       abortController.abort();
     };
   }, []);
-<<<<<<< Updated upstream
-=======
 
   const bookmarks = useMemo(() => {
     return bookmarksContext.bookmarks?.data.map(
@@ -54,7 +44,6 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
 
   // const halfBookmarks = bookmarksContext.bookmarks?.data.slice(0, 20);
   // console.log(halfBookmarks)
->>>>>>> Stashed changes
   return (
     <>
       <div className="bookmarks__wrapper">
