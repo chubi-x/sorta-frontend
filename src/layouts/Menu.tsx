@@ -45,8 +45,14 @@ export function Menu({ activeTab }: MenuProps) {
     activeTab.setCategoriesActive(true);
     activeTab.setBookmarksActive(false);
   }
-  async function logout() {
-    navigate("/logout");
+  function logout() {
+    const controller = new AbortController();
+    const logout = async () => {
+      await logoutUser(controller);
+    };
+    logout();
+    localStorage.clear();
+    location.reload();
   }
   const menuButtons: MenuButtonProps[] = [
     {
