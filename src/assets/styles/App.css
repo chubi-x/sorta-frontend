@@ -1,5 +1,5 @@
 @import "./layouts/navbar.css";
-@import "./layouts/sidebar.css";
+@import "./layouts/menu.css";
 @import "./pages/login.css";
 @import "./pages/dashboard.css";
 .app {

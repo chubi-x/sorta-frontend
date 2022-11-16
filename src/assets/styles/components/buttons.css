@@ -46,8 +46,9 @@
 }
 
 .new-category-btn {
-  @apply flex;
-  @apply my-8 py-4 px-6;
+  @apply flex justify-center;
+  @apply w-full sm:w-[210px] md:w-[250px];
+  @apply py-4 px-6;
   @apply hover:bg-neutral-6;
   @apply rounded-md border border-primary-1;
   @apply font-medium text-primary-1;

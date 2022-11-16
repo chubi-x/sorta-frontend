@@ -15,6 +15,7 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
         // const bookmarks =
         // bookmarksContext.setBookmarks({ ...response.data });
         localStorage.setItem("bookmarks", JSON.stringify(response.data));
+
         bookmarksContext.setBookmarks({ ...response.data });
       } else {
         // alert(response?.message);
@@ -44,6 +45,7 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
 
   // const halfBookmarks = bookmarksContext.bookmarks?.data.slice(0, 20);
   // console.log(halfBookmarks)
+
   return (
     <>
       <div className="bookmarks__wrapper">

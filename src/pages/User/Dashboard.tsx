@@ -1,11 +1,13 @@
+
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
-import { Sidebar } from "../../layouts";
+import { Menu } from "../../layouts";
 import { Bookmarks } from "../Bookmarks";
 import { NewCategoryButton } from "../../components/buttons";
+import logo from "../../assets/logo/logo.svg";
 import arrowUp from "../../assets/icons/up.svg";
 import help from "../../assets/icons/help.svg";
 
@@ -15,6 +17,7 @@ export interface ActiveContext {
   setBookmarksActive: React.Dispatch<React.SetStateAction<boolean>>;
   setCategoriesActive: React.Dispatch<React.SetStateAction<boolean>>;
   inView: boolean;
+  scrollRef: React.RefObject<HTMLDivElement>;
 }
 export interface BookmarksContext {
   bookmarks: Bookmarks | undefined;
@@ -34,6 +37,7 @@ export function Dashboard() {
     threshold: 1,
     rootMargin: "-175px",
   });
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const bookmarksContext: BookmarksContext = {
     bookmarks,
@@ -47,8 +51,9 @@ export function Dashboard() {
     categoriesActive,
     setCategoriesActive,
     inView,
+    scrollRef,
   };
-
+  
   // useEffect(() => {
   //   // check if user has scrolled to bottom
   //   scrollRef.current!.onscroll = function (ev) {
@@ -65,6 +70,7 @@ export function Dashboard() {
   //     }
   //   };
   // }, []);
+
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -107,17 +113,20 @@ export function Dashboard() {
       <div className={`main-container `}>
         <main id="main" ref={scrollRef}>
           <div className="logo__container">
+
             <div className="menu__logo pl-0">
               <img src={logo} alt="logo" />
               <h1>Sorta</h1>
             </div>
           </div>
+
           <div className="user__header">
             <img
               src={userContext.user?.pfp}
               alt="profile pic"
               className="w-10 rounded-full"
             />
+
             <h1 className="user__name">
               <span>Hello</span> {userContext.user?.name}!
             </h1>
@@ -128,6 +137,7 @@ export function Dashboard() {
               : " See all your categories"}
           </p>
           <div
+
             className={`new-category-container ${
               !inView ? "new-category-container--stuck" : ""
             }`}
@@ -136,11 +146,13 @@ export function Dashboard() {
             <div
               className={`my-6 flex items-center text-primary-1 tall:w-auto ${
                 !inView ? "w-[auto] justify-end" : "justify-between"
+
               }`}
             >
               <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
                 {bookmarks?.data.length} Bookmark(s)
               </p>
+
               <p className="mr-1 flex cursor-pointer items-center space-x-2 self-start font-medium">
                 <img src={help} alt="help icon" width={"20px"} />
                 <span className="hidden md:inline">Need Help?</span>
@@ -150,6 +162,7 @@ export function Dashboard() {
           <div className="scroll ref" ref={ref}></div>
 
           {bookmarksActive && memoizedBookmarks}
+
         </main>
       </div>
     </div>

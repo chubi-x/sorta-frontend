@@ -1,42 +1,61 @@
 @import "./bookmarks.css";
 
 .dashboard {
-  @apply flex justify-start;
-  @apply h-full;
-  @apply space-x-20;
+  @apply flex justify-center;
+  @apply h-screen;
+  @apply relative;
 }
-.divider {
-  @apply w-1;
+.main-container {
+  @apply h-full w-[85%] md:h-[100%] md:w-4/5;
+  @apply mb-10 md:px-10 lg:px-20;
+  @apply relative;
 }
 main {
-  @apply max-h-full w-4/5;
+  @apply h-full w-full;
   @apply font-body;
-  @apply pt-10;
   @apply overflow-auto;
+  // @apply overflow-x-hidden;
+  @apply relative;
+  @apply z-10;
 
-  .new-category-container {
-    box-shadow: 3px 10px 4px -6px rgba(0, 0, 0, 0.04);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0;
   }
-}
 
-.arrowUp {
-  @apply absolute top-[90%] left-[85%];
-  @apply cursor-pointer;
-  @apply rounded-full;
-  @apply flex flex-col items-center;
-  @apply p-2;
-  @apply h-8;
+  .user {
+    &__header {
+      @apply flex items-center space-x-3 md:pt-10;
+    }
+    &__name {
+      @apply font-header-2 text-md font-medium text-primary-1;
 
-  &:hover {
-    @apply bg-primary-1;
-    img {
-      @apply brightness-[103%] contrast-[103%] hue-rotate-[193deg] invert saturate-0 sepia;
+      span {
+        @apply font-body text-[20px] font-normal;
+      }
     }
   }
-  img {
-    width: 15px;
-    filter: invert(40%) sepia(85%) saturate(3313%) hue-rotate(213deg)
-      brightness(99%) contrast(104%);
+
+  .new-category-container {
+    @apply h-[110px] w-full md:h-28 lg:w-5/6;
+    @apply mt-10;
+    @apply bg-neutral-7;
+    @apply sticky top-[0px] z-50;
+
+    &--stuck {
+      @apply h-[100px];
+      @apply flex items-center justify-between;
+      box-shadow: 3px 10px 4px -6px rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .logo__container {
+    @apply mt-4 mb-14 pl-0 md:mb-6;
+
+    @media screen and (min-width: 770px) {
+      @apply hidden;
+    }
   }
 }
 
