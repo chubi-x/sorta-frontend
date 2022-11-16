@@ -1,11 +1,14 @@
 export async function logoutUser(controller: AbortController) {
   try {
-    await fetch("https://localhost:3000/logout", {
+    const url = `${import.meta.env.VITE_API_URL!}/logout`;
+    const request = await fetch(url, {
       signal: controller.signal,
       method: "POST",
       credentials: "include",
+      headers: { "ngrok-skip-browser-warning": "true" },
     });
   } catch (err) {
     console.log("Error logging out", err);
   }
 }
+

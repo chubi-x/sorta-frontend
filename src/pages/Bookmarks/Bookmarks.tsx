@@ -1,44 +1,64 @@
+<<<<<<< Updated upstream
 import { useEffect, useState } from "react";
+=======
+import { useEffect, useMemo } from "react";
+>>>>>>> Stashed changes
 import { fetchBookmarks } from "../../api/bookmarks-api";
 import { Bookmark } from "./Bookmark";
-import help from "../../assets/icons/help.svg";
 import { BookmarksContext } from "../User";
 
-export function Bookmarks({
-  bookmarksContext,
-}: {
+type BookmarksProps = {
   bookmarksContext: BookmarksContext;
-}) {
+};
+export function Bookmarks({ bookmarksContext }: BookmarksProps) {
   useEffect(() => {
     const abortController = new AbortController();
     const getBookmarks = async () => {
       const response = await fetchBookmarks(abortController);
       if (response?.success) {
+<<<<<<< Updated upstream
         console.log(response);
+=======
+        // const bookmarks =
+        // bookmarksContext.setBookmarks({ ...response.data });
+        localStorage.setItem("bookmarks", JSON.stringify(response.data));
+>>>>>>> Stashed changes
         bookmarksContext.setBookmarks({ ...response.data });
       } else {
         // alert(response?.message);
         console.log("error fetching bookmarks");
       }
     };
-    getBookmarks();
+    if (!bookmarksContext.bookmarks) {
+      getBookmarks();
+    }
     return () => {
       abortController.abort();
     };
   }, []);
+<<<<<<< Updated upstream
+=======
+
+  const bookmarks = useMemo(() => {
+    return bookmarksContext.bookmarks?.data.map(
+      (bookmark: Bookmark, index: number) => (
+        <Bookmark
+          bookmark={bookmark}
+          key={bookmark.id}
+          index={index}
+          bookmarksLength={bookmarksContext.bookmarks?.data.length}
+        />
+      )
+    );
+  }, [bookmarksContext.bookmarks]);
+
+  // const halfBookmarks = bookmarksContext.bookmarks?.data.slice(0, 20);
+  // console.log(halfBookmarks)
+>>>>>>> Stashed changes
   return (
     <>
-      <div className="scroll ref" ref={bookmarksContext.ref}></div>
-      <div className="bookmarks">
-        <div className="mt-6">
-          {bookmarksContext.bookmarks?.data.map(
-            (bookmark: Bookmark, index: number) => (
-              // bookmark?.status === "fulfilled" ? (
-              <Bookmark bookmark={bookmark} key={bookmark.id} index={index} />
-            )
-            // ) : null
-          )}
-        </div>
+      <div className="bookmarks__wrapper">
+        <div className=" bookmarks">{bookmarks}</div>
       </div>
     </>
   );

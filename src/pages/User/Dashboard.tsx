@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { fetchUser } from "../../api";
@@ -18,15 +18,16 @@ export interface ActiveContext {
 }
 export interface BookmarksContext {
   bookmarks: Bookmarks | undefined;
-  setBookmarks: React.Dispatch<React.SetStateAction<Bookmarks | undefined>>;
+  setBookmarks: React.Dispatch<React.SetStateAction<Bookmarks>>;
   ref: (node?: Element | null | undefined) => void;
 }
 export function Dashboard() {
   const { userContext } = useContext(LoginContext);
   const [bookmarksActive, setBookmarksActive] = useState(true);
   const [categoriesActive, setCategoriesActive] = useState(false);
-
-  const [bookmarks, setBookmarks] = useState<Bookmarks>();
+  const [bookmarks, setBookmarks] = useState<Bookmarks>(
+    JSON.parse(localStorage.getItem("bookmarks")!)
+  );
   const { ref, inView, entry } = useInView({
     root: document.querySelector(".dashboard"),
     initialInView: true,
@@ -48,19 +49,38 @@ export function Dashboard() {
     inView,
   };
 
+  // useEffect(() => {
+  //   // check if user has scrolled to bottom
+  //   scrollRef.current!.onscroll = function (ev) {
+  //     if (
+  //       Math.abs(
+  //         scrollRef.current!.scrollHeight -
+  //           scrollRef.current!.clientHeight -
+  //           scrollRef.current!.scrollTop
+  //       ) < 1
+  //     ) {
+  //       setScrolled(true);
+  //     } else {
+  //       setScrolled(false);
+  //     }
+  //   };
+  // }, []);
+
   useEffect(() => {
     const abortController = new AbortController();
     const returnUser = async () => {
       const userResponse: UserResponse = await fetchUser(abortController);
       if (userResponse?.success) {
+        localStorage.setItem("user", JSON.stringify({ ...userContext.user }));
+
         userContext.setUser((prev) => {
           return {
             ...prev,
             ...userResponse.data,
           };
         });
-        localStorage.setItem("user", JSON.stringify({ ...userContext.user }));
       } else {
+        // alert(userResponse.message);
         // if not logged in backend, log out in frontend
         if (userResponse?.message?.includes("not logged in")) {
           userContext.setUser((prev) => {
@@ -69,66 +89,68 @@ export function Dashboard() {
         }
       }
     };
-    returnUser();
+    if (!userContext.user) {
+      returnUser();
+    }
     return () => {
       abortController.abort();
     };
-  }, [bookmarksActive]);
+  }, []);
 
-  function scrollToTop() {
-    document.getElementById("main")?.scrollTo({
-      top: 1,
-      behavior: "smooth",
-    });
-  }
+  const memoizedBookmarks = useMemo(
+    () => <Bookmarks bookmarksContext={bookmarksContext} />,
+    [bookmarksContext]
+  );
   return (
     <div className="dashboard">
-      <Sidebar activeTab={activeTabContext} />
-      <main id="main">
-        <div className="user__header flex items-center space-x-3">
-          <img
-            src={userContext.user?.pfp}
-            alt="profile pic"
-            className="w-10 rounded-full"
-          />
-          <h1 className="user__name font-header-2 text-md font-medium text-primary-1">
-            <span className="font-body text-[20px] font-normal">Hello</span>{" "}
-            {userContext.user?.name}!
-          </h1>
-        </div>
-        <p className="my-2 text-neutral-4">
-          {bookmarksActive
-            ? " See all your bookmarked tweets"
-            : " See all your categories"}
-        </p>
-        <div
-          className={`sticky top-[-40px] z-50 w-full bg-neutral-7 ${
-            !inView
-              ? "new-category-container flex items-center justify-between pr-36"
-              : ""
-          }`}
-        >
-          <NewCategoryButton />
+      <Menu activeTab={activeTabContext} />
+      <div className={`main-container `}>
+        <main id="main" ref={scrollRef}>
+          <div className="logo__container">
+            <div className="menu__logo pl-0">
+              <img src={logo} alt="logo" />
+              <h1>Sorta</h1>
+            </div>
+          </div>
+          <div className="user__header">
+            <img
+              src={userContext.user?.pfp}
+              alt="profile pic"
+              className="w-10 rounded-full"
+            />
+            <h1 className="user__name">
+              <span>Hello</span> {userContext.user?.name}!
+            </h1>
+          </div>
+          <p className="my-2 text-neutral-4">
+            {bookmarksActive
+              ? " See all your bookmarked tweets"
+              : " See all your categories"}
+          </p>
           <div
-            className={`flex h-10 w-[80%]  text-primary-1 ${
-              !inView ? "w-auto justify-end" : "justify-between"
+            className={`new-category-container ${
+              !inView ? "new-category-container--stuck" : ""
             }`}
           >
-            <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
-              {bookmarks?.data.length} Bookmark(s)
-            </p>
-            <p className="flex cursor-pointer items-center space-x-2 font-medium">
-              <img src={help} alt="help icon" width={"20px"} />{" "}
-              <span>Need Help?</span>
-            </p>
+            <NewCategoryButton sticky={!inView} />
+            <div
+              className={`my-6 flex items-center text-primary-1 tall:w-auto ${
+                !inView ? "w-[auto] justify-end" : "justify-between"
+              }`}
+            >
+              <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
+                {bookmarks?.data.length} Bookmark(s)
+              </p>
+              <p className="mr-1 flex cursor-pointer items-center space-x-2 self-start font-medium">
+                <img src={help} alt="help icon" width={"20px"} />
+                <span className="hidden md:inline">Need Help?</span>
+              </p>
+            </div>
           </div>
-        </div>
+          <div className="scroll ref" ref={ref}></div>
 
-        {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
-      </main>
-
-      <div className="arrowUp" onClick={scrollToTop}>
-        <img src={arrowUp} alt="scroll to top button" />
+          {bookmarksActive && memoizedBookmarks}
+        </main>
       </div>
     </div>
   );
