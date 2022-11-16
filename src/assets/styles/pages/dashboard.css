@@ -4,6 +4,7 @@
   @apply flex justify-center;
   @apply h-screen;
   @apply relative;
+  @apply overflow-hidden;
 }
 .main-container {
   @apply h-full w-[85%] md:h-[100%] md:w-4/5;

@@ -13,7 +13,7 @@ body {
   @apply bg-neutral-7;
 }
 body {
-  overflow-x: hidden;
+  overflow: hidden;
 }
 #root {
   height: 100%;
