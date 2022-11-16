@@ -1,5 +1,4 @@
-
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { fetchUser } from "../../api";
@@ -53,7 +52,7 @@ export function Dashboard() {
     inView,
     scrollRef,
   };
-  
+
   // useEffect(() => {
   //   // check if user has scrolled to bottom
   //   scrollRef.current!.onscroll = function (ev) {
@@ -71,20 +70,18 @@ export function Dashboard() {
   //   };
   // }, []);
 
-
   useEffect(() => {
     const abortController = new AbortController();
     const returnUser = async () => {
       const userResponse: UserResponse = await fetchUser(abortController);
       if (userResponse?.success) {
-        localStorage.setItem("user", JSON.stringify({ ...userContext.user }));
-
         userContext.setUser((prev) => {
           return {
             ...prev,
             ...userResponse.data,
           };
         });
+        localStorage.setItem("user", JSON.stringify({ ...userContext.user }));
       } else {
         // alert(userResponse.message);
         // if not logged in backend, log out in frontend
@@ -95,25 +92,19 @@ export function Dashboard() {
         }
       }
     };
-    if (!userContext.user) {
-      returnUser();
-    }
+    returnUser();
+
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [userContext.user]);
 
-  const memoizedBookmarks = useMemo(
-    () => <Bookmarks bookmarksContext={bookmarksContext} />,
-    [bookmarksContext]
-  );
   return (
     <div className="dashboard">
       <Menu activeTab={activeTabContext} />
       <div className={`main-container `}>
         <main id="main" ref={scrollRef}>
           <div className="logo__container">
-
             <div className="menu__logo pl-0">
               <img src={logo} alt="logo" />
               <h1>Sorta</h1>
@@ -137,7 +128,6 @@ export function Dashboard() {
               : " See all your categories"}
           </p>
           <div
-
             className={`new-category-container ${
               !inView ? "new-category-container--stuck" : ""
             }`}
@@ -146,7 +136,6 @@ export function Dashboard() {
             <div
               className={`my-6 flex items-center text-primary-1 tall:w-auto ${
                 !inView ? "w-[auto] justify-end" : "justify-between"
-
               }`}
             >
               <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
@@ -161,8 +150,7 @@ export function Dashboard() {
           </div>
           <div className="scroll ref" ref={ref}></div>
 
-          {bookmarksActive && memoizedBookmarks}
-
+          {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
         </main>
       </div>
     </div>
