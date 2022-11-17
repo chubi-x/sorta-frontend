@@ -139,16 +139,9 @@ export function Dashboard() {
           </div>
 
           <div className="user__header">
-            <img
-              src={userContext.user?.pfp}
-              alt="profile pic"
-              className="w-10 rounded-full"
-            />
-
-            <h1 className="user__name">
-              <span>Hello</span> {userContext.user?.name}!
-            </h1>
+            {userContext.user?.pfp ? userInfo : userInfoSkeleton}
           </div>
+
           <p className="my-2 text-neutral-4">
             {bookmarksActive
               ? " See all your bookmarked tweets"
