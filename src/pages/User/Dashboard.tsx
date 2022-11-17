@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
-
 import { fetchUser } from "../../api";
 import { LoginContext } from "../../helpers/Context";
 import { Menu } from "../../layouts";
 import { Bookmarks } from "../Bookmarks";
 import { NewCategoryButton } from "../../components/buttons";
+import BookmarksLoadingModal from "../../components/modals/BookmarksLoadingModal";
 import logo from "../../assets/logo/logo.svg";
-import arrowUp from "../../assets/icons/up.svg";
 import help from "../../assets/icons/help.svg";
+import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
+import Lottie from "lottie-react";
 
 export interface ActiveContext {
   bookmarksActive: boolean;
@@ -21,16 +22,20 @@ export interface ActiveContext {
 export interface BookmarksContext {
   bookmarks: Bookmarks | undefined;
   setBookmarks: React.Dispatch<React.SetStateAction<Bookmarks>>;
-  ref: (node?: Element | null | undefined) => void;
+  scrollRef: React.RefObject<HTMLDivElement>;
+  bookmarksLoading: boolean;
+  setBookmarksLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export function Dashboard() {
   const { userContext } = useContext(LoginContext);
   const [bookmarksActive, setBookmarksActive] = useState(true);
+  const [bookmarksLoading, setBookmarksLoading] = useState(false);
+
   const [categoriesActive, setCategoriesActive] = useState(false);
   const [bookmarks, setBookmarks] = useState<Bookmarks>(
     JSON.parse(localStorage.getItem("bookmarks")!)
   );
-  const { ref, inView, entry } = useInView({
+  const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
     initialInView: true,
     threshold: 1,
@@ -41,7 +46,9 @@ export function Dashboard() {
   const bookmarksContext: BookmarksContext = {
     bookmarks,
     setBookmarks,
-    ref,
+    scrollRef,
+    bookmarksLoading,
+    setBookmarksLoading,
   };
 
   const activeTabContext: ActiveContext = {
@@ -97,13 +104,33 @@ export function Dashboard() {
     return () => {
       abortController.abort();
     };
-  }, [userContext.user]);
+  }, []);
 
+  const userInfo = (
+    <>
+      <img
+        src={userContext.user?.pfp}
+        alt="profile pic"
+        className="w-10 rounded-full"
+      />
+      <h1 className="user__name">
+        <span>Hello</span> {userContext.user?.name}!
+      </h1>
+    </>
+  );
+  const userInfoSkeleton = (
+    <Lottie
+      animationData={userSkeleton}
+      loop={true}
+      autoplay={true}
+      style={{ width: "150px" }}
+    />
+  );
   return (
     <div className="dashboard">
       <Menu activeTab={activeTabContext} />
       <div className={`main-container `}>
-        <main id="main" ref={scrollRef}>
+        <main id="main">
           <div className="logo__container">
             <div className="menu__logo pl-0">
               <img src={logo} alt="logo" />
@@ -153,6 +180,7 @@ export function Dashboard() {
           {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
         </main>
       </div>
+      {bookmarksLoading && <BookmarksLoadingModal />}
     </div>
   );
 }
