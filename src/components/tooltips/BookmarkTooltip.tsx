@@ -3,7 +3,10 @@ import { useHideTooltip } from "../../hooks";
 import add from "../../assets/icons/add.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 
-export default function BookmarkTooltip(props: any) {
+type BookmarkTooltipProps = {
+  show: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export default function BookmarkTooltip(props: BookmarkTooltipProps) {
   const wrapperRef = useRef(null);
   useHideTooltip(wrapperRef, props.show);
 
