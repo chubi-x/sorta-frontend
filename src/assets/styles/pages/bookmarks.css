@@ -1,8 +1,26 @@
 .bookmarks {
-  @apply mt-6 pb-32;
+  @apply h-full w-full;
+  @apply mt-6 pb-40 md:pb-28;
+  @apply relative;
+  @apply overflow-auto;
 
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
   &__wrapper {
     @apply h-full w-full lg:w-5/6;
+  }
+
+  &__loading__modal {
+    @apply flex items-center justify-center;
+    @apply absolute top-0 left-0 z-30;
+    @apply h-full w-full;
+    @apply bg-neutral-2 opacity-50;
+    & > div {
+      @apply opacity-100;
+    }
   }
 }
 .bookmark__card {
