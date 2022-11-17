@@ -1,7 +1,7 @@
 import { completeOauth } from "../../api";
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../helpers/Context";
-import loading from "../../assets/lotties/loading.json";
+import loadingAnimation from "../../assets/lotties/loading.json";
 import Lottie from "lottie-react";
 import { Navbar } from "../../layouts";
 
@@ -42,7 +42,7 @@ export function Loading() {
       <div className="login flex items-center justify-start">
         <div className="login__card flex h-1 justify-center">
           <Lottie
-            animationData={loading}
+            animationData={loadingAnimation}
             loop={true}
             autoplay={true}
             style={{ width: "150px" }}
