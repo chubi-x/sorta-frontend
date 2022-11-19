@@ -4,9 +4,10 @@
   @apply flex justify-center;
   @apply h-screen;
   @apply relative;
+  @apply overflow-hidden;
 }
 .main-container {
-  @apply h-full w-[85%] md:h-[100%] md:w-4/5;
+  @apply h-full w-[85%] md:w-4/5;
   @apply mb-10 md:px-10 lg:px-20;
   @apply relative;
 }
@@ -14,14 +15,19 @@ main {
   @apply h-full w-full;
   @apply font-body;
   @apply overflow-auto;
-  // @apply overflow-x-hidden;
   @apply relative;
   @apply z-10;
 
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  -ms-overflow-style: auto;
   &::-webkit-scrollbar {
-    width: 0;
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: theme("colors.neutral-6");
   }
 
   .user {
@@ -41,7 +47,7 @@ main {
     @apply h-[110px] w-full md:h-28 lg:w-5/6;
     @apply mt-10;
     @apply bg-neutral-7;
-    @apply sticky top-[0px] z-50;
+    @apply sticky top-[0px] z-20;
 
     &--stuck {
       @apply h-[100px];

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BookmarkTooltip from "../../components/tooltips/BookmarkTooltip";
-import verified from "../../assets/icons/verified.svg";
+import verifiedIcon from "../../assets/icons/verified.svg";
 export function Bookmark({
   bookmark,
   index,
@@ -25,54 +25,55 @@ export function Bookmark({
 
   return (
     <div className={`bookmark__card ${roundedBorder}`}>
-      <div className="flex w-[90%]">
-        <div className="bookmark__card__author__img">
-          <img
-            src={bookmark?.author_pfp}
-            alt="bookmark tweet author profile picture"
-            loading="eager"
-          />
-        </div>
+      <div className="bookmark__card__author__img">
+        <img
+          src={bookmark?.author_pfp}
+          alt="bookmark tweet author profile picture"
+          loading="eager"
+        />
+      </div>
+      <div className=" bookmark__card__text__wrapper ">
         <div className="bookmark__card__details">
           <div className="bookmark__card__author__details">
             <div className="bookmark__card__author__names__container">
-              <h1 className="bookmark__card__author__name">
-                {bookmark?.author_name}
-              </h1>
-
-              {bookmark?.author_verified && (
-                <img
-                  className="self-center"
-                  src={verified}
-                  alt="twitter verified icon"
-                />
-              )}
-              <p className="bookmark__card__author__username">
-                @{bookmark?.author_username}
-              </p>
+              <div className="bookmark__card__author__name">
+                <h2>
+                  {bookmark?.author_name}
+                  {bookmark?.author_verified && (
+                    <img
+                      className="bookmark__card__author__verified"
+                      src={verifiedIcon}
+                      alt="twitter verified icon"
+                    />
+                  )}
+                </h2>
+              </div>
+              <div className="bookmark__card__author__username">
+                <p>@{bookmark?.author_username}</p>
+              </div>
             </div>
 
-            <div className="flex space-x-1">
+            <div className="bookmark__card__date__container">
               <div className="h-[2px] w-[2px] self-center rounded-full bg-neutral-4"></div>
-              <p className="bookmark__card__date text-xs text-neutral-2">
+              <p className="bookmark__card__date">
                 {convertDate(bookmark?.created_at)}
               </p>
             </div>
+            <div
+              className="bookmark__card__more__btn__container"
+              onClick={() => setShowTooltip(true)}
+            >
+              <div className="bookmark__card__more__btn">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
           </div>
           <h1 className="bookmark__card__text">{bookmark?.text}</h1>
+          {showTooltip && <BookmarkTooltip show={setShowTooltip} />}
         </div>
       </div>
-      <div
-        className="bookmark__card__more__btn__container"
-        onClick={() => setShowTooltip(true)}
-      >
-        <div className="bookmark__card__more__btn">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-      {showTooltip && <BookmarkTooltip show={setShowTooltip} />}
     </div>
   );
 }
