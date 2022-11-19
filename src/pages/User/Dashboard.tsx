@@ -5,7 +5,8 @@ import { LoginContext } from "../../helpers/Context";
 import { Menu } from "../../layouts";
 import { Bookmarks } from "../Bookmarks";
 import { NewCategoryButton } from "../../components/buttons";
-import BookmarksLoadingModal from "../../components/modals/BookmarksLoadingModal";
+import { LoadingModal } from "../../components/modals";
+
 import logo from "../../assets/logo/logo.svg";
 import help from "../../assets/icons/help.svg";
 import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
@@ -173,8 +174,9 @@ export function Dashboard() {
           {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
         </main>
       </div>
-      {bookmarksLoading && <BookmarksLoadingModal />}
+      {bookmarksLoading && <LoadingModal />}
     </div>
   );
 }
+
 

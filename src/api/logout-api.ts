@@ -7,6 +7,7 @@ export async function logoutUser(controller: AbortController) {
       credentials: "include",
       headers: { "ngrok-skip-browser-warning": "true" },
     });
+    return request.ok;
   } catch (err) {
     console.log("Error logging out", err);
   }
