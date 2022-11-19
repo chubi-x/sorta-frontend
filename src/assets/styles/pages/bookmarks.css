@@ -1,6 +1,6 @@
 .bookmarks {
   @apply h-full w-full;
-  @apply mt-6 pb-40 md:pb-28;
+  @apply mt-6 pb-40 md:pb-28 tall:pb-44;
   @apply relative;
   @apply overflow-auto;
 
@@ -14,7 +14,7 @@
   }
 
   &__loading__modal {
-    @apply flex items-center justify-center;
+    @apply flex flex-col items-center justify-center;
     @apply absolute top-0 left-0 z-30;
     @apply h-full w-full;
     @apply bg-neutral-2 opacity-50;
