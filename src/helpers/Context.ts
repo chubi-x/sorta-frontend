@@ -21,7 +21,7 @@ interface UserContext {
   setUser: React.Dispatch<React.SetStateAction<User>>;
 }
 interface LoginContextInterface {
-  userContext: UserContext;
+  // userContext: UserContext;
   loadingContext: LoadingContext;
   oauthContext: OauthContext;
 }
