@@ -1,15 +1,14 @@
 .neutral-btn {
   @apply font-header text-sm font-bold;
-  @apply rounded border-2 border-neutral-6;
+  @apply rounded border-2 border-solid border-neutral-6;
   @apply cursor-pointer;
 
+  &:hover {
+    @apply border-neutral-2 bg-neutral-2 text-neutral-8;
+  }
   &--small {
     @apply px-2 py-3;
     @apply text-xs;
-
-    &:hover {
-      @apply border-neutral-2 bg-neutral-2 text-neutral-8;
-    }
   }
   &--medium {
     @apply px-4 py-4;
@@ -18,9 +17,16 @@
       @apply space-x-3;
       @apply flex;
     }
+  }
+  &--disabled {
+    &,
+    & > a {
+      @apply cursor-not-allowed;
+    }
+    @apply border-0 bg-neutral-1-disabled text-neutral-8;
 
     &:hover {
-      @apply border-neutral-2 bg-neutral-2 text-neutral-8;
+      @apply border-neutral-1-disabled bg-neutral-1-disabled;
     }
   }
 }
@@ -48,6 +54,16 @@
 
     &:hover {
       @apply bg-primary-1-hover text-neutral-8;
+    }
+  }
+  &--disabled {
+    @apply bg-primary-1-disabled;
+    &,
+    > a {
+      @apply cursor-not-allowed;
+    }
+    &:hover {
+      @apply bg-primary-1-disabled;
     }
   }
 }

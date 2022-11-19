@@ -43,8 +43,12 @@ export function Navbar({ authLink, loginReady }: NavbarProps) {
             <span className="hamburger__btn hamburger__btn__middle"></span>
             <span className="hamburger__btn hamburger__btn__bottom"></span>
           </div>
-          {loginReady && authLink && (
-            <NeutralButton forNav={true} authLink={authLink} />
+          {authLink && (
+            <NeutralButton
+              forNav={true}
+              authLink={authLink}
+              loginReady={loginReady!}
+            />
           )}
         </div>
       </nav>
@@ -70,7 +74,11 @@ export function Navbar({ authLink, loginReady }: NavbarProps) {
           </div>
           <div className="mb-10">
             {loginReady && authLink && (
-              <NeutralButton forNav={false} authLink={authLink} />
+              <NeutralButton
+                forNav={false}
+                authLink={authLink}
+                loginReady={loginReady}
+              />
             )}
           </div>
         </div>

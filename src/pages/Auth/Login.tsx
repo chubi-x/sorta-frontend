@@ -1,5 +1,4 @@
-import { useEffect, useContext, useState } from "react";
-import { LoginContext } from "../../helpers/Context";
+import { useEffect, useState } from "react";
 import { fetchOauth } from "../../api";
 
 import Lottie from "lottie-react";
@@ -10,10 +9,11 @@ import { PrimaryButton } from "../../components/buttons";
 
 export function Login() {
   const [readyToLogin, setReadyToLogin] = useState(false);
-  function authLink() {
+
+  const authLink = () => {
     const oauth: Oauth = JSON.parse(localStorage.getItem("oauth")!);
     return oauth.url;
-  }
+  };
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -47,7 +47,7 @@ export function Login() {
             <Lottie animationData={login} loop={true} autoplay={true} />
           </div>
 
-          {readyToLogin && <PrimaryButton authLink={authLink} />}
+          <PrimaryButton authLink={authLink} loginReady={readyToLogin} />
         </div>
       </div>
     </>

@@ -14,6 +14,7 @@ module.exports = {
       // primary colors
       "primary-1": "#3B71FE",
       "primary-1-hover": "#2956BF",
+      "primary-1-disabled": "#8FA6DB",
       "primary-2": "#8BC5E5",
       "primary-3": "#92A5EF",
       "primary-4": "#58C27D",
@@ -25,6 +26,7 @@ module.exports = {
       "secondary-4": "#FA8F54",
       // neutral colors
       "neutral-1": "#141416",
+      "neutral-1-disabled": "#8C8E93",
       "neutral-2": "#23262F",
       "neutral-3": "#353945",
       "neutral-4": "#777E91",
