@@ -177,8 +177,9 @@ export function Dashboard() {
           {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
         </main>
       </div>
-      {bookmarksLoading && <BookmarksLoadingModal />}
+      {bookmarksLoading && <LoadingModal />}
     </div>
   );
 }
+
 

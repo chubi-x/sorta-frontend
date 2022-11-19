@@ -1,7 +1,7 @@
 import Lottie from "lottie-react";
 import loadingAnimation from "../../assets/lotties/loading.json";
 
-export default function BookmarksLoadingModal() {
+export function LoadingModal() {
   return (
     <div className="bookmarks__loading__modal">
       <Lottie
@@ -13,3 +13,4 @@ export default function BookmarksLoadingModal() {
     </div>
   );
 }
+

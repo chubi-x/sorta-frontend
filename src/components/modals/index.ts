@@ -1,1 +1,2 @@
-export * from "./BookmarksLoadingModal";
+export * from "./LoadingModal";
+
