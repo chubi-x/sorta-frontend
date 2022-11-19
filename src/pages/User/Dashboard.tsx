@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { fetchUser } from "../../api";
-import { LoginContext } from "../../helpers/Context";
 import { Menu } from "../../layouts";
 import { Bookmarks } from "../Bookmarks";
 import { NewCategoryButton } from "../../components/buttons";
-import { LoadingModal } from "../../components/modals";
-
 import logo from "../../assets/logo/logo.svg";
 import help from "../../assets/icons/help.svg";
 import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
 import Lottie from "lottie-react";
+import { useNavigate } from "react-router";
+import { LoadingModal } from "../../components/modals";
 
 export interface ActiveContext {
   bookmarksActive: boolean;
@@ -28,7 +27,12 @@ export interface BookmarksContext {
   setBookmarksLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export function Dashboard() {
-  const { userContext } = useContext(LoginContext);
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState<User>(
+    JSON.parse(localStorage.getItem("user")!) || null
+  );
+
   const [bookmarksActive, setBookmarksActive] = useState(true);
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
 
@@ -83,39 +87,38 @@ export function Dashboard() {
     const returnUser = async () => {
       const userResponse: UserResponse = await fetchUser(abortController);
       if (userResponse?.success) {
-        userContext.setUser((prev) => {
+        setUser((prev) => {
           return {
             ...prev,
             ...userResponse.data,
+            // isLogged: true,
           };
         });
-        localStorage.setItem("user", JSON.stringify({ ...userContext.user }));
+
+        localStorage.setItem("user", JSON.stringify({ ...userResponse.data }));
       } else {
         // alert(userResponse.message);
         // if not logged in backend, log out in frontend
         if (userResponse?.message?.includes("not logged in")) {
-          userContext.setUser((prev) => {
+          alert(userResponse.message + "from dashboard");
+          setUser((prev) => {
             return { ...prev, isLogged: false };
           });
+          navigate("/login");
         }
       }
     };
-    returnUser();
+    if (!user) returnUser();
 
     return () => {
       abortController.abort();
     };
   }, []);
-
   const userInfo = (
     <>
-      <img
-        src={userContext.user?.pfp}
-        alt="profile pic"
-        className="w-10 rounded-full"
-      />
+      <img src={user?.pfp} alt="profile pic" className="w-10 rounded-full" />
       <h1 className="user__name">
-        <span>Hello</span> {userContext.user?.name}!
+        <span>Hello</span> {user?.name}!
       </h1>
     </>
   );
@@ -140,7 +143,7 @@ export function Dashboard() {
           </div>
 
           <div className="user__header">
-            {userContext.user?.pfp ? userInfo : userInfoSkeleton}
+            {user ? userInfo : userInfoSkeleton}
           </div>
 
           <p className="my-2 text-neutral-4">

@@ -3,6 +3,7 @@ import { fetchBookmarks } from "../../api/bookmarks-api";
 import { Bookmark } from "./Bookmark";
 import { BookmarksContext } from "../User";
 import InfiniteScroll from "react-infinite-scroller";
+import { useNavigate } from "react-router";
 type BookmarksProps = {
   bookmarksContext: BookmarksContext;
 };
@@ -12,16 +13,20 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
   const [hasMoreBookmarks, setHasMoreBookmarks] = useState(true);
   const [numOfBookmarksToRender, setNumOfBookmarksToRender] =
     useState(bookmarksPerPage);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const abortController = new AbortController();
     const getBookmarks = async () => {
       const response = await fetchBookmarks(abortController);
       if (response?.success) {
-        localStorage.setItem("bookmarks", JSON.stringify(response.data));
+        sessionStorage.setItem("bookmarks", JSON.stringify(response.data));
         bookmarksContext.setBookmarks({ ...response.data });
       } else {
-        // alert(response?.message);
+        alert(response?.message + "from bookmarks");
+        if (response?.message?.includes("not logged")) {
+          navigate("/login");
+        }
         console.log("error fetching bookmarks");
       }
     };

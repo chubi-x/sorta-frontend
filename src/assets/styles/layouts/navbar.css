@@ -69,10 +69,12 @@
     transition: all 0.3s ease;
     z-index: 1;
 
-    a {
-      display: block;
-      transition: all 0.3s ease;
-      @apply hover:underline;
+    .nav__links {
+      a {
+        display: block;
+        transition: all 0.3s ease;
+        @apply hover:underline;
+      }
     }
 
     &--closed {
