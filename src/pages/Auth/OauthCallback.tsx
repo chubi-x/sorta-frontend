@@ -26,7 +26,6 @@ export function OauthCallback() {
         abortController
       );
       if (oauthResponse?.success) {
-        localStorage.setItem("id", JSON.stringify(oauthResponse?.data.id));
         navigate("/dashboard");
       } else {
         alert(oauthResponse?.error);
