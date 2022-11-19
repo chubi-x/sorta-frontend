@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import { LoginContext } from "./helpers/Context";
 import { Routes, Route } from "react-router-dom";
-import { Loading, Login, OauthCallback } from "./pages/Auth";
+import { Login, OauthCallback } from "./pages/Auth";
 import { Dashboard } from "./pages/User";
 import "./assets/styles/App.css";
 
 function App() {
   const [oauthData, setOauthData] = useState<Oauth>();
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<User>(
-    JSON.parse(localStorage.getItem("user")!) || { isLogged: false }
-  );
-
+  // localStorage.clear();
   function readCallbackMessage() {
     setLoading(true);
   }
@@ -24,16 +21,11 @@ function App() {
 
   // logic to set root element
   let root: JSX.Element = <Login />;
-  if (user.isLogged) {
-    root = <Dashboard />;
-  } else if (loading) {
-    root = <Loading />;
-  }
 
   return (
     <LoginContext.Provider
       value={{
-        userContext: { user, setUser },
+        // userContext: { user, setUser },
         loadingContext: { loading, setLoading },
         oauthContext: { oauthData, setOauthData },
       }}
@@ -41,6 +33,8 @@ function App() {
       <div className="app">
         <Routes>
           <Route path="/" element={root} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/oauth/callback/:query" element={<OauthCallback />} />
         </Routes>
       </div>

@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { LoginContext } from "../../helpers/Context";
 import { fetchOauth } from "../../api";
 
@@ -9,32 +9,32 @@ import { Navbar } from "../../layouts";
 import { PrimaryButton } from "../../components/buttons";
 
 export function Login() {
-  const { oauthContext, loadingContext } = useContext(LoginContext);
-
-  function authFunction() {
-    window.open(oauthContext.oauthData?.url, "", "width=700;height=700")!;
+  const [readyToLogin, setReadyToLogin] = useState(false);
+  function authLink() {
+    const oauth: Oauth = JSON.parse(localStorage.getItem("oauth")!);
+    return oauth.url;
   }
 
-  // Begin oauth process
   useEffect(() => {
     const abortController = new AbortController();
     const fetchOauthFunction = async () => {
       const responseData = await fetchOauth(abortController);
       if (responseData?.success) {
-        oauthContext.setOauthData(() => responseData?.data);
+        localStorage.setItem("oauth", JSON.stringify(responseData?.data));
+        setReadyToLogin(true);
       } else {
-        console.log("error fetching oauth\n");
-        console.log(responseData);
+        alert(responseData?.error);
       }
     };
     fetchOauthFunction();
+
     return () => {
       abortController.abort();
     };
   }, []);
   return (
     <>
-      <Navbar authFunction={authFunction} />
+      <Navbar authLink={authLink} loginReady={readyToLogin} />
       <div className="login">
         <div className="login__card">
           <div className="login__card__title">
@@ -47,7 +47,7 @@ export function Login() {
             <Lottie animationData={login} loop={true} autoplay={true} />
           </div>
 
-          <PrimaryButton authFunction={authFunction} />
+          {readyToLogin && <PrimaryButton authLink={authLink} />}
         </div>
       </div>
     </>
