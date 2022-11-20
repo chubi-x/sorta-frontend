@@ -1,9 +1,17 @@
+// LIBRARIES
 import { useEffect, useState } from "react";
-import { fetchBookmarks } from "../../api/bookmarks-api";
-import { Bookmark } from "./Bookmark";
-import { BookmarksContext } from "../User";
 import InfiniteScroll from "react-infinite-scroller";
 import { useNavigate } from "react-router";
+
+// APIS
+import { fetchBookmarks } from "../../api/bookmarks-api";
+
+// COMPONENTS
+import { Bookmark } from "./Bookmark";
+
+// TYPES
+import { BookmarksContext } from "../User";
+
 type BookmarksProps = {
   bookmarksContext: BookmarksContext;
 };

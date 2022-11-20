@@ -1,15 +1,22 @@
+// LIBRARIES
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { useInView } from "react-intersection-observer";
+import Lottie from "lottie-react";
+
+// API
 import { fetchUser } from "../../api";
+// LAYOUTS
 import { Menu } from "../../layouts";
+// PAGES
 import { Bookmarks } from "../Bookmarks";
+// COMPONENTS
 import { NewCategoryButton } from "../../components/buttons";
+import { LoadingModal } from "../../components/modals";
+// ASSETS
 import logo from "../../assets/logo/logo.svg";
 import help from "../../assets/icons/help.svg";
 import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
-import Lottie from "lottie-react";
-import { useNavigate } from "react-router";
-import { LoadingModal } from "../../components/modals";
 
 export interface ActiveContext {
   bookmarksActive: boolean;
@@ -181,5 +188,4 @@ export function Dashboard() {
     </div>
   );
 }
-
 

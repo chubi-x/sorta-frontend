@@ -1,5 +1,8 @@
+// LIBRARIES
 import { useRef } from "react";
+// HOOKS
 import { useHideTooltip } from "../../hooks";
+// ASSETS
 import add from "../../assets/icons/add.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 

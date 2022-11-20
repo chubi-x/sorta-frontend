@@ -1,8 +1,11 @@
+// LIBRARIES
 import { useState, useEffect } from "react";
 import { LoginContext } from "./helpers/Context";
 import { Routes, Route } from "react-router-dom";
+// PAGES
 import { Login, OauthCallback } from "./pages/Auth";
 import { Dashboard } from "./pages/User";
+// ASSETS
 import "./assets/styles/App.css";
 
 function App() {

@@ -1,5 +1,8 @@
+// LIBRARIES
 import { useState } from "react";
+// COMPONENTS
 import BookmarkTooltip from "../../components/tooltips/BookmarkTooltip";
+// ASSETS
 import verifiedIcon from "../../assets/icons/verified.svg";
 
 type BookmarkProps = {

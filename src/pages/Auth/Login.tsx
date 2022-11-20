@@ -1,12 +1,18 @@
+// LIBRARIES
 import { useEffect, useState } from "react";
-import { fetchOauth } from "../../api";
-
 import Lottie from "lottie-react";
-import login from "../../assets/lotties/login.json";
 
+// API
+import { fetchOauth } from "../../api";
+//LAYOUTS
 import { Navbar } from "../../layouts";
+
+// COMPONENTS
 import { PrimaryButton } from "../../components/buttons";
 import { LoginCard } from "../../components/cards";
+
+// ASSETS
+import loginLottie from "../../assets/lotties/login.json";
 
 export function Login() {
   const [readyToLogin, setReadyToLogin] = useState(false);
@@ -45,7 +51,7 @@ export function Login() {
             </p>
           </div>
           <div className="login__card__animation">
-            <Lottie animationData={login} loop={true} autoplay={true} />
+            <Lottie animationData={loginLottie} loop={true} autoplay={true} />
           </div>
 
           <PrimaryButton authLink={authLink} loginReady={readyToLogin} />

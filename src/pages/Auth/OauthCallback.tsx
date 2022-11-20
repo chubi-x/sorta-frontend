@@ -1,14 +1,21 @@
+// LIBRARIES
 import { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { parse } from "qs";
-
 import { LoginContext } from "../../helpers/Context";
-import { Navbar } from "../../layouts";
+import { parse } from "qs";
+import Lottie from "lottie-react";
+
+// APIS
 import { completeOauth } from "../../api";
+
+// LAYOUTS
+import { Navbar } from "../../layouts";
+
+// COMPONENTS
 import { LoginCard } from "../../components/cards";
 
+// ASSETS
 import loadingAnimation from "../../assets/lotties/loading.json";
-import Lottie from "lottie-react";
 
 export function OauthCallback() {
   const params = useLocation();
