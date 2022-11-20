@@ -26,7 +26,6 @@
 .bookmark__card {
   @apply border border-neutral-6;
   @apply py-4 px-4 md:py-8 md:px-6;
-  @apply cursor-pointer;
   @apply flex items-start justify-end;
   @apply h-auto w-full;
 
@@ -110,6 +109,7 @@
   }
 
   &__text {
+    @apply cursor-pointer;
     @apply md:max-w-[90%];
     @apply text-[14px];
     @apply whitespace-normal;

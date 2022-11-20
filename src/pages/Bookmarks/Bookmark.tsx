@@ -27,12 +27,7 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
   }
 
   return (
-    <div
-      className={`bookmark__card ${roundedBorder}`}
-      onClick={() => {
-        openOnTwitter(bookmark);
-      }}
-    >
+    <div className={`bookmark__card ${roundedBorder}`}>
       <div className="bookmark__card__author__img">
         <img
           src={bookmark?.author_pfp}
@@ -78,7 +73,15 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
               </div>
             </div>
           </div>
-          <h1 className="bookmark__card__text">{bookmark?.text}</h1>
+          <h1
+            className="bookmark__card__text"
+            onClick={() => {
+              openOnTwitter(bookmark);
+            }}
+          >
+            {bookmark?.text}
+          </h1>
+
           {showTooltip && <BookmarkTooltip show={setShowTooltip} />}
         </div>
       </div>
