@@ -18,6 +18,10 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
     const url = `https://twitter.com/${bookmark.author_username}/status/${bookmark.id}`;
     window.open(url, "_blank");
   }
+  function showAuthorProfileOnTwitter(bookmark: Bookmark) {
+    const url = `https://twitter.com/${bookmark.author_username}`;
+    window.open(url, "_blank");
+  }
 
   let roundedBorder = "";
   if (index == 0) {
@@ -51,7 +55,12 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
                   )}
                 </h2>
               </div>
-              <div className="bookmark__card__author__username">
+              <div
+                className="bookmark__card__author__username"
+                onClick={() => {
+                  showAuthorProfileOnTwitter(bookmark);
+                }}
+              >
                 <p>@{bookmark?.author_username}</p>
               </div>
             </div>

@@ -71,16 +71,23 @@
       }
     }
     &__username {
+      @apply cursor-pointer;
       @apply md:max-w-none;
       min-width: 0;
 
       p {
         @apply overflow-hidden;
         @apply overflow-ellipsis;
-        @apply text-xs text-neutral-2 underline;
+        @apply text-xs text-neutral-2;
       }
 
       flex-grow: 2;
+
+      &:hover {
+        p {
+          @apply underline;
+        }
+      }
     }
 
     &__verified {
