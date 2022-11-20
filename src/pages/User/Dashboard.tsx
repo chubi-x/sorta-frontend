@@ -161,8 +161,8 @@ export function Dashboard() {
 
           <p className="my-2 text-neutral-4">
             {bookmarksActive
-              ? " See all your bookmarked tweets"
-              : " See all your categories"}
+              ? " See all your bookmarked tweets below"
+              : " See all your bookmark categories below"}
           </p>
           <div
             className={`new-category-container ${
