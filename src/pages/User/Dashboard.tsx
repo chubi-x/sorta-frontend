@@ -45,7 +45,7 @@ export function Dashboard() {
 
   const [categoriesActive, setCategoriesActive] = useState(false);
   const [bookmarks, setBookmarks] = useState<Bookmarks>(
-    JSON.parse(localStorage.getItem("bookmarks")!)
+    JSON.parse(sessionStorage.getItem("bookmarks")!)
   );
   const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
