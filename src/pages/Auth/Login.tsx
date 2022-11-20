@@ -6,6 +6,7 @@ import login from "../../assets/lotties/login.json";
 
 import { Navbar } from "../../layouts";
 import { PrimaryButton } from "../../components/buttons";
+import { LoginCard } from "../../components/cards";
 
 export function Login() {
   const [readyToLogin, setReadyToLogin] = useState(false);
@@ -36,7 +37,7 @@ export function Login() {
     <>
       <Navbar authLink={authLink} loginReady={readyToLogin} />
       <div className="login">
-        <div className="login__card">
+        <LoginCard>
           <div className="login__card__title">
             <h1>Connect Account</h1>
             <p className="text-xs">
@@ -48,7 +49,7 @@ export function Login() {
           </div>
 
           <PrimaryButton authLink={authLink} loginReady={readyToLogin} />
-        </div>
+        </LoginCard>
       </div>
     </>
   );
