@@ -176,10 +176,12 @@ export function Dashboard() {
               }`}
             >
               <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
-                {bookmarks?.data.length} Bookmark(s)
+                {bookmarksActive
+                  ? `${bookmarks?.data.length} Bookmark(s)`
+                  : "All Categories"}
               </p>
 
-              <p className="mr-1 flex cursor-pointer items-center space-x-2 self-start font-medium">
+              <p className="mr-1 flex cursor-help items-center space-x-2 self-start font-medium">
                 <img src={help} alt="help icon" width={"20px"} />
                 <span className="hidden md:inline">Need Help?</span>
               </p>
