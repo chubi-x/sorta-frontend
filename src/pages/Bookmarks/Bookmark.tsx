@@ -1,21 +1,24 @@
 import { useState } from "react";
 import BookmarkTooltip from "../../components/tooltips/BookmarkTooltip";
 import verifiedIcon from "../../assets/icons/verified.svg";
-export function Bookmark({
-  bookmark,
-  index,
-  bookmarksLength,
-}: {
+
+type BookmarkProps = {
   bookmark: Bookmark;
   index: number;
   bookmarksLength: number | undefined;
-}) {
+};
+export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
   const [showTooltip, setShowTooltip] = useState(false);
 
   function convertDate(date_string: string) {
     let date = new Date(date_string);
     return `${date.getDate()}/${[date.getMonth()]}/${date.getFullYear()}`;
   }
+  function openOnTwitter(bookmark: Bookmark) {
+    const url = `https://twitter.com/${bookmark.author_username}/status/${bookmark.id}`;
+    window.open(url, "_blank");
+  }
+
   let roundedBorder = "";
   if (index == 0) {
     roundedBorder = "rounded-t-xl";
@@ -24,7 +27,12 @@ export function Bookmark({
   }
 
   return (
-    <div className={`bookmark__card ${roundedBorder}`}>
+    <div
+      className={`bookmark__card ${roundedBorder}`}
+      onClick={() => {
+        openOnTwitter(bookmark);
+      }}
+    >
       <div className="bookmark__card__author__img">
         <img
           src={bookmark?.author_pfp}
