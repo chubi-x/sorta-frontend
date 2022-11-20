@@ -1,11 +1,14 @@
-import { parse } from "qs";
 import { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import loadingAnimation from "../../assets/lotties/loading.json";
-import Lottie from "lottie-react";
+import { parse } from "qs";
+
 import { LoginContext } from "../../helpers/Context";
 import { Navbar } from "../../layouts";
 import { completeOauth } from "../../api";
+import { LoginCard } from "../../components/cards";
+
+import loadingAnimation from "../../assets/lotties/loading.json";
+import Lottie from "lottie-react";
 
 export function OauthCallback() {
   const params = useLocation();
@@ -28,8 +31,8 @@ export function OauthCallback() {
       if (oauthResponse?.success) {
         navigate("/dashboard");
       } else {
-        alert(oauthResponse?.error);
-        navigate("/login");
+        // alert(oauthResponse?.error);
+        // navigate("/login");
       }
     };
     completeOauthFunction();
@@ -43,15 +46,15 @@ export function OauthCallback() {
   return (
     <>
       <Navbar loading={loadingContext.loading} />
-      <div className="login flex items-center justify-start">
-        <div className="login__card flex h-1 justify-center">
+      <div className="login">
+        <LoginCard>
           <Lottie
             animationData={loadingAnimation}
             loop={true}
             autoplay={true}
             style={{ width: "150px" }}
           />
-        </div>
+        </LoginCard>
       </div>
     </>
   );
