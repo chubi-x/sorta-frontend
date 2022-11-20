@@ -124,7 +124,7 @@ export function Dashboard() {
   const userInfo = (
     <>
       <img src={user?.pfp} alt="profile pic" className="w-10 rounded-full" />
-      <h1 className="user__name">
+      <h1 className="dashboard__header__text">
         <span>Hello</span> {user?.name}!
       </h1>
     </>
@@ -137,10 +137,18 @@ export function Dashboard() {
       style={{ width: "150px" }}
     />
   );
+  const bookmarksHeader = user ? userInfo : userInfoSkeleton;
+  const categoriesHeader = (
+    <h1 className="dashboard__header__text">Categories</h1>
+  );
+  const headerInfo: JSX.Element = bookmarksActive
+    ? bookmarksHeader
+    : categoriesHeader;
+
   return (
     <div className="dashboard">
       <Menu activeTab={activeTabContext} />
-      <div className={`main-container `}>
+      <div className="main-container">
         <main id="main">
           <div className="logo__container">
             <div className="menu__logo pl-0">
@@ -149,9 +157,7 @@ export function Dashboard() {
             </div>
           </div>
 
-          <div className="user__header">
-            {user ? userInfo : userInfoSkeleton}
-          </div>
+          <div className="dashboard__header">{headerInfo}</div>
 
           <p className="my-2 text-neutral-4">
             {bookmarksActive

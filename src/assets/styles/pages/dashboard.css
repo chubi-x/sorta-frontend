@@ -5,6 +5,18 @@
   @apply h-screen;
   @apply relative;
   @apply overflow-hidden;
+
+  &__header {
+    @apply flex items-center space-x-3 md:pt-10;
+
+    &__text {
+      @apply font-header-2 text-md font-medium text-primary-1;
+
+      span {
+        @apply font-body text-[20px] font-normal;
+      }
+    }
+  }
 }
 .main-container {
   @apply h-full w-[85%] md:w-4/5;
@@ -28,19 +40,6 @@ main {
 
   &::-webkit-scrollbar-thumb {
     background: theme("colors.neutral-6");
-  }
-
-  .user {
-    &__header {
-      @apply flex items-center space-x-3 md:pt-10;
-    }
-    &__name {
-      @apply font-header-2 text-md font-medium text-primary-1;
-
-      span {
-        @apply font-body text-[20px] font-normal;
-      }
-    }
   }
 
   .new-category-container {
