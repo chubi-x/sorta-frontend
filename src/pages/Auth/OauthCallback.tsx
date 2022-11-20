@@ -31,8 +31,8 @@ export function OauthCallback() {
       if (oauthResponse?.success) {
         navigate("/dashboard");
       } else {
-        // alert(oauthResponse?.error);
-        // navigate("/login");
+        alert(oauthResponse?.error);
+        navigate("/login");
       }
     };
     completeOauthFunction();
