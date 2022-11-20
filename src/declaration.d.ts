@@ -14,6 +14,50 @@ interface Oauth {
   codeVerifier: string;
   codeChallenge: string;
 }
+interface User {
+  id: string;
+  name: string;
+  verified: boolean;
+  username: string;
+  pfp: string;
+  isLogged: boolean;
+}
+interface Bookmarks {
+  data: Bookmark[];
+  meta: object;
+}
+
+interface Bookmark {
+  text: string;
+  id: string;
+  author_id: string;
+  author_name: string;
+  author_pfp: string;
+  author_username: string;
+  author_verified: string;
+  created_at: string;
+  entities: {
+    urls: TweetEntityUrl[];
+  };
+}
+
+interface TweetEntityUrl {
+  start: number;
+  end: number;
+  url: string;
+  expanded_url: string;
+  display_url: string;
+  unwound_url: string;
+  title?: string;
+  description?: string;
+  status?: string;
+  images: TweetEntityUrlImage[];
+}
+interface TweetEntityUrlImage {
+  url: string;
+  width: number;
+  height: number;
+}
 interface CallbackQueryParams {
   error?: string;
   state: string;
@@ -26,42 +70,13 @@ interface ServerResponse {
   success: boolean;
   error?: string;
 }
+interface UserResponse extends ServerResponse {
+  data: User;
+}
+
 interface OauthResponse extends ServerResponse {
   data: Oauth;
 }
 interface BookmarksResponse extends ServerResponse {
   data: Bookmarks;
 }
-interface Bookmarks {
-  data: Bookmark[];
-  meta: object;
-}
-
-interface Bookmark {
-  // status: "fulfilled" | "rejected";
-  // value: {
-  text: string;
-  id: string;
-  author_id: string;
-  author_name: string;
-  author_pfp: string;
-  author_username: string;
-  author_verified: string;
-  created_at: string;
-  // urls: [];
-  // attachments: [];
-  // };
-}
-
-interface UserResponse extends ServerResponse {
-  data: User;
-}
-interface User {
-  id: string;
-  name: string;
-  verified: boolean;
-  username: string;
-  pfp: string;
-  isLogged: boolean;
-}
-
