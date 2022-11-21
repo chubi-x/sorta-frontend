@@ -1,0 +1,17 @@
+@import "../components/buttons.css";
+
+.categories {
+  @apply py-20;
+  &--empty {
+    @apply flex flex-col items-center justify-center;
+    @apply space-y-6;
+
+    p {
+      @apply w-full md:w-96;
+      @apply text-center;
+      @apply text-neutral-5;
+      @apply text-[14px];
+      line-height: 20px;
+    }
+  }
+}

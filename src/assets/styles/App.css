@@ -2,6 +2,7 @@
 @import "./layouts/menu.css";
 @import "./pages/login.css";
 @import "./pages/dashboard.css";
+@import "./pages/categories.css";
 .app {
   height: 100%;
   width: 100%;

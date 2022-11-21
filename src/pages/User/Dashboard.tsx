@@ -10,6 +10,8 @@ import { fetchUser } from "../../api";
 import { Menu } from "../../layouts";
 // PAGES
 import { Bookmarks } from "../Bookmarks";
+import { Categories } from "../Categories";
+
 // COMPONENTS
 import { NewCategoryButton } from "../../components/buttons";
 import { LoadingModal } from "../../components/modals";
@@ -189,7 +191,11 @@ export function Dashboard() {
           </div>
           <div className="scroll ref" ref={ref}></div>
 
-          {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
+          {bookmarksActive ? (
+            <Bookmarks bookmarksContext={bookmarksContext} />
+          ) : (
+            <Categories />
+          )}
         </main>
       </div>
       {bookmarksLoading && <LoadingModal />}
