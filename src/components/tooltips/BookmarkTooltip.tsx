@@ -9,7 +9,7 @@ import deleteIcon from "../../assets/icons/delete.svg";
 type BookmarkTooltipProps = {
   show: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export default function BookmarkTooltip(props: BookmarkTooltipProps) {
+export function BookmarkTooltip(props: BookmarkTooltipProps) {
   const wrapperRef = useRef(null);
   useHideTooltip(wrapperRef, props.show);
 
