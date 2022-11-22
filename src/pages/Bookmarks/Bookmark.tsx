@@ -1,7 +1,9 @@
 // LIBRARIES
 import { useState } from "react";
 // COMPONENTS
-import BookmarkTooltip from "../../components/tooltips/BookmarkTooltip";
+import { BookmarkTooltip } from "../../components/tooltips";
+import { MoreButton } from "../../components/buttons";
+
 // ASSETS
 import verifiedIcon from "../../assets/icons/verified.svg";
 
@@ -74,16 +76,7 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
                 {convertDate(bookmark?.created_at)}
               </p>
             </div>
-            <div
-              className="bookmark__card__more__btn__container"
-              onClick={() => setShowTooltip(true)}
-            >
-              <div className="bookmark__card__more__btn">
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
+            <MoreButton showTooltip={setShowTooltip} />
           </div>
           <h1
             className="bookmark__card__text"
