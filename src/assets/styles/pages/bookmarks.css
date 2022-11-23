@@ -123,7 +123,7 @@
     @apply whitespace-normal;
   }
 
-  &__tooltip {
+  &__dropdown {
     @apply absolute top-6 right-0;
     @apply z-20;
     @apply h-28 w-48;

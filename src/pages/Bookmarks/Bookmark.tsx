@@ -1,7 +1,7 @@
 // LIBRARIES
 import { useState } from "react";
 // COMPONENTS
-import { BookmarkTooltip } from "../../components/tooltips";
+import { BookmarkDropdown } from "../../components/dropdowns";
 import { MoreButton } from "../../components/buttons";
 
 // ASSETS
@@ -87,7 +87,7 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
             {bookmark?.text}
           </h1>
 
-          {showTooltip && <BookmarkTooltip show={setShowTooltip} />}
+          {showTooltip && <BookmarkDropdown show={setShowTooltip} />}
         </div>
       </div>
     </div>
