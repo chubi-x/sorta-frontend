@@ -27,7 +27,7 @@ export function Login() {
     const fetchOauthFunction = async () => {
       const responseData = await fetchOauth(abortController);
       if (responseData?.success) {
-        localStorage.setItem("oauth", JSON.stringify(responseData?.data));
+        sessionStorage.setItem("oauth", JSON.stringify(responseData?.data));
         setReadyToLogin(true);
       } else {
         alert(responseData?.error);
