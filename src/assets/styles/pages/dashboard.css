@@ -25,7 +25,7 @@
 }
 main {
   @apply h-full w-full;
-  @apply md:pr-6;
+  @apply pr-6;
   @apply font-body;
   @apply relative;
   @apply z-10;
