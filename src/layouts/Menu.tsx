@@ -56,6 +56,8 @@ export function Menu({ activeTab }: MenuProps) {
         location.href = "http://192.168.1.9:5173/login";
       } else {
         alert("There was a problem logging you out. Please try again.");
+                setLoggingOut(false);
+
       }
     };
     logout();
@@ -127,4 +129,5 @@ export function Menu({ activeTab }: MenuProps) {
     </>
   );
 }
+
 
