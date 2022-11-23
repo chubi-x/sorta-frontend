@@ -21,14 +21,14 @@ export function OauthCallback() {
   const params = useLocation();
   const navigate = useNavigate();
   const { loadingContext } = useContext(LoginContext);
-  const oauth: Oauth = JSON.parse(localStorage.getItem("oauth")!);
 
   useEffect(() => {
+    const oauth: Oauth = JSON.parse(localStorage.getItem("oauth")!);
+
     const abortController = new AbortController();
 
     const queryString = parse(params.search, { ignoreQueryPrefix: true });
     const callbackParams = queryString as unknown as CallbackQueryParams;
-
     const completeOauthFunction = async () => {
       const oauthResponse = await completeOauth(
         callbackParams,
