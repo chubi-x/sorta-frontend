@@ -31,7 +31,7 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
         sessionStorage.setItem("bookmarks", JSON.stringify(response.data));
         bookmarksContext.setBookmarks({ ...response.data });
       } else {
-        alert(response?.message + "from bookmarks");
+        alert(response?.message);
         if (response?.message?.includes("not logged")) {
           navigate("/login");
         }
