@@ -39,7 +39,7 @@ export function Dashboard() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<User>(
-    JSON.parse(localStorage.getItem("user")!) || null
+    JSON.parse(sessionStorage.getItem("user")!) || null
   );
 
   const [bookmarksActive, setBookmarksActive] = useState(true);
@@ -47,7 +47,7 @@ export function Dashboard() {
 
   const [categoriesActive, setCategoriesActive] = useState(false);
   const [bookmarks, setBookmarks] = useState<Bookmarks>(
-    JSON.parse(sessionStorage.getItem("bookmarks")!)
+    JSON.parse(sessionStorage.getItem("bookmarks")!) || null
   );
   const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
@@ -104,12 +104,15 @@ export function Dashboard() {
           };
         });
 
-        localStorage.setItem("user", JSON.stringify({ ...userResponse.data }));
+        sessionStorage.setItem(
+          "user",
+          JSON.stringify({ ...userResponse.data })
+        );
       } else {
         // alert(userResponse.message);
         // if not logged in backend, log out in frontend
         if (userResponse?.message?.includes("not logged in")) {
-          alert(userResponse.message + "from dashboard");
+          alert(userResponse.message);
           setUser((prev) => {
             return { ...prev, isLogged: false };
           });
@@ -117,7 +120,7 @@ export function Dashboard() {
         }
       }
     };
-    if (!user) returnUser();
+    returnUser();
 
     return () => {
       abortController.abort();
@@ -152,13 +155,6 @@ export function Dashboard() {
       <Menu activeTab={activeTabContext} />
       <div className="main-container">
         <main id="main">
-          <div className="logo__container">
-            <div className="menu__logo pl-0">
-              <img src={logo} alt="logo" />
-              <h1>Sorta</h1>
-            </div>
-          </div>
-
           <div className="dashboard__header">{headerInfo}</div>
 
           <p className="my-2 text-neutral-4">
@@ -170,6 +166,7 @@ export function Dashboard() {
             className={`new-category-container ${
               !inView ? "new-category-container--stuck" : ""
             }`}
+            style={{ width: `${categoriesActive ? "100%" : ""}` }}
           >
             <NewCategoryButton sticky={!inView} />
             <div
@@ -179,7 +176,7 @@ export function Dashboard() {
             >
               <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
                 {bookmarksActive
-                  ? `${bookmarks?.data.length} Bookmark(s)`
+                  ? `   ${bookmarks ? bookmarks?.data.length : ""} Tweets`
                   : "All Categories"}
               </p>
 
