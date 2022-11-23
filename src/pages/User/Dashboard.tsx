@@ -16,7 +16,6 @@ import { Categories } from "../Categories";
 import { NewCategoryButton } from "../../components/buttons";
 import { LoadingModal } from "../../components/modals";
 // ASSETS
-import logo from "../../assets/logo/logo.svg";
 import help from "../../assets/icons/help.svg";
 import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
 
