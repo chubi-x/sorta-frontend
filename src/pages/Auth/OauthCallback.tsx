@@ -59,7 +59,7 @@ export function OauthCallback() {
             animationData={loadingAnimation}
             loop={true}
             autoplay={true}
-            style={{ width: "150px" }}
+            style={{ width: "100px" }}
           />
         </LoginCard>
       </div>
