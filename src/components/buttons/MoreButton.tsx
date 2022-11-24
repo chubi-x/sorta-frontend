@@ -1,4 +1,3 @@
-import ellipse from "../../assets/icons/ellipse.svg";
 type MoreButtonProps = {
   showTooltip?: React.Dispatch<React.SetStateAction<boolean>>;
   twStyles?: string;

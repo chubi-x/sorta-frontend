@@ -1,1 +1,1 @@
-export * from "./BookmarkDropdown";
+export * from "./CardDropdown";

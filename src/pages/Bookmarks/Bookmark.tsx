@@ -1,17 +1,24 @@
 // LIBRARIES
 import { useState } from "react";
 // COMPONENTS
-import { BookmarkDropdown } from "../../components/dropdowns";
+import { CardDropdown, DropDownItem } from "../../components/dropdowns";
 import { MoreButton } from "../../components/buttons";
 
 // ASSETS
 import verifiedIcon from "../../assets/icons/verified.svg";
+import addIcon from "../../assets/icons/add.svg";
+import deleteIcon from "../../assets/icons/delete.svg";
 
 type BookmarkProps = {
   bookmark: Bookmark;
   index: number;
   bookmarksLength: number | undefined;
 };
+
+const dropdownItems: DropDownItem[] = [
+  { icon: addIcon, text: "Add to category" },
+  { icon: deleteIcon, text: "Delete" },
+];
 export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -87,7 +94,9 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
             {bookmark?.text}
           </h1>
 
-          {showTooltip && <BookmarkDropdown show={setShowTooltip} />}
+          {showTooltip && (
+            <CardDropdown items={dropdownItems} show={setShowTooltip} />
+          )}
         </div>
       </div>
     </div>
