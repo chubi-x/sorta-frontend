@@ -33,6 +33,11 @@
 
   @apply cursor-pointer;
 
+  a {
+    @apply flex;
+    @apply w-full;
+  }
+
   &__text {
     @apply flex flex-col justify-center self-end;
     @apply h-[55%] w-full;
