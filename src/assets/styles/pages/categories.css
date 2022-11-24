@@ -1,7 +1,7 @@
 @import "../components/buttons.css";
 
 .categories {
-  @apply pt-10 pb-20;
+  @apply pt-10 pb-40 md:pb-20;
   &--empty {
     @apply flex flex-col items-center justify-center;
     @apply space-y-6;
@@ -31,16 +31,14 @@
   @apply rounded-[22px];
   @apply bg-cover bg-center bg-no-repeat;
 
-  @apply cursor-pointer;
-
   a {
-    @apply flex;
-    @apply w-full;
+    @apply flex self-end;
+    @apply h-[55%] w-full;
   }
 
   &__text {
     @apply flex flex-col justify-center self-end;
-    @apply h-[55%] w-full;
+    @apply h-full w-full;
     @apply pl-6;
     @apply rounded-b-2xl;
     @apply text-neutral-8;
@@ -64,5 +62,9 @@
       @apply overflow-hidden whitespace-nowrap;
       @apply text-ellipsis;
     }
+  }
+
+  &__dropdown {
+    @apply absolute top-4 right-3;
   }
 }

@@ -32,7 +32,7 @@ export function CategoryCard({ category }: CategoryProps) {
         </div>
       </Link>
 
-      <div className="absolute top-4 right-3">
+      <div className="category__card__dropdown">
         <MoreButton showTooltip={setShowTooltip} />
         {showTooltip && (
           <CardDropdown items={dropdownItems} show={setShowTooltip} />
