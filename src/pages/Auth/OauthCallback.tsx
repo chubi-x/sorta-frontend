@@ -1,7 +1,6 @@
 // LIBRARIES
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LoginContext } from "../../helpers/Context";
 import { parse } from "qs";
 import Lottie from "lottie-react";
 
@@ -20,7 +19,6 @@ import loadingAnimation from "../../assets/lotties/loading.json";
 export function OauthCallback() {
   const params = useLocation();
   const navigate = useNavigate();
-  const { loadingContext } = useContext(LoginContext);
 
   useEffect(() => {
     const oauth: Oauth = JSON.parse(localStorage.getItem("oauth")!);
@@ -52,7 +50,7 @@ export function OauthCallback() {
 
   return (
     <>
-      <Navbar loading={loadingContext.loading} />
+      <Navbar />
       <div className="login">
         <LoginCard>
           <Lottie
