@@ -1,47 +1,50 @@
 // LIBRARIES
-import { useState, useEffect } from "react";
-import { LoginContext } from "./helpers/Context";
+import { useReducer } from "react";
+import { ActiveContext } from "./helpers/Context";
+import { activeTabReducer } from "./helpers/Reducer";
+
 import { Routes, Route } from "react-router-dom";
 // PAGES
 import { Login, OauthCallback } from "./pages/Auth";
 import { Dashboard } from "./pages/User";
+import { Category } from "./pages/Categories";
+
 // ASSETS
 import "./assets/styles/App.css";
 
 function App() {
-  const [oauthData, setOauthData] = useState<Oauth>();
-  const [loading, setLoading] = useState(false);
-  // localStorage.clear();
-  function readCallbackMessage() {
-    setLoading(true);
-  }
-  useEffect(() => {
-    window.addEventListener("storage", readCallbackMessage);
-    return () => {
-      window.removeEventListener("storage", readCallbackMessage);
-    };
-  }, []);
+  const [activeTabState, dispatchActiveTabState] = useReducer(
+    activeTabReducer,
+    { bookmarksActive: true, categoriesActive: false }
+  );
 
   // logic to set root element
   let root: JSX.Element = <Login />;
 
   return (
-    <LoginContext.Provider
+    <ActiveContext.Provider
       value={{
-        // userContext: { user, setUser },
-        loadingContext: { loading, setLoading },
-        oauthContext: { oauthData, setOauthData },
+        activeTabState,
+        activeTabDispatch: dispatchActiveTabState,
       }}
     >
       <div className="app">
         <Routes>
           <Route path="/" element={root} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard activeTab="bookmarks" />}
+          />
+          <Route
+            path="/categories"
+            element={<Dashboard activeTab="categories" />}
+          />
           <Route path="/oauth/callback/:query" element={<OauthCallback />} />
+          <Route path="/categories/:id" element={<Category />} />
         </Routes>
       </div>
-    </LoginContext.Provider>
+    </ActiveContext.Provider>
   );
 }
 

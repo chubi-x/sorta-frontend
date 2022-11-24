@@ -1,5 +1,6 @@
 // LIBRARIES
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
+import { ActiveContext } from "../../helpers/Context";
 import { useNavigate } from "react-router";
 import { useInView } from "react-intersection-observer";
 import Lottie from "lottie-react";
@@ -18,15 +19,8 @@ import { LoadingModal } from "../../components/modals";
 // ASSETS
 import help from "../../assets/icons/help.svg";
 import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
+import { ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
 
-export interface ActiveContext {
-  bookmarksActive: boolean;
-  categoriesActive: boolean;
-  setBookmarksActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setCategoriesActive: React.Dispatch<React.SetStateAction<boolean>>;
-  inView: boolean;
-  scrollRef: React.RefObject<HTMLDivElement>;
-}
 export interface BookmarksContext {
   bookmarks: Bookmarks | undefined;
   setBookmarks: React.Dispatch<React.SetStateAction<Bookmarks>>;
@@ -34,17 +28,19 @@ export interface BookmarksContext {
   bookmarksLoading: boolean;
   setBookmarksLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export function Dashboard() {
+export function Dashboard({ activeTab }: { activeTab: string }) {
+  const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
+  const { bookmarksActive, categoriesActive } = activeTabState;
+  // const { categoriesActive, setCategoriesActive } = activeCategoriesContext;
+
   const navigate = useNavigate();
 
   const [user, setUser] = useState<User>(
     JSON.parse(sessionStorage.getItem("user")!) || null
   );
 
-  const [bookmarksActive, setBookmarksActive] = useState(true);
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
 
-  const [categoriesActive, setCategoriesActive] = useState(false);
   const [bookmarks, setBookmarks] = useState<Bookmarks>(
     JSON.parse(sessionStorage.getItem("bookmarks")!) || null
   );
@@ -64,14 +60,13 @@ export function Dashboard() {
     setBookmarksLoading,
   };
 
-  const activeTabContext: ActiveContext = {
-    bookmarksActive,
-    setBookmarksActive,
-    categoriesActive,
-    setCategoriesActive,
-    inView,
-    scrollRef,
-  };
+  useEffect(() => {
+    if (activeTab === "bookmarks") {
+      activeTabDispatch({ type: ACTIVE_TAB_ACTIONS.BOOKMARKS_ACTIVE });
+    } else if (activeTab === "categories") {
+      activeTabDispatch({ type: ACTIVE_TAB_ACTIONS.CATEGORIES_ACTIVE });
+    }
+  }, [activeTab]);
 
   // useEffect(() => {
   //   // check if user has scrolled to bottom
@@ -151,10 +146,12 @@ export function Dashboard() {
 
   return (
     <div className="dashboard">
-      <Menu activeTab={activeTabContext} />
+      <Menu scroll={scrollRef} />
       <div className="main-container">
         <main id="main">
-          <div className="dashboard__header">{headerInfo}</div>
+          <div className="dashboard__header" ref={scrollRef}>
+            {headerInfo}
+          </div>
 
           <p className="my-2 text-neutral-4">
             {bookmarksActive
@@ -174,7 +171,7 @@ export function Dashboard() {
               }`}
             >
               <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
-                {bookmarksActive
+                {activeTab === "bookmarks"
                   ? `   ${bookmarks ? bookmarks?.data.length : ""} Tweets`
                   : "All Categories"}
               </p>
