@@ -18,6 +18,10 @@
     img {
       width: 16px;
     }
+
+    &--delete {
+      @apply text-secondary-4;
+    }
   }
   & div:first-child {
     @apply rounded-t-lg;

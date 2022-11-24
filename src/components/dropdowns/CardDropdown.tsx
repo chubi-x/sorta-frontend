@@ -20,7 +20,15 @@ export function CardDropdown({ show, items }: DropdownProps) {
       {items.map((item, index) => (
         <div className=" dropdown__item" key={index}>
           <img src={item.icon} alt={`${item.text} icon`} />
-          <span>{item.text}</span>
+          <span
+            className={`${
+              item.text.toLowerCase().includes("delete")
+                ? "dropdown__item--delete "
+                : ""
+            }`}
+          >
+            {item.text}
+          </span>
         </div>
       ))}
     </div>
