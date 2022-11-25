@@ -11,8 +11,8 @@ import deleteIcon from "../../assets/icons/delete.svg";
 
 type BookmarkProps = {
   bookmark: Bookmark;
-  index: number;
-  bookmarksLength: number | undefined;
+  index?: number;
+  bookmarksLength?: number | undefined;
 };
 
 const dropdownItems: DropDownItem[] = [
