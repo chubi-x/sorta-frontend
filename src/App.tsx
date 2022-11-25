@@ -33,7 +33,7 @@ function App() {
         "lorem ipsum srtnhw4oignm54b wqtigm5qigt5j3ti35g 54g35itkj35gtij5o4g54r g54gt53ijmgt54rjigt54r g5r4gt5jgtig5mgt5rign54r g54rgij54rgti5gtkj5rm4t4jtm5r4gi 54rg5r4igm5r4gtnt5ri",
       image:
         "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      bookmarks: [],
+      bookmarks: ["1594334343551483904"],
     },
     {
       id: "1342gqrgm34r21cdf13q495k24tv",
