@@ -36,15 +36,25 @@
 
     @apply flex;
     @apply w-[85%] md:w-[90%];
-    @apply ml-2 md:ml-0;
+    @apply ml-2 sm:mr-auto md:ml-0;
   }
 
   &__details {
     @apply flex flex-col items-start;
     @apply w-full;
     @apply overflow-hidden;
+    @apply md:pl-2 xl:pl-0;
   }
   &__author {
+    &__img {
+      @apply w-[40px];
+      @apply md:mr-auto;
+      img {
+        @apply w-full;
+        @apply rounded-full;
+      }
+    }
+
     &__details {
       @apply flex items-center;
       @apply mb-2;
@@ -96,14 +106,6 @@
       @apply ml-1 inline;
       @apply self-center;
       @apply w-3;
-    }
-    &__img {
-      @apply w-[40px];
-      @apply md:mr-auto;
-      img {
-        @apply w-full;
-        @apply rounded-full;
-      }
     }
   }
   &__date {
