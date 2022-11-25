@@ -5,6 +5,7 @@
   @apply rounded-lg border border-neutral-6 bg-neutral-8;
   @apply flex flex-col justify-between;
   @apply text-[14px] text-neutral-4;
+  @apply font-body;
   box-shadow: 3px 5px 3px 1px #716f8c1a;
 
   &__item {
