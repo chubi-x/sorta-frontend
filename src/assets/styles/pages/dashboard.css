@@ -19,7 +19,7 @@
   }
 }
 .main-container {
-  @apply h-full w-[85%] md:w-4/5;
+  @apply h-full w-[85%] md:w-3/5 md:flex-grow;
   @apply mb-10 md:mr-4 md:px-10 lg:px-20;
   @apply relative;
 }
