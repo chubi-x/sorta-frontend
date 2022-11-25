@@ -18,7 +18,7 @@ export type MenuButtonProps = {
   mobileClass?: string;
 };
 
-export function Menu({ scroll }: { scroll: React.RefObject<HTMLDivElement> }) {
+export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
   const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [loggingOut, setLoggingOut] = useState(false);
@@ -39,14 +39,14 @@ export function Menu({ scroll }: { scroll: React.RefObject<HTMLDivElement> }) {
 
   function toggleBookmarks() {
     if (bookmarksActive) {
-      scroll.current?.scrollTo({ top: 0, behavior: "smooth" });
+      scroll?.current?.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       navigate("/dashboard");
     }
   }
   function toggleCategories() {
     if (categoriesActive) {
-      scroll.current?.scrollTo({ top: 0, behavior: "smooth" });
+      scroll?.current?.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       navigate("/categories");
     }
