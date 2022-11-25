@@ -45,11 +45,7 @@ export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
     }
   }
   function toggleCategories() {
-    if (categoriesActive) {
-      scroll?.current?.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      navigate("/categories");
-    }
+    navigate("/categories");
   }
   function logout() {
     let successful: boolean | undefined;
