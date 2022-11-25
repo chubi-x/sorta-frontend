@@ -1,6 +1,6 @@
 // LIBRARIES
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { ActiveContext } from "../../helpers/Context";
+import { ActiveContext, BookmarksContext } from "../../helpers/Context";
 import { useNavigate } from "react-router";
 import { useInView } from "react-intersection-observer";
 import Lottie from "lottie-react";
@@ -21,17 +21,15 @@ import help from "../../assets/icons/help.svg";
 import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
 import { ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
 
-export interface BookmarksContext {
-  bookmarks: Bookmarks | undefined;
-  setBookmarks: React.Dispatch<React.SetStateAction<Bookmarks>>;
+export interface BookmarksHelpers {
   scrollRef: React.RefObject<HTMLDivElement>;
   bookmarksLoading: boolean;
   setBookmarksLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export function Dashboard({ activeTab }: { activeTab: string }) {
   const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
+  const { bookmarks } = useContext(BookmarksContext);
   const { bookmarksActive, categoriesActive } = activeTabState;
-  // const { categoriesActive, setCategoriesActive } = activeCategoriesContext;
 
   const navigate = useNavigate();
 
@@ -41,9 +39,6 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
 
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
 
-  const [bookmarks, setBookmarks] = useState<Bookmarks>(
-    JSON.parse(sessionStorage.getItem("bookmarks")!) || null
-  );
   const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
     initialInView: true,
@@ -52,9 +47,7 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
   });
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const bookmarksContext: BookmarksContext = {
-    bookmarks,
-    setBookmarks,
+  const bookmarksHelpers: BookmarksHelpers = {
     scrollRef,
     bookmarksLoading,
     setBookmarksLoading,
@@ -185,7 +178,7 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
           <div className="scroll ref" ref={ref}></div>
 
           {bookmarksActive ? (
-            <Bookmarks bookmarksContext={bookmarksContext} />
+            <Bookmarks helpers={bookmarksHelpers} />
           ) : (
             <Categories />
           )}

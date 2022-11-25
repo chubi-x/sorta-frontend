@@ -1,6 +1,10 @@
 // LIBRARIES
-import { useReducer } from "react";
-import { ActiveContext, CategoryContext } from "./helpers/Context";
+import { useReducer, useState } from "react";
+import {
+  ActiveContext,
+  BookmarksContext,
+  CategoryContext,
+} from "./helpers/Context";
 import { activeTabReducer } from "./helpers/Reducer";
 
 import { Routes, Route } from "react-router-dom";
@@ -17,6 +21,10 @@ function App() {
     activeTabReducer,
     { bookmarksActive: true, categoriesActive: false }
   );
+  const [bookmarks, setBookmarks] = useState<Bookmarks>(
+    JSON.parse(sessionStorage.getItem("bookmarks")!) || null
+  );
+
   const categoriesArray: Category[] = [
     {
       id: "1342gq3423xfrgm13q495k24tv",
@@ -79,27 +87,28 @@ function App() {
         activeTabDispatch: dispatchActiveTabState,
       }}
     >
-      <CategoryContext.Provider
-        value={{
-          categoriesArray,
-        }}
-      >
-        <div className="app">
-          <Routes>
-            <Route path="/" element={root} />
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/dashboard"
-              element={<Dashboard activeTab="bookmarks" />}
-            />
-            <Route
-              path="/categories"
-              element={<Dashboard activeTab="categories" />}
-            />
-            <Route path="/oauth/callback/:query" element={<OauthCallback />} />
-            <Route path="/categories/:id" element={<Category />} />
-          </Routes>
-        </div>
+      <CategoryContext.Provider value={{ categoriesArray }}>
+        <BookmarksContext.Provider value={{ bookmarks, setBookmarks }}>
+          <div className="app">
+            <Routes>
+              <Route path="/" element={root} />
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/dashboard"
+                element={<Dashboard activeTab="bookmarks" />}
+              />
+              <Route
+                path="/categories"
+                element={<Dashboard activeTab="categories" />}
+              />
+              <Route
+                path="/oauth/callback/:query"
+                element={<OauthCallback />}
+              />
+              <Route path="/categories/:id" element={<Category />} />
+            </Routes>
+          </div>
+        </BookmarksContext.Provider>
       </CategoryContext.Provider>
     </ActiveContext.Provider>
   );

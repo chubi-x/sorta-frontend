@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useNavigate } from "react-router";
 
@@ -10,12 +10,15 @@ import { fetchBookmarks } from "../../api/bookmarks-api";
 import { Bookmark } from "./Bookmark";
 
 // TYPES
-import { BookmarksContext } from "../User";
+import { BookmarksHelpers } from "../User";
+import { BookmarksContext } from "../../helpers/Context";
 
 type BookmarksProps = {
-  bookmarksContext: BookmarksContext;
+  helpers: BookmarksHelpers;
 };
-export function Bookmarks({ bookmarksContext }: BookmarksProps) {
+export function Bookmarks({ helpers }: BookmarksProps) {
+  const { bookmarks, setBookmarks } = useContext(BookmarksContext);
+
   const bookmarksPerPage = 20;
   const [pageLoading, setPageLoading] = useState(true);
   const [hasMoreBookmarks, setHasMoreBookmarks] = useState(true);
@@ -29,7 +32,7 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
       const response = await fetchBookmarks(abortController);
       if (response?.success) {
         sessionStorage.setItem("bookmarks", JSON.stringify(response.data));
-        bookmarksContext.setBookmarks({ ...response.data });
+        setBookmarks({ ...response.data });
       } else {
         alert(response?.message);
         if (response?.message?.includes("not logged")) {
@@ -38,7 +41,7 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
         console.log("error fetching bookmarks");
       }
     };
-    if (!bookmarksContext.bookmarks) {
+    if (!bookmarks) {
       getBookmarks();
     }
     return () => {
@@ -77,16 +80,16 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
     }
   };
   const loadMoreBookmarks = () => {
-    bookmarksContext.setBookmarksLoading(true);
+    helpers.setBookmarksLoading(true);
     setTimeout(() => {
-      loadBookmarks(bookmarksContext.bookmarks?.data!);
-      bookmarksContext.setBookmarksLoading(false);
+      loadBookmarks(bookmarks?.data!);
+      helpers.setBookmarksLoading(false);
     }, 1000);
   };
   const loaderComponent = (
     <div
       className={`mt-10 flex justify-center ${
-        bookmarksContext.bookmarksLoading ? "hidden" : "flex"
+        helpers.bookmarksLoading ? "hidden" : "flex"
       }`}
       key={0}
     >
@@ -106,13 +109,13 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
       loader={loaderComponent}
       useWindow={false}
     >
-      {renderBookmarks(bookmarksContext.bookmarks?.data)}
+      {renderBookmarks(bookmarks?.data)}
     </InfiniteScroll>
   );
   return (
     <>
       <div className="bookmarks__wrapper">
-        <div className="bookmarks" ref={bookmarksContext.scrollRef}>
+        <div className="bookmarks" ref={helpers.scrollRef}>
           {!pageLoading && infiniteScroll}
         </div>
       </div>
