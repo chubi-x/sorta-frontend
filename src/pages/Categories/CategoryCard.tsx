@@ -8,8 +8,8 @@ import addIcon from "../../assets/icons/add.svg";
 import editIcon from "../../assets/icons/edit.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 
-const dropdownItems: DropDownItem[] = [
-  { icon: addIcon, text: "Add to category" },
+export const dropdownItems: DropDownItem[] = [
+  { icon: addIcon, text: "Add bookmarks" },
   { icon: editIcon, text: "Edit category" },
   { icon: deleteIcon, text: "Delete category" },
 ];
