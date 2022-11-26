@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MoreButton } from "../../components/buttons";
 import { BookmarksContext, CategoryContext } from "../../helpers/Context";
 import { Menu } from "../../layouts";
-import { dropdownItems } from "./CategoryCard";
+import { Bookmark } from "../Bookmarks";
+import { MoreButton } from "../../components/buttons";
 import { CardDropdown } from "../../components/dropdowns";
+import { dropdownItems } from "./CategoryCard";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
-import { Bookmark } from "../Bookmarks";
 
 export function Category() {
   const { categoriesArray } = useContext(CategoryContext);
