@@ -36,47 +36,158 @@
   }
 }
 
-.category__card {
-  @apply relative;
-  @apply flex;
-  @apply mb-4;
-  @apply h-60 w-full md:w-[45%] xl:w-[32%];
-  @apply rounded-[22px];
-  @apply bg-cover bg-center bg-no-repeat;
-
-  a {
-    @apply flex self-end;
-    @apply h-[55%] w-full;
-  }
-
-  &__text {
-    @apply flex flex-col justify-center self-end;
-    @apply h-full w-full;
-    @apply pl-6;
-    @apply rounded-b-2xl;
-    @apply text-neutral-8;
-
-    background: var(--bg-gradient);
-    backdrop-filter: var(--bg-blur);
-
-    h2 {
-      @apply font-header text-md font-medium;
+.category {
+  &__modal {
+    @apply flex justify-center;
+    @apply py-20;
+    @apply absolute top-0 z-40;
+    @apply h-screen w-screen;
+    @apply bg-neutral-1 bg-opacity-30;
+    @apply overflow-auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      width: 0;
     }
-    p {
-      @apply text-[10px];
-      @apply max-w-[90%];
-      @apply overflow-hidden whitespace-nowrap;
-      @apply text-ellipsis;
+    &__card {
+      @apply h-[595px] w-[700px];
+      @apply bg-neutral-8;
+      @apply rounded-3xl;
+
+      &__header {
+        @apply flex items-center justify-between;
+        @apply w-10/12;
+        @apply mx-auto mt-5 pt-4;
+
+        h1 {
+          @apply font-header text-[20px] font-semibold text-primary-1;
+        }
+      }
+
+      &__cancel {
+        @apply flex items-center justify-center;
+        @apply h-10 w-10;
+        @apply rounded-full;
+        @apply cursor-pointer;
+
+        box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.06);
+
+        img {
+          @apply w-1/2;
+        }
+      }
+
+      &__form {
+        @apply flex flex-col justify-between;
+        @apply w-9/12;
+        @apply mx-auto mt-16;
+        @apply font-body;
+
+        &__image {
+          @apply flex items-center justify-center;
+          @apply h-[78px] w-[78px];
+          @apply rounded-full border border-primary-1;
+          @apply cursor-pointer;
+          @apply hover:bg-neutral-6;
+
+          &__wrapper {
+            @apply w-[120px];
+            @apply flex flex-col items-center;
+          }
+
+          &__caption {
+            @apply max-w-[70px];
+            @apply mt-2;
+            @apply font-header text-[14px] text-primary-1;
+            @apply text-center;
+          }
+        }
+
+        &__content {
+          @apply flex;
+          @apply w-full;
+        }
+        &__text {
+          @apply flex flex-grow flex-col;
+          @apply w-auto;
+          @apply text-neutral-4;
+        }
+
+        &__name,
+        &__description {
+          @apply border-2 border-neutral-6;
+          @apply px-[30px];
+
+          &:focus {
+            @apply outline-none;
+            box-shadow: 0px 10px 10px theme("colors.neutral-6");
+          }
+        }
+
+        &__name {
+          @apply h-[64px];
+          @apply rounded-[100px];
+        }
+
+        &__description {
+          @apply h-[220px];
+          @apply mt-5 pt-5;
+          @apply rounded-[25px];
+
+          @apply resize-none;
+        }
+
+        &__buttons {
+          @apply flex justify-end;
+          @apply w-[80%];
+          @apply mt-[43px] mb-[50px] ml-auto;
+          @apply space-x-[24px];
+        }
+      }
     }
   }
+  &__card {
+    @apply relative;
+    @apply flex;
+    @apply mb-4;
+    @apply h-60 w-full md:w-[45%] xl:w-[32%];
+    @apply rounded-[22px];
+    @apply bg-cover bg-center bg-no-repeat;
 
-  &__dropdown {
-    @apply absolute top-4 right-3;
+    a {
+      @apply flex self-end;
+      @apply h-[55%] w-full;
+    }
+
+    &__text {
+      @apply flex flex-col justify-center self-end;
+      @apply h-full w-full;
+      @apply pl-6;
+      @apply rounded-b-2xl;
+      @apply text-neutral-8;
+
+      background: var(--bg-gradient);
+      backdrop-filter: var(--bg-blur);
+
+      h2 {
+        @apply font-header text-md font-medium;
+      }
+      p {
+        @apply text-[10px];
+        @apply max-w-[90%];
+        @apply overflow-hidden whitespace-nowrap;
+        @apply text-ellipsis;
+      }
+    }
+
+    &__dropdown {
+      @apply absolute top-4 right-3;
+    }
   }
 }
 
 .category__page {
-  @apply w-2/3;
+  @apply h-screen w-2/3;
   @apply flex-grow;
   @apply font-body;
 
@@ -134,7 +245,17 @@
     }
   }
 
-  &__bookmarks__wrapper {
-    @apply px-6 md:px-32 xl:px-56;
+  &__bookmarks {
+    &__wrapper {
+      @apply px-6 pb-80 md:px-32  xl:px-56;
+      @apply h-full;
+      @apply overflow-auto;
+
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
   }
 }

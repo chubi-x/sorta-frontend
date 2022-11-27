@@ -15,7 +15,7 @@ import { Categories } from "../Categories";
 
 // COMPONENTS
 import { NewCategoryButton } from "../../components/buttons";
-import { LoadingModal } from "../../components/modals";
+import { CategoryModal, LoadingModal } from "../../components/modals";
 // ASSETS
 import help from "../../assets/icons/help.svg";
 import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
@@ -38,6 +38,7 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
   );
 
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
   const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
@@ -99,7 +100,7 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
         // alert(userResponse.message);
         // if not logged in backend, log out in frontend
         if (userResponse?.message?.includes("not logged in")) {
-          alert(userResponse.message);
+          alert(userResponse?.message);
           setUser((prev) => {
             return { ...prev, isLogged: false };
           });
@@ -113,6 +114,13 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
       abortController.abort();
     };
   }, []);
+
+  function openCategoryModal() {
+    setCategoryModalOpen(true);
+  }
+  function closeCategoryModal() {
+    setCategoryModalOpen(false);
+  }
   const userInfo = (
     <>
       <img src={user?.pfp} alt="profile pic" className="w-10 rounded-full" />
@@ -130,6 +138,7 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
     />
   );
   const bookmarksHeader = user ? userInfo : userInfoSkeleton;
+
   const categoriesHeader = (
     <h1 className="dashboard__header__text">Categories</h1>
   );
@@ -157,7 +166,7 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
             }`}
             style={{ width: `${categoriesActive ? "100%" : ""}` }}
           >
-            <NewCategoryButton sticky={!inView} />
+            <NewCategoryButton sticky={!inView} openModal={openCategoryModal} />
             <div
               className={`my-6 flex items-center text-primary-1 tall:w-auto ${
                 !inView ? "w-[auto] justify-end" : "justify-between"
@@ -180,11 +189,12 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
           {bookmarksActive ? (
             <Bookmarks helpers={bookmarksHelpers} />
           ) : (
-            <Categories />
+            <Categories openModal={openCategoryModal} />
           )}
         </main>
       </div>
       {bookmarksLoading && <LoadingModal />}
+      {categoryModalOpen && <CategoryModal closeModal={closeCategoryModal} />}
     </div>
   );
 }

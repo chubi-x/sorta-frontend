@@ -2,7 +2,11 @@ import { useContext } from "react";
 import { CategoryCard } from ".";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import { CategoryContext } from "../../helpers/Context";
-export function Categories() {
+
+type CategoriesProps = {
+  openModal: () => void;
+};
+export function Categories({ openModal }: CategoriesProps) {
   const { categoriesArray } = useContext(CategoryContext);
 
   const emptyCategories = (
@@ -12,7 +16,7 @@ export function Categories() {
         You have not created any category yet <br /> click on the button below
         to create a new category
       </p>
-      <button className="primary-btn primary-btn--medium">
+      <button className="primary-btn primary-btn--medium" onClick={openModal}>
         Create Category
       </button>
     </div>
@@ -26,7 +30,7 @@ export function Categories() {
   );
   return (
     <div className="categories">
-      {categoriesArray ? categories : emptyCategories}
+      {categoriesArray.length > 0 ? categories : emptyCategories}
     </div>
   );
 }
