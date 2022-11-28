@@ -4,6 +4,7 @@ import {
   ActiveContext,
   BookmarksContext,
   CategoryContext,
+  UserContext,
 } from "./helpers/Context";
 import { activeTabReducer } from "./helpers/Reducer";
 
@@ -17,6 +18,9 @@ import { Category } from "./pages/Categories";
 import "./assets/styles/App.css";
 
 function App() {
+  const [user, setUser] = useState<User>(
+    JSON.parse(sessionStorage.getItem("user")!) || null
+  );
   const [activeTabState, dispatchActiveTabState] = useReducer(
     activeTabReducer,
     { bookmarksActive: true, categoriesActive: false }
@@ -89,25 +93,27 @@ function App() {
     >
       <CategoryContext.Provider value={{ categoriesArray }}>
         <BookmarksContext.Provider value={{ bookmarks, setBookmarks }}>
-          <div className="app">
-            <Routes>
-              <Route path="/" element={root} />
-              <Route path="/login" element={<Login />} />
-              <Route
-                path="/dashboard"
-                element={<Dashboard activeTab="bookmarks" />}
-              />
-              <Route
-                path="/categories"
-                element={<Dashboard activeTab="categories" />}
-              />
-              <Route
-                path="/oauth/callback/:query"
-                element={<OauthCallback />}
-              />
-              <Route path="/categories/:id" element={<Category />} />
-            </Routes>
-          </div>
+          <UserContext.Provider value={{ user, setUser }}>
+            <div className="app">
+              <Routes>
+                <Route path="/" element={root} />
+                <Route path="/login" element={<Login />} />
+                <Route
+                  path="/dashboard"
+                  element={<Dashboard activeTab="bookmarks" />}
+                />
+                <Route
+                  path="/categories"
+                  element={<Dashboard activeTab="categories" />}
+                />
+                <Route
+                  path="/oauth/callback/:query"
+                  element={<OauthCallback />}
+                />
+                <Route path="/categories/:id" element={<Category />} />
+              </Routes>
+            </div>
+          </UserContext.Provider>
         </BookmarksContext.Provider>
       </CategoryContext.Provider>
     </ActiveContext.Provider>

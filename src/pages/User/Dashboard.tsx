@@ -1,6 +1,10 @@
 // LIBRARIES
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { ActiveContext, BookmarksContext } from "../../helpers/Context";
+import {
+  ActiveContext,
+  BookmarksContext,
+  UserContext,
+} from "../../helpers/Context";
 import { useNavigate } from "react-router";
 import { useInView } from "react-intersection-observer";
 import Lottie from "lottie-react";
@@ -27,15 +31,12 @@ export interface BookmarksHelpers {
   setBookmarksLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export function Dashboard({ activeTab }: { activeTab: string }) {
+  const { user, setUser } = useContext(UserContext);
   const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
   const { bookmarks } = useContext(BookmarksContext);
   const { bookmarksActive, categoriesActive } = activeTabState;
 
   const navigate = useNavigate();
-
-  const [user, setUser] = useState<User>(
-    JSON.parse(sessionStorage.getItem("user")!) || null
-  );
 
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
