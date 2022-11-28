@@ -1,19 +1,65 @@
-import { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import Compressor from "compressorjs";
 import cancelIcon from "../../assets/icons/cancel.svg";
 import imageIcon from "../../assets/icons/image.svg";
+import { firebaseStorage } from "../../../firebase";
+import { UserContext } from "../../helpers/Context";
 type CategoryModalProps = {
   closeModal: () => void;
 };
 
 export function CategoryModal({ closeModal }: CategoryModalProps) {
+  const { user } = useContext(UserContext);
   const descriptionMaxLength = 200;
-
-  const [categoryForm, setCategoryForm] = useState({
+  const [categoryForm, setCategoryForm] = useState<
+    Omit<Category, "id" | "bookmarks">
+  >({
     name: "",
     description: "",
+    image: "",
   });
+  const [imageFileBlob, setImageFileBlob] = useState<File | Blob>();
+  const [thumbnailSrc, setThumbnailSrc] = useState("");
 
-  function handleChange(e: React.ChangeEvent<any>) {
+  useEffect(() => {
+    if (imageFileBlob) {
+      const thumbnailSrc = URL.createObjectURL(imageFileBlob);
+      setThumbnailSrc(thumbnailSrc);
+    }
+    return () => {
+      URL.revokeObjectURL(thumbnailSrc);
+    };
+  }, [imageFileBlob]);
+
+  function handleImageFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const image = e.target.files![0];
+    // compress here
+    new Compressor(image, {
+      checkOrientation: true,
+      quality: 0.6,
+      success(result) {
+        setImageFileBlob(result);
+      },
+    });
+  }
+  async function uploadImage(categoryName: string) {
+    if (!imageFileBlob || categoryName.length < 1) return;
+    const imageRef = ref(
+      firebaseStorage,
+      `images/${user.name}/categories/${categoryName}/image`
+    );
+    try {
+      const uploadedImage = await uploadBytes(imageRef, imageFileBlob);
+      const imageUrl = await getDownloadURL(uploadedImage.ref);
+      setCategoryForm((prev) => ({ ...prev, image: imageUrl }));
+      alert("upload successful!");
+    } catch (e) {
+      alert("There was an error uploading your file. Please try again.");
+    }
+  }
+  function handleInputChange(e: React.ChangeEvent<any>) {
     const { name, value } = e.target;
     setCategoryForm((prev) => {
       return {
@@ -22,8 +68,9 @@ export function CategoryModal({ closeModal }: CategoryModalProps) {
       };
     });
   }
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    await uploadImage(categoryForm.name);
   }
   return (
     <div className="category__modal">
@@ -35,7 +82,6 @@ export function CategoryModal({ closeModal }: CategoryModalProps) {
           </div>
         </div>
         <form
-          action=""
           className="category__modal__card__form"
           onSubmit={(e) => {
             handleSubmit(e);
@@ -43,9 +89,23 @@ export function CategoryModal({ closeModal }: CategoryModalProps) {
         >
           <div className="category__modal__card__form__content">
             <div className="category__modal__card__form__image__wrapper">
-              <div className="category__modal__card__form__image">
-                <img src={imageIcon} alt="image icon" />
-              </div>
+              <label
+                className="category__modal__card__form__image"
+                htmlFor="categoryImage"
+                style={{
+                  backgroundImage: thumbnailSrc ? `url(${thumbnailSrc})` : "",
+                }}
+              >
+                {!thumbnailSrc && <img src={imageIcon} alt="image icon" />}
+                <input
+                  type="file"
+                  id="categoryImage"
+                  accept=".jpg,.jpeg, .png, .gif"
+                  onChange={(e) => {
+                    handleImageFile(e);
+                  }}
+                />
+              </label>
 
               <p className="category__modal__card__form__image__caption">
                 Add image
@@ -53,23 +113,23 @@ export function CategoryModal({ closeModal }: CategoryModalProps) {
             </div>
             <div className="category__modal__card__form__text">
               <input
-                id="name"
                 name="name"
                 type="text"
                 className="category__modal__card__form__name"
                 placeholder="Enter name"
                 value={categoryForm.name}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => handleInputChange(e)}
                 maxLength={30}
+                required={true}
               />
               <textarea
                 name="description"
-                id="description"
                 className="category__modal__card__form__description"
                 placeholder="Description"
                 value={categoryForm.description}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => handleInputChange(e)}
                 maxLength={descriptionMaxLength}
+                required={true}
               ></textarea>
               <div className="category__modal__card__form__description__char_count">{`${categoryForm.description.length}/${descriptionMaxLength}`}</div>
             </div>

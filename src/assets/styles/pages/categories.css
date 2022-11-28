@@ -89,6 +89,7 @@
           @apply rounded-full border border-primary-1;
           @apply cursor-pointer;
           @apply hover:bg-neutral-6;
+          @apply bg-cover bg-top bg-no-repeat;
 
           &__wrapper {
             @apply w-[120px];
@@ -100,6 +101,19 @@
             @apply mt-2;
             @apply font-header text-[14px] text-primary-1;
             @apply text-center;
+          }
+
+          input[type="file"] {
+            @apply absolute;
+            @apply h-[1px] w-[1px];
+            @apply border-0;
+            @apply p-0;
+            @apply overflow-hidden whitespace-nowrap;
+            clip-path: inset(50%);
+          }
+
+          &:focus-within {
+            outline: 1px solid theme("colors.neutral-1-disabled");
           }
         }
 
