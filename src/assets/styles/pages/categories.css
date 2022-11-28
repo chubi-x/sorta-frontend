@@ -108,6 +108,7 @@
           @apply w-full;
         }
         &__text {
+          @apply relative;
           @apply flex flex-grow flex-col;
           @apply w-auto;
           @apply text-neutral-4;
@@ -135,6 +136,11 @@
           @apply rounded-[25px];
 
           @apply resize-none;
+
+          &__char_count {
+            @apply absolute bottom-2 right-6;
+            @apply text-[10px];
+          }
         }
 
         &__buttons {

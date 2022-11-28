@@ -1,3 +1,4 @@
+import { useState } from "react";
 import cancelIcon from "../../assets/icons/cancel.svg";
 import imageIcon from "../../assets/icons/image.svg";
 type CategoryModalProps = {
@@ -7,6 +8,20 @@ type CategoryModalProps = {
 export function CategoryModal({ closeModal }: CategoryModalProps) {
   const descriptionMaxLength = 200;
 
+  const [categoryForm, setCategoryForm] = useState({
+    name: "",
+    description: "",
+  });
+
+  function handleChange(e: React.ChangeEvent<any>) {
+    const { name, value } = e.target;
+    setCategoryForm((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  }
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
   }
@@ -39,17 +54,24 @@ export function CategoryModal({ closeModal }: CategoryModalProps) {
             <div className="category__modal__card__form__text">
               <input
                 id="name"
+                name="name"
                 type="text"
                 className="category__modal__card__form__name"
                 placeholder="Enter name"
+                value={categoryForm.name}
+                onChange={(e) => handleChange(e)}
+                maxLength={30}
               />
               <textarea
                 name="description"
                 id="description"
                 className="category__modal__card__form__description"
                 placeholder="Description"
+                value={categoryForm.description}
+                onChange={(e) => handleChange(e)}
                 maxLength={descriptionMaxLength}
               ></textarea>
+              <div className="category__modal__card__form__description__char_count">{`${categoryForm.description.length}/${descriptionMaxLength}`}</div>
             </div>
           </div>
           <div className="category__modal__card__form__buttons">
