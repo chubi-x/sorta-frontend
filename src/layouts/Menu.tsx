@@ -56,6 +56,7 @@ export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
       if (successful) {
         setLoggingOut(false);
         localStorage.clear();
+        sessionStorage.clear();
         location.href = "http://192.168.1.9:5173/login";
       } else {
         alert("There was a problem logging you out. Please try again.");
@@ -91,11 +92,7 @@ export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
 
   return (
     <>
-      <div
-        className={`menu__container ${addMobileClass(
-          `menu__mobile__container`
-        )} `}
-      >
+      <div className={`menu__container ${addMobileClass(`menu__mobile__container`)} `}>
         <div className={`menu ${addMobileClass("menu__mobile")}`}>
           <div className="menu__logo__container">
             <div className="menu__logo">
@@ -103,11 +100,7 @@ export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
               <h1>Sorta</h1>
             </div>
           </div>
-          <div
-            className={`menu__buttons ${addMobileClass(
-              "menu__mobile__buttons"
-            )}`}
-          >
+          <div className={`menu__buttons ${addMobileClass("menu__mobile__buttons")}`}>
             {menuButtons.map(({ icon, text, active, toggle }, index) => (
               <MenuButton
                 icon={icon}
@@ -117,9 +110,7 @@ export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
                 // showText={showText}s
                 key={index}
                 mobileClass={addMobileClass(
-                  `menu__mobile__button ${
-                    active ? "menu__mobile__button--active" : ""
-                  } `
+                  `menu__mobile__button ${active ? "menu__mobile__button--active" : ""} `
                 )}
               />
             ))}
@@ -131,4 +122,3 @@ export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
     </>
   );
 }
-
