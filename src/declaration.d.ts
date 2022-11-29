@@ -87,4 +87,6 @@ interface OauthResponse extends ServerResponse {
 interface BookmarksResponse extends ServerResponse {
   data: Bookmarks;
 }
-
+interface CategoryResponse extends ServerResponse {
+  data: Category;
+}
