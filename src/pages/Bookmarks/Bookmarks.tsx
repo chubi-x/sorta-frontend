@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useNavigate } from "react-router";
 
@@ -10,20 +10,18 @@ import { fetchBookmarks } from "../../api/bookmarks-api";
 import { Bookmark } from "./Bookmark";
 
 // TYPES
-import { BookmarksHelpers } from "../User";
-import { BookmarksContext } from "../../helpers/Context";
+import { BookmarksContextInterface } from "../../App";
 
 type BookmarksProps = {
-  helpers: BookmarksHelpers;
+  bookmarksContext: BookmarksContextInterface;
 };
-export function Bookmarks({ helpers }: BookmarksProps) {
-  const { bookmarks, setBookmarks } = useContext(BookmarksContext);
+export function Bookmarks({ bookmarksContext }: BookmarksProps) {
+  const { bookmarks, setBookmarks, helpers } = bookmarksContext;
 
   const bookmarksPerPage = 20;
   const [pageLoading, setPageLoading] = useState(true);
   const [hasMoreBookmarks, setHasMoreBookmarks] = useState(true);
-  const [numOfBookmarksToRender, setNumOfBookmarksToRender] =
-    useState(bookmarksPerPage);
+  const [numOfBookmarksToRender, setNumOfBookmarksToRender] = useState(bookmarksPerPage);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,9 +47,7 @@ export function Bookmarks({ helpers }: BookmarksProps) {
     };
   }, []);
 
-  const renderBookmarks = (
-    bookmarksArray: Bookmark[] | undefined
-  ): JSX.Element[] => {
+  const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
     let renderedBookmarks = [];
     for (let i = 0; i < numOfBookmarksToRender; i++) {
       if (bookmarksArray) {
@@ -88,15 +84,10 @@ export function Bookmarks({ helpers }: BookmarksProps) {
   };
   const loaderComponent = (
     <div
-      className={`mt-10 flex justify-center ${
-        helpers.bookmarksLoading ? "hidden" : "flex"
-      }`}
+      className={`mt-10 flex justify-center ${helpers.bookmarksLoading ? "hidden" : "flex"}`}
       key={0}
     >
-      <button
-        onClick={loadMoreBookmarks}
-        className="primary-btn primary-btn--medium"
-      >
+      <button onClick={loadMoreBookmarks} className="primary-btn primary-btn--medium">
         Load More
       </button>
     </div>
@@ -115,11 +106,10 @@ export function Bookmarks({ helpers }: BookmarksProps) {
   return (
     <>
       <div className="bookmarks__wrapper">
-        <div className="bookmarks" ref={helpers.scrollRef}>
+        <div className="bookmarks" ref={helpers.bookmarksScrollRef}>
           {!pageLoading && infiniteScroll}
         </div>
       </div>
     </>
   );
 }
-

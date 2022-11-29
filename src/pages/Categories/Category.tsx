@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BookmarksContext, CategoryContext } from "../../helpers/Context";
 import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
 import { MoreButton } from "../../components/buttons";
@@ -8,10 +7,14 @@ import { CardDropdown } from "../../components/dropdowns";
 import { dropdownItems } from "./CategoryCard";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
+import { BookmarksContextInterface } from "../../App";
 
-export function Category() {
-  const { categoriesArray } = useContext(CategoryContext);
-  const { bookmarks } = useContext(BookmarksContext);
+type Props = {
+  bookmarksContext: BookmarksContextInterface;
+  categories: Category[];
+};
+export function Category({ bookmarksContext, categories }: Props) {
+  const { bookmarks } = bookmarksContext;
 
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -19,7 +22,7 @@ export function Category() {
 
   const params = useParams();
   const { id } = params;
-  const category = categoriesArray.find((item) => item.id === id);
+  const category = categories.find((item) => item.id === id);
 
   const categoryBookmarks = bookmarks?.data?.filter((bookmark) =>
     category?.bookmarks.includes(bookmark?.id)
@@ -41,17 +44,14 @@ export function Category() {
             </div>
             <div className="category__page__dropdown__container">
               <MoreButton showTooltip={setShowTooltip} />
-              {showTooltip && (
-                <CardDropdown items={dropdownItems} show={setShowTooltip} />
-              )}
+              {showTooltip && <CardDropdown items={dropdownItems} show={setShowTooltip} />}
             </div>
           </div>
           <div className="category__page__banner__text__wrapper rounded-none">
             <div className="category__page__banner__text">
               <h2>{category?.name}</h2>
               <p>
-                <span className="text-primary-1">Description: </span>{" "}
-                {category?.description}
+                <span className="text-primary-1">Description: </span> {category?.description}
               </p>
             </div>
           </div>

@@ -1,33 +1,62 @@
 // LIBRARIES
-import { useReducer, useState } from "react";
-import {
-  ActiveContext,
-  BookmarksContext,
-  CategoryContext,
-  UserContext,
-} from "./helpers/Context";
+import { useReducer, useRef, useState } from "react";
+import { ActiveContext, CategoryContext, UserContextInterface } from "./helpers/Context";
 import { activeTabReducer } from "./helpers/Reducer";
 
 import { Routes, Route } from "react-router-dom";
 // PAGES
 import { Login, OauthCallback } from "./pages/Auth";
 import { Dashboard } from "./pages/User";
-import { Category } from "./pages/Categories";
+import { Categories, Category } from "./pages/Categories";
 
 // ASSETS
 import "./assets/styles/App.css";
+import { Bookmarks } from "./pages/Bookmarks";
 
-function App() {
-  const [user, setUser] = useState<User>(
-    JSON.parse(sessionStorage.getItem("user")!) || null
-  );
-  const [activeTabState, dispatchActiveTabState] = useReducer(
-    activeTabReducer,
-    { bookmarksActive: true, categoriesActive: false }
-  );
+interface BookmarksHelpers {
+  bookmarksScrollRef: React.RefObject<HTMLDivElement>;
+  bookmarksLoading: boolean;
+  setBookmarksLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export interface BookmarksContextInterface {
+  bookmarks: Bookmarks;
+  setBookmarks: React.Dispatch<React.SetStateAction<Bookmarks>>;
+  helpers: BookmarksHelpers;
+}
+export interface CategoryModalContextInterface {
+  categoryModalOpen: boolean;
+  openCategoryModal: () => void;
+  closeCategoryModal: () => void;
+}
+
+export function App() {
+  const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
+    bookmarksActive: true,
+    categoriesActive: false,
+  });
+  const [user, setUser] = useState<User>(JSON.parse(sessionStorage.getItem("user")!) || null);
+
   const [bookmarks, setBookmarks] = useState<Bookmarks>(
     JSON.parse(sessionStorage.getItem("bookmarks")!) || null
   );
+  const [bookmarksLoading, setBookmarksLoading] = useState(false);
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+
+  const bookmarksScrollRef = useRef<HTMLDivElement>(null);
+
+  const userContext: UserContextInterface = {
+    user,
+    setUser,
+  };
+  const bookmarksContext: BookmarksContextInterface = {
+    bookmarks,
+    setBookmarks,
+    helpers: {
+      bookmarksScrollRef,
+      bookmarksLoading,
+      setBookmarksLoading,
+    },
+  };
 
   const categoriesArray: Category[] = [
     {
@@ -81,6 +110,19 @@ function App() {
     },
   ];
 
+  function openCategoryModal() {
+    setCategoryModalOpen(true);
+  }
+  function closeCategoryModal() {
+    setCategoryModalOpen(false);
+  }
+
+  const categoryModalContext: CategoryModalContextInterface = {
+    categoryModalOpen,
+    openCategoryModal,
+    closeCategoryModal,
+  };
+
   // logic to set root element
   let root: JSX.Element = <Login />;
 
@@ -91,34 +133,45 @@ function App() {
         activeTabDispatch: dispatchActiveTabState,
       }}
     >
-      <CategoryContext.Provider value={{ categoriesArray }}>
-        <BookmarksContext.Provider value={{ bookmarks, setBookmarks }}>
-          <UserContext.Provider value={{ user, setUser }}>
-            <div className="app">
-              <Routes>
-                <Route path="/" element={root} />
-                <Route path="/login" element={<Login />} />
-                <Route
-                  path="/dashboard"
-                  element={<Dashboard activeTab="bookmarks" />}
-                />
-                <Route
-                  path="/categories"
-                  element={<Dashboard activeTab="categories" />}
-                />
-                <Route
-                  path="/oauth/callback/:query"
-                  element={<OauthCallback />}
-                />
-                <Route path="/categories/:id" element={<Category />} />
-              </Routes>
-            </div>
-          </UserContext.Provider>
-        </BookmarksContext.Provider>
-      </CategoryContext.Provider>
+      <div className="app">
+        <Routes>
+          <Route path="/" element={root} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Dashboard
+                activeTab="bookmarks"
+                userContext={userContext}
+                bookmarksContext={bookmarksContext}
+                categoryModalContext={categoryModalContext}
+              >
+                <Bookmarks bookmarksContext={bookmarksContext} />
+              </Dashboard>
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <Dashboard
+                activeTab="categories"
+                userContext={userContext}
+                bookmarksContext={bookmarksContext}
+                categoryModalContext={categoryModalContext}
+              >
+                <Categories categoriesArray={categoriesArray} openModal={openCategoryModal} />
+              </Dashboard>
+            }
+          />
+          <Route path="/oauth/callback/:query" element={<OauthCallback />} />
+          <Route
+            path="/categories/:id"
+            element={<Category bookmarksContext={bookmarksContext} categories={categoriesArray} />}
+          />
+        </Routes>
+      </div>
     </ActiveContext.Provider>
   );
 }
 
 export default App;
-

@@ -1,45 +1,48 @@
 // LIBRARIES
-import React, { useEffect, useRef, useState, useContext } from "react";
-import {
-  ActiveContext,
-  BookmarksContext,
-  UserContext,
-} from "../../helpers/Context";
+import { useEffect, useContext } from "react";
+import { ActiveContext, UserContextInterface } from "../../helpers/Context";
 import { useNavigate } from "react-router";
 import { useInView } from "react-intersection-observer";
 import Lottie from "lottie-react";
+import { ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
 
 // API
 import { fetchUser } from "../../api";
 // LAYOUTS
 import { Menu } from "../../layouts";
-// PAGES
-import { Bookmarks } from "../Bookmarks";
-import { Categories } from "../Categories";
 
 // COMPONENTS
 import { NewCategoryButton } from "../../components/buttons";
 import { CategoryModal, LoadingModal } from "../../components/modals";
-// ASSETS
-import help from "../../assets/icons/help.svg";
-import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
-import { ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
+import { StickyDashboardBar, StickyDashboardBarText } from "../../components/miscellaneous";
 
-export interface BookmarksHelpers {
-  scrollRef: React.RefObject<HTMLDivElement>;
-  bookmarksLoading: boolean;
-  setBookmarksLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
-export function Dashboard({ activeTab }: { activeTab: string }) {
-  const { user, setUser } = useContext(UserContext);
+// ASSETS
+import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
+import { BookmarksContextInterface, CategoryModalContextInterface } from "../../App";
+
+type Props = {
+  activeTab: string;
+  userContext: UserContextInterface;
+  bookmarksContext: BookmarksContextInterface;
+  categoryModalContext: CategoryModalContextInterface;
+
+  children: React.ReactNode;
+};
+export function Dashboard({
+  activeTab,
+  userContext,
+  bookmarksContext,
+  categoryModalContext,
+  children,
+}: Props) {
   const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
-  const { bookmarks } = useContext(BookmarksContext);
   const { bookmarksActive, categoriesActive } = activeTabState;
+  const { user, setUser } = userContext;
+  const { bookmarks, helpers } = bookmarksContext;
+  const { bookmarksLoading, bookmarksScrollRef } = helpers;
+  const { categoryModalOpen, openCategoryModal, closeCategoryModal } = categoryModalContext;
 
   const navigate = useNavigate();
-
-  const [bookmarksLoading, setBookmarksLoading] = useState(false);
-  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
   const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
@@ -47,13 +50,6 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
     threshold: 1,
     rootMargin: "-175px",
   });
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const bookmarksHelpers: BookmarksHelpers = {
-    scrollRef,
-    bookmarksLoading,
-    setBookmarksLoading,
-  };
 
   useEffect(() => {
     if (activeTab === "bookmarks") {
@@ -89,24 +85,16 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
           return {
             ...prev,
             ...userResponse.data,
-            // isLogged: true,
           };
         });
 
-        sessionStorage.setItem(
-          "user",
-          JSON.stringify({ ...userResponse.data })
-        );
+        sessionStorage.setItem("user", JSON.stringify({ ...userResponse.data }));
       } else {
-        // alert(userResponse.message);
-        // if not logged in backend, log out in frontend
         if (userResponse?.message?.includes("not logged in")) {
           alert(userResponse?.message);
-          setUser((prev) => {
-            return { ...prev, isLogged: false };
-          });
           navigate("/login");
         }
+        navigate("/login");
       }
     };
     returnUser();
@@ -116,12 +104,6 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
     };
   }, []);
 
-  function openCategoryModal() {
-    setCategoryModalOpen(true);
-  }
-  function closeCategoryModal() {
-    setCategoryModalOpen(false);
-  }
   const userInfo = (
     <>
       <img src={user?.pfp} alt="profile pic" className="w-10 rounded-full" />
@@ -131,28 +113,19 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
     </>
   );
   const userInfoSkeleton = (
-    <Lottie
-      animationData={userSkeleton}
-      loop={true}
-      autoplay={true}
-      style={{ width: "150px" }}
-    />
+    <Lottie animationData={userSkeleton} loop={true} autoplay={true} style={{ width: "150px" }} />
   );
   const bookmarksHeader = user ? userInfo : userInfoSkeleton;
 
-  const categoriesHeader = (
-    <h1 className="dashboard__header__text">Categories</h1>
-  );
-  const headerInfo: JSX.Element = bookmarksActive
-    ? bookmarksHeader
-    : categoriesHeader;
+  const categoriesHeader = <h1 className="dashboard__header__text">Categories</h1>;
+  const headerInfo: JSX.Element = bookmarksActive ? bookmarksHeader : categoriesHeader;
 
   return (
     <div className="dashboard">
-      <Menu scroll={scrollRef} />
+      <Menu scroll={bookmarksScrollRef} />
       <div className="main-container">
         <main id="main">
-          <div className="dashboard__header" ref={scrollRef}>
+          <div className="dashboard__header" ref={bookmarksScrollRef}>
             {headerInfo}
           </div>
 
@@ -161,42 +134,23 @@ export function Dashboard({ activeTab }: { activeTab: string }) {
               ? " See all your bookmarked tweets below"
               : " See all your bookmark categories below"}
           </p>
-          <div
-            className={`new-category-container ${
-              !inView ? "new-category-container--stuck" : ""
-            }`}
-            style={{ width: `${categoriesActive ? "100%" : ""}` }}
-          >
-            <NewCategoryButton sticky={!inView} openModal={openCategoryModal} />
-            <div
-              className={`my-6 flex items-center text-primary-1 tall:w-auto ${
-                !inView ? "w-[auto] justify-end" : "justify-between"
-              }`}
-            >
-              <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
-                {activeTab === "bookmarks"
-                  ? `   ${bookmarks ? bookmarks?.data.length : ""} Tweets`
-                  : "All Categories"}
-              </p>
 
-              <p className="mr-1 flex cursor-help items-center space-x-2 self-start font-medium">
-                <img src={help} alt="help icon" width={"20px"} />
-                <span className="hidden md:inline">Need Help?</span>
-              </p>
-            </div>
-          </div>
+          <StickyDashboardBar inView={inView} categoriesActive={categoriesActive}>
+            <NewCategoryButton sticky={!inView} openModal={openCategoryModal} />
+            <StickyDashboardBarText
+              activeTab={activeTab}
+              inView={inView}
+              bookmarks={bookmarks}
+              categoriesActive={categoriesActive}
+            />
+          </StickyDashboardBar>
           <div className="scroll ref" ref={ref}></div>
 
-          {bookmarksActive ? (
-            <Bookmarks helpers={bookmarksHelpers} />
-          ) : (
-            <Categories openModal={openCategoryModal} />
-          )}
+          {children}
         </main>
       </div>
       {bookmarksLoading && <LoadingModal />}
-      {categoryModalOpen && <CategoryModal closeModal={closeCategoryModal} />}
+      {categoryModalOpen && <CategoryModal user={user} closeModal={closeCategoryModal} />}
     </div>
   );
 }
-

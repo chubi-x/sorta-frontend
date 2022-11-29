@@ -65,5 +65,8 @@ main {
       @apply hidden;
     }
   }
+  .need-help {
+    @apply mr-1 flex cursor-help items-center space-x-2 self-start font-medium;
+  }
 }
 

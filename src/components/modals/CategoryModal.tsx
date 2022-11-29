@@ -1,21 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import Compressor from "compressorjs";
 import cancelIcon from "../../assets/icons/cancel.svg";
 import imageIcon from "../../assets/icons/image.svg";
 import { firebaseStorage } from "../../../firebase";
-import { UserContext } from "../../helpers/Context";
 type CategoryModalProps = {
   closeModal: () => void;
+  user: User;
 };
 
-export function CategoryModal({ closeModal }: CategoryModalProps) {
-  const { user } = useContext(UserContext);
+export function CategoryModal({ closeModal, user }: CategoryModalProps) {
   const descriptionMaxLength = 200;
-  const [categoryForm, setCategoryForm] = useState<
-    Omit<Category, "id" | "bookmarks">
-  >({
+  const [categoryForm, setCategoryForm] = useState<Omit<Category, "id" | "bookmarks">>({
     name: "",
     description: "",
     image: "",
@@ -46,10 +43,7 @@ export function CategoryModal({ closeModal }: CategoryModalProps) {
   }
   async function uploadImage(categoryName: string) {
     if (!imageFileBlob || categoryName.length < 1) return;
-    const imageRef = ref(
-      firebaseStorage,
-      `images/${user.name}/categories/${categoryName}/image`
-    );
+    const imageRef = ref(firebaseStorage, `images/${user.name}/categories/${categoryName}/image`);
     try {
       const uploadedImage = await uploadBytes(imageRef, imageFileBlob);
       const imageUrl = await getDownloadURL(uploadedImage.ref);
@@ -107,9 +101,7 @@ export function CategoryModal({ closeModal }: CategoryModalProps) {
                 />
               </label>
 
-              <p className="category__modal__card__form__image__caption">
-                Add image
-              </p>
+              <p className="category__modal__card__form__image__caption">Add image</p>
             </div>
             <div className="category__modal__card__form__text">
               <input
