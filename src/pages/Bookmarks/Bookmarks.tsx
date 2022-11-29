@@ -32,7 +32,6 @@ export function Bookmarks({ user, bookmarksContext }: BookmarksProps) {
   };
 
   useQuery("get-bookmarks", getBookmarks, {
-    enabled: !!user,
     onSuccess(data) {
       if (data.success) {
         setBookmarks({ ...data.data });
