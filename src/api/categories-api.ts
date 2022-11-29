@@ -1,3 +1,13 @@
+export async function fetchCategories() {
+  const request = await fetch(`${import.meta.env.VITE_API_URL!}/categories`, {
+    credentials: "include",
+    headers: {
+      "ngrok-skip-browser-warning": "true",
+    },
+  });
+  const response = await request.json();
+  return response;
+}
 export async function createCategory(body: Omit<Category, "bookmarks" | "id">) {
   //   const body = JSON.stringify({ bookmarks: ["1", "2", "3", "4"] });
   const request = await fetch(`${import.meta.env.VITE_API_URL!}/categories`, {
@@ -10,6 +20,6 @@ export async function createCategory(body: Omit<Category, "bookmarks" | "id">) {
     },
     body: JSON.stringify(body),
   });
-  const response: ServerResponse = await request.json();
+  const response = await request.json();
   return response;
 }
