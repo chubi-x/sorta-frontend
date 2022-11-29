@@ -1,6 +1,7 @@
 // LIBRARIES
 import { useReducer, useRef, useState } from "react";
 import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { ActiveContext, UserContextInterface } from "./helpers/Context";
 import { activeTabReducer } from "./helpers/Reducer";
 
@@ -176,6 +177,7 @@ export function App() {
           </Routes>
         </div>
       </ActiveContext.Provider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
