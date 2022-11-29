@@ -7,6 +7,8 @@ import Lottie from "lottie-react";
 import { ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
 
 // API
+import { useQuery } from "react-query";
+
 import { fetchUser } from "../../api";
 // LAYOUTS
 import { Menu } from "../../layouts";
@@ -76,33 +78,33 @@ export function Dashboard({
   //   };
   // }, []);
 
-  useEffect(() => {
+  const returnUser = async () => {
     const abortController = new AbortController();
-    const returnUser = async () => {
-      const userResponse: UserResponse = await fetchUser(abortController);
-      if (userResponse?.success) {
+    const userResponse: UserResponse = await fetchUser(abortController);
+    return userResponse;
+  };
+
+  useQuery("user", returnUser, {
+    enabled: !user,
+    onSuccess(data) {
+      if (data.success) {
         setUser((prev) => {
           return {
             ...prev,
-            ...userResponse.data,
+            ...data.data,
           };
         });
-
-        sessionStorage.setItem("user", JSON.stringify({ ...userResponse.data }));
+        sessionStorage.setItem("user", JSON.stringify({ ...data.data }));
       } else {
-        if (userResponse?.message?.includes("not logged in")) {
-          alert(userResponse?.message);
-          navigate("/login");
-        }
+        alert(data.message);
         navigate("/login");
       }
-    };
-    returnUser();
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+    },
+    onError(err) {
+      alert(err);
+      navigate("/login");
+    },
+  });
 
   const userInfo = (
     <>

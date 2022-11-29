@@ -1,6 +1,7 @@
 // LIBRARIES
 import { useReducer, useRef, useState } from "react";
-import { ActiveContext, CategoryContext, UserContextInterface } from "./helpers/Context";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { ActiveContext, UserContextInterface } from "./helpers/Context";
 import { activeTabReducer } from "./helpers/Reducer";
 
 import { Routes, Route } from "react-router-dom";
@@ -30,6 +31,7 @@ export interface CategoryModalContextInterface {
 }
 
 export function App() {
+  const queryClient = new QueryClient();
   const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
     bookmarksActive: true,
     categoriesActive: false,
@@ -127,50 +129,54 @@ export function App() {
   let root: JSX.Element = <Login />;
 
   return (
-    <ActiveContext.Provider
-      value={{
-        activeTabState,
-        activeTabDispatch: dispatchActiveTabState,
-      }}
-    >
-      <div className="app">
-        <Routes>
-          <Route path="/" element={root} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={
-              <Dashboard
-                activeTab="bookmarks"
-                userContext={userContext}
-                bookmarksContext={bookmarksContext}
-                categoryModalContext={categoryModalContext}
-              >
-                <Bookmarks bookmarksContext={bookmarksContext} />
-              </Dashboard>
-            }
-          />
-          <Route
-            path="/categories"
-            element={
-              <Dashboard
-                activeTab="categories"
-                userContext={userContext}
-                bookmarksContext={bookmarksContext}
-                categoryModalContext={categoryModalContext}
-              >
-                <Categories categoriesArray={categoriesArray} openModal={openCategoryModal} />
-              </Dashboard>
-            }
-          />
-          <Route path="/oauth/callback/:query" element={<OauthCallback />} />
-          <Route
-            path="/categories/:id"
-            element={<Category bookmarksContext={bookmarksContext} categories={categoriesArray} />}
-          />
-        </Routes>
-      </div>
-    </ActiveContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <ActiveContext.Provider
+        value={{
+          activeTabState,
+          activeTabDispatch: dispatchActiveTabState,
+        }}
+      >
+        <div className="app">
+          <Routes>
+            <Route path="/" element={root} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/dashboard"
+              element={
+                <Dashboard
+                  activeTab="bookmarks"
+                  userContext={userContext}
+                  bookmarksContext={bookmarksContext}
+                  categoryModalContext={categoryModalContext}
+                >
+                  <Bookmarks user={user} bookmarksContext={bookmarksContext} />
+                </Dashboard>
+              }
+            />
+            <Route
+              path="/categories"
+              element={
+                <Dashboard
+                  activeTab="categories"
+                  userContext={userContext}
+                  bookmarksContext={bookmarksContext}
+                  categoryModalContext={categoryModalContext}
+                >
+                  <Categories categoriesArray={categoriesArray} openModal={openCategoryModal} />
+                </Dashboard>
+              }
+            />
+            <Route path="/oauth/callback/:query" element={<OauthCallback />} />
+            <Route
+              path="/categories/:id"
+              element={
+                <Category bookmarksContext={bookmarksContext} categories={categoriesArray} />
+              }
+            />
+          </Routes>
+        </div>
+      </ActiveContext.Provider>
+    </QueryClientProvider>
   );
 }
 

@@ -5,10 +5,9 @@ export async function fetchBookmarks(abortController: AbortController) {
       signal: abortController.signal,
       headers: { "ngrok-skip-browser-warning": "true" },
     });
-    const response: BookmarksResponse = await request.json();
+    const response = await request.json();
     return response;
   } catch (err) {
     console.log("Error fetching bookmarks", err);
   }
 }
-

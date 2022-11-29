@@ -1,11 +1,11 @@
 // LIBRARIES
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useNavigate } from "react-router";
 
 // APIS
 import { fetchBookmarks } from "../../api/bookmarks-api";
-
+import { useQuery } from "react-query";
 // COMPONENTS
 import { Bookmark } from "./Bookmark";
 
@@ -13,9 +13,10 @@ import { Bookmark } from "./Bookmark";
 import { BookmarksContextInterface } from "../../App";
 
 type BookmarksProps = {
+  user: User;
   bookmarksContext: BookmarksContextInterface;
 };
-export function Bookmarks({ bookmarksContext }: BookmarksProps) {
+export function Bookmarks({ user, bookmarksContext }: BookmarksProps) {
   const { bookmarks, setBookmarks, helpers } = bookmarksContext;
 
   const bookmarksPerPage = 20;
@@ -24,28 +25,28 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
   const [numOfBookmarksToRender, setNumOfBookmarksToRender] = useState(bookmarksPerPage);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const getBookmarks = async () => {
     const abortController = new AbortController();
-    const getBookmarks = async () => {
-      const response = await fetchBookmarks(abortController);
-      if (response?.success) {
-        sessionStorage.setItem("bookmarks", JSON.stringify(response.data));
-        setBookmarks({ ...response.data });
+    const response: BookmarksResponse = await fetchBookmarks(abortController);
+    return response;
+  };
+
+  useQuery("get-bookmarks", getBookmarks, {
+    enabled: !!user,
+    onSuccess(data) {
+      if (data.success) {
+        setBookmarks({ ...data.data });
+        sessionStorage.setItem("bookmarks", JSON.stringify(data.data));
       } else {
-        alert(response?.message);
-        if (response?.message?.includes("not logged")) {
-          navigate("/login");
-        }
-        console.log("error fetching bookmarks");
+        alert(data.message);
+        navigate("/login");
       }
-    };
-    if (!bookmarks) {
-      getBookmarks();
-    }
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+    },
+    onError(err) {
+      alert(err);
+      navigate("/login");
+    },
+  });
 
   const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
     let renderedBookmarks = [];
