@@ -1,76 +1,63 @@
 // LIBRARIES
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useContext } from "react";
+import { ActiveContext, UserContextInterface } from "../../helpers/Context";
 import { useNavigate } from "react-router";
 import { useInView } from "react-intersection-observer";
 import Lottie from "lottie-react";
+import { ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
 
 // API
 import { fetchUser } from "../../api";
 // LAYOUTS
 import { Menu } from "../../layouts";
-// PAGES
-import { Bookmarks } from "../Bookmarks";
+
 // COMPONENTS
 import { NewCategoryButton } from "../../components/buttons";
-import { LoadingModal } from "../../components/modals";
-// ASSETS
-import logo from "../../assets/logo/logo.svg";
-import help from "../../assets/icons/help.svg";
-import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
+import { CategoryModal, LoadingModal } from "../../components/modals";
+import { StickyDashboardBar, StickyDashboardBarText } from "../../components/miscellaneous";
 
-export interface ActiveContext {
-  bookmarksActive: boolean;
-  categoriesActive: boolean;
-  setBookmarksActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setCategoriesActive: React.Dispatch<React.SetStateAction<boolean>>;
-  inView: boolean;
-  scrollRef: React.RefObject<HTMLDivElement>;
-}
-export interface BookmarksContext {
-  bookmarks: Bookmarks | undefined;
-  setBookmarks: React.Dispatch<React.SetStateAction<Bookmarks>>;
-  scrollRef: React.RefObject<HTMLDivElement>;
-  bookmarksLoading: boolean;
-  setBookmarksLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
-export function Dashboard() {
+// ASSETS
+import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
+import { BookmarksContextInterface, CategoryModalContextInterface } from "../../App";
+
+type Props = {
+  activeTab: string;
+  userContext: UserContextInterface;
+  bookmarksContext: BookmarksContextInterface;
+  categoryModalContext: CategoryModalContextInterface;
+
+  children: React.ReactNode;
+};
+export function Dashboard({
+  activeTab,
+  userContext,
+  bookmarksContext,
+  categoryModalContext,
+  children,
+}: Props) {
+  const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
+  const { bookmarksActive, categoriesActive } = activeTabState;
+  const { user, setUser } = userContext;
+  const { bookmarks, helpers } = bookmarksContext;
+  const { bookmarksLoading, bookmarksScrollRef } = helpers;
+  const { categoryModalOpen, openCategoryModal, closeCategoryModal } = categoryModalContext;
+
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<User>(
-    JSON.parse(localStorage.getItem("user")!) || null
-  );
-
-  const [bookmarksActive, setBookmarksActive] = useState(true);
-  const [bookmarksLoading, setBookmarksLoading] = useState(false);
-
-  const [categoriesActive, setCategoriesActive] = useState(false);
-  const [bookmarks, setBookmarks] = useState<Bookmarks>(
-    JSON.parse(localStorage.getItem("bookmarks")!)
-  );
   const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
     initialInView: true,
     threshold: 1,
     rootMargin: "-175px",
   });
-  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const bookmarksContext: BookmarksContext = {
-    bookmarks,
-    setBookmarks,
-    scrollRef,
-    bookmarksLoading,
-    setBookmarksLoading,
-  };
-
-  const activeTabContext: ActiveContext = {
-    bookmarksActive,
-    setBookmarksActive,
-    categoriesActive,
-    setCategoriesActive,
-    inView,
-    scrollRef,
-  };
+  useEffect(() => {
+    if (activeTab === "bookmarks") {
+      activeTabDispatch({ type: ACTIVE_TAB_ACTIONS.BOOKMARKS_ACTIVE });
+    } else if (activeTab === "categories") {
+      activeTabDispatch({ type: ACTIVE_TAB_ACTIONS.CATEGORIES_ACTIVE });
+    }
+  }, [activeTab]);
 
   // useEffect(() => {
   //   // check if user has scrolled to bottom
@@ -98,94 +85,72 @@ export function Dashboard() {
           return {
             ...prev,
             ...userResponse.data,
-            // isLogged: true,
           };
         });
 
-        localStorage.setItem("user", JSON.stringify({ ...userResponse.data }));
+        sessionStorage.setItem("user", JSON.stringify({ ...userResponse.data }));
       } else {
-        // alert(userResponse.message);
-        // if not logged in backend, log out in frontend
         if (userResponse?.message?.includes("not logged in")) {
-          alert(userResponse.message + "from dashboard");
-          setUser((prev) => {
-            return { ...prev, isLogged: false };
-          });
+          alert(userResponse?.message);
           navigate("/login");
         }
+        navigate("/login");
       }
     };
-    if (!user) returnUser();
+    returnUser();
 
     return () => {
       abortController.abort();
     };
   }, []);
+
   const userInfo = (
     <>
       <img src={user?.pfp} alt="profile pic" className="w-10 rounded-full" />
-      <h1 className="user__name">
+      <h1 className="dashboard__header__text">
         <span>Hello</span> {user?.name}!
       </h1>
     </>
   );
   const userInfoSkeleton = (
-    <Lottie
-      animationData={userSkeleton}
-      loop={true}
-      autoplay={true}
-      style={{ width: "150px" }}
-    />
+    <Lottie animationData={userSkeleton} loop={true} autoplay={true} style={{ width: "150px" }} />
   );
+  const bookmarksHeader = user ? userInfo : userInfoSkeleton;
+
+  const categoriesHeader = <h1 className="dashboard__header__text">Categories</h1>;
+  const headerInfo: JSX.Element = bookmarksActive ? bookmarksHeader : categoriesHeader;
+
   return (
     <div className="dashboard">
-      <Menu activeTab={activeTabContext} />
-      <div className={`main-container `}>
+      <Menu scroll={bookmarksScrollRef} />
+      <div className="main-container">
         <main id="main">
-          <div className="logo__container">
-            <div className="menu__logo pl-0">
-              <img src={logo} alt="logo" />
-              <h1>Sorta</h1>
-            </div>
-          </div>
-
-          <div className="user__header">
-            {user ? userInfo : userInfoSkeleton}
+          <div className="dashboard__header" ref={bookmarksScrollRef}>
+            {headerInfo}
           </div>
 
           <p className="my-2 text-neutral-4">
             {bookmarksActive
-              ? " See all your bookmarked tweets"
-              : " See all your categories"}
+              ? " See all your bookmarked tweets below"
+              : " See all your bookmark categories below"}
           </p>
-          <div
-            className={`new-category-container ${
-              !inView ? "new-category-container--stuck" : ""
-            }`}
-          >
-            <NewCategoryButton sticky={!inView} />
-            <div
-              className={`my-6 flex items-center text-primary-1 tall:w-auto ${
-                !inView ? "w-[auto] justify-end" : "justify-between"
-              }`}
-            >
-              <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
-                {bookmarks?.data.length} Bookmark(s)
-              </p>
 
-              <p className="mr-1 flex cursor-pointer items-center space-x-2 self-start font-medium">
-                <img src={help} alt="help icon" width={"20px"} />
-                <span className="hidden md:inline">Need Help?</span>
-              </p>
-            </div>
-          </div>
+          <StickyDashboardBar inView={inView} categoriesActive={categoriesActive}>
+            <NewCategoryButton sticky={!inView} openModal={openCategoryModal} />
+            <StickyDashboardBarText
+              activeTab={activeTab}
+              inView={inView}
+              bookmarks={bookmarks}
+              categoriesActive={categoriesActive}
+            />
+          </StickyDashboardBar>
           <div className="scroll ref" ref={ref}></div>
 
-          {bookmarksActive && <Bookmarks bookmarksContext={bookmarksContext} />}
+          {children}
         </main>
       </div>
       {bookmarksLoading && <LoadingModal />}
+      {categoryModalOpen && <CategoryModal user={user} closeModal={closeCategoryModal} />}
     </div>
   );
 }
-

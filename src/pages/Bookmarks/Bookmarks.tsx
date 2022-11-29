@@ -10,17 +10,18 @@ import { fetchBookmarks } from "../../api/bookmarks-api";
 import { Bookmark } from "./Bookmark";
 
 // TYPES
-import { BookmarksContext } from "../User";
+import { BookmarksContextInterface } from "../../App";
 
 type BookmarksProps = {
-  bookmarksContext: BookmarksContext;
+  bookmarksContext: BookmarksContextInterface;
 };
 export function Bookmarks({ bookmarksContext }: BookmarksProps) {
+  const { bookmarks, setBookmarks, helpers } = bookmarksContext;
+
   const bookmarksPerPage = 20;
   const [pageLoading, setPageLoading] = useState(true);
   const [hasMoreBookmarks, setHasMoreBookmarks] = useState(true);
-  const [numOfBookmarksToRender, setNumOfBookmarksToRender] =
-    useState(bookmarksPerPage);
+  const [numOfBookmarksToRender, setNumOfBookmarksToRender] = useState(bookmarksPerPage);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,16 +30,16 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
       const response = await fetchBookmarks(abortController);
       if (response?.success) {
         sessionStorage.setItem("bookmarks", JSON.stringify(response.data));
-        bookmarksContext.setBookmarks({ ...response.data });
+        setBookmarks({ ...response.data });
       } else {
-        alert(response?.message + "from bookmarks");
+        alert(response?.message);
         if (response?.message?.includes("not logged")) {
           navigate("/login");
         }
         console.log("error fetching bookmarks");
       }
     };
-    if (!bookmarksContext.bookmarks) {
+    if (!bookmarks) {
       getBookmarks();
     }
     return () => {
@@ -46,9 +47,7 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
     };
   }, []);
 
-  const renderBookmarks = (
-    bookmarksArray: Bookmark[] | undefined
-  ): JSX.Element[] => {
+  const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
     let renderedBookmarks = [];
     for (let i = 0; i < numOfBookmarksToRender; i++) {
       if (bookmarksArray) {
@@ -77,23 +76,18 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
     }
   };
   const loadMoreBookmarks = () => {
-    bookmarksContext.setBookmarksLoading(true);
+    helpers.setBookmarksLoading(true);
     setTimeout(() => {
-      loadBookmarks(bookmarksContext.bookmarks?.data!);
-      bookmarksContext.setBookmarksLoading(false);
+      loadBookmarks(bookmarks?.data!);
+      helpers.setBookmarksLoading(false);
     }, 1000);
   };
   const loaderComponent = (
     <div
-      className={`mt-10 flex justify-center ${
-        bookmarksContext.bookmarksLoading ? "hidden" : "flex"
-      }`}
+      className={`mt-10 flex justify-center ${helpers.bookmarksLoading ? "hidden" : "flex"}`}
       key={0}
     >
-      <button
-        onClick={loadMoreBookmarks}
-        className="primary-btn primary-btn--medium"
-      >
+      <button onClick={loadMoreBookmarks} className="primary-btn primary-btn--medium">
         Load More
       </button>
     </div>
@@ -106,17 +100,16 @@ export function Bookmarks({ bookmarksContext }: BookmarksProps) {
       loader={loaderComponent}
       useWindow={false}
     >
-      {renderBookmarks(bookmarksContext.bookmarks?.data)}
+      {renderBookmarks(bookmarks?.data)}
     </InfiniteScroll>
   );
   return (
     <>
       <div className="bookmarks__wrapper">
-        <div className="bookmarks" ref={bookmarksContext.scrollRef}>
+        <div className="bookmarks" ref={helpers.bookmarksScrollRef}>
           {!pageLoading && infiniteScroll}
         </div>
       </div>
     </>
   );
 }
-

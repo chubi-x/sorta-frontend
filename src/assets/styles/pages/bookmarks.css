@@ -1,3 +1,4 @@
+@import "../components/dropdowns.css";
 .bookmarks {
   @apply h-full w-full;
   @apply mt-6 pb-40 md:pb-28 tall:pb-44;
@@ -17,7 +18,8 @@
     @apply flex flex-col items-center justify-center;
     @apply absolute top-0 left-0 z-30;
     @apply h-full w-full;
-    @apply bg-neutral-2 opacity-50;
+    @apply bg-neutral-1 bg-opacity-30;
+
     & > div {
       @apply opacity-100;
     }
@@ -34,15 +36,25 @@
 
     @apply flex;
     @apply w-[85%] md:w-[90%];
-    @apply ml-2 md:ml-0;
+    @apply ml-2 sm:mr-auto md:ml-0;
   }
 
   &__details {
     @apply flex flex-col items-start;
     @apply w-full;
     @apply overflow-hidden;
+    @apply md:pl-2 xl:pl-0;
   }
   &__author {
+    &__img {
+      @apply w-[40px];
+      @apply md:mr-auto;
+      img {
+        @apply w-full;
+        @apply rounded-full;
+      }
+    }
+
     &__details {
       @apply flex items-center;
       @apply mb-2;
@@ -95,14 +107,6 @@
       @apply self-center;
       @apply w-3;
     }
-    &__img {
-      @apply w-[40px];
-      @apply md:mr-auto;
-      img {
-        @apply w-full;
-        @apply rounded-full;
-      }
-    }
   }
   &__date {
     @apply text-xs text-neutral-2;
@@ -120,70 +124,6 @@
     @apply md:max-w-[90%];
     @apply text-[14px];
     @apply whitespace-normal;
-  }
-
-  &__more__btn {
-    @apply flex items-center;
-    @apply space-x-1;
-
-    &__container {
-      @apply flex justify-center;
-      @apply h-[10px] w-[25px];
-      @apply ml-auto px-1;
-
-      // @apply p-1;
-      @apply bg-neutral-6;
-      @apply cursor-pointer;
-      @apply rounded-lg;
-    }
-
-    div {
-      @apply block;
-      @apply h-[2px] w-[2px];
-      @apply bg-neutral-4;
-      @apply rounded-full;
-    }
-
-    &:hover {
-      div {
-        @apply bg-neutral-2;
-      }
-    }
-  }
-
-  &__tooltip {
-    @apply absolute top-6 right-0;
-    @apply z-20;
-    @apply h-28 w-48;
-    @apply rounded-lg bg-neutral-8;
-    @apply flex flex-col justify-between;
-    @apply text-[14px] text-neutral-3;
-    box-shadow: 3px 5px 3px 1px #716f8c1a;
-
-    &__item {
-      @apply border-x border-t border-neutral-6;
-      @apply flex items-center;
-      @apply space-x-2;
-      @apply cursor-pointer;
-      @apply h-1/2 w-full;
-      @apply px-5;
-      @apply hover:bg-neutral-6;
-
-      img[alt="add icon"] {
-        width: 25px;
-      }
-      img[alt="delete icon"] {
-        width: 25px;
-      }
-
-      &__top {
-        @apply rounded-t-lg;
-      }
-      &__bottom {
-        @apply rounded-b-lg;
-        @apply border-b;
-      }
-    }
   }
 }
 

@@ -1,29 +1,31 @@
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { ActiveContext } from "../helpers/Context";
+import { logoutUser } from "../api";
+
+import { MenuButton } from "../components/buttons";
+import { LoadingModal } from "../components/modals";
 import logo from "../assets/logo/logo.svg";
 import bookmarksIcon from "../assets/icons/bookmarks.svg";
 import categoriesIcon from "../assets/icons/categories.svg";
 import logoutIcon from "../assets/icons/logout.svg";
-import { MenuButton } from "../components/buttons";
-import { LoadingModal } from "../components/modals";
 
-import { ActiveContext } from "../pages/User";
-import { logoutUser } from "../api";
-import { useEffect, useState } from "react";
-
-type MenuProps = {
-  activeTab: ActiveContext;
-};
 export type MenuButtonProps = {
   icon: string;
   text: string;
   active?: boolean;
   toggle: () => void;
-  // showText: boolean;
   mobileClass?: string;
 };
 
-export function Menu({ activeTab }: MenuProps) {
+export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
+  const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [loggingOut, setLoggingOut] = useState(false);
+
+  const { activeTabState } = useContext(ActiveContext);
+  const { bookmarksActive, categoriesActive } = activeTabState;
+
   useEffect(() => {
     function checkWindowWidth() {
       setWindowWidth(window.innerWidth);
@@ -36,16 +38,17 @@ export function Menu({ activeTab }: MenuProps) {
   }, []);
 
   function toggleBookmarks() {
-    activeTab.scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-    activeTab.setBookmarksActive(true);
-    activeTab.setCategoriesActive(false);
+    if (bookmarksActive) {
+      scroll?.current?.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      navigate("/dashboard");
+    }
   }
   function toggleCategories() {
-    activeTab.setCategoriesActive(true);
-    activeTab.setBookmarksActive(false);
+    navigate("/categories");
   }
   function logout() {
-    let successful = null;
+    let successful: boolean | undefined;
     const controller = new AbortController();
     const logout = async () => {
       setLoggingOut(true);
@@ -56,6 +59,7 @@ export function Menu({ activeTab }: MenuProps) {
         location.href = "http://192.168.1.9:5173/login";
       } else {
         alert("There was a problem logging you out. Please try again.");
+        setLoggingOut(false);
       }
     };
     logout();
@@ -64,13 +68,13 @@ export function Menu({ activeTab }: MenuProps) {
     {
       icon: bookmarksIcon,
       text: "Home",
-      active: activeTab.bookmarksActive,
+      active: bookmarksActive,
       toggle: toggleBookmarks,
     },
     {
       icon: categoriesIcon,
       text: "Categories",
-      active: activeTab.categoriesActive,
+      active: categoriesActive,
       toggle: toggleCategories,
     },
     {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export function useHideTooltip(
+export function useHideDropdown(
   ref: any,
   show: React.Dispatch<React.SetStateAction<boolean>>
 ) {
@@ -16,3 +16,4 @@ export function useHideTooltip(
     };
   }, [ref]);
 }
+

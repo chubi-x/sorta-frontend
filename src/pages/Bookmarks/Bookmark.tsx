@@ -1,15 +1,24 @@
 // LIBRARIES
 import { useState } from "react";
 // COMPONENTS
-import BookmarkTooltip from "../../components/tooltips/BookmarkTooltip";
+import { CardDropdown, DropDownItem } from "../../components/dropdowns";
+import { MoreButton } from "../../components/buttons";
+
 // ASSETS
 import verifiedIcon from "../../assets/icons/verified.svg";
+import addIcon from "../../assets/icons/add.svg";
+import deleteIcon from "../../assets/icons/delete.svg";
 
 type BookmarkProps = {
   bookmark: Bookmark;
-  index: number;
-  bookmarksLength: number | undefined;
+  index?: number;
+  bookmarksLength?: number | undefined;
 };
+
+const dropdownItems: DropDownItem[] = [
+  { icon: addIcon, text: "Add to category" },
+  { icon: deleteIcon, text: "Delete" },
+];
 export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -74,16 +83,7 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
                 {convertDate(bookmark?.created_at)}
               </p>
             </div>
-            <div
-              className="bookmark__card__more__btn__container"
-              onClick={() => setShowTooltip(true)}
-            >
-              <div className="bookmark__card__more__btn">
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
+            <MoreButton showTooltip={setShowTooltip} />
           </div>
           <h1
             className="bookmark__card__text"
@@ -94,7 +94,9 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
             {bookmark?.text}
           </h1>
 
-          {showTooltip && <BookmarkTooltip show={setShowTooltip} />}
+          {showTooltip && (
+            <CardDropdown items={dropdownItems} show={setShowTooltip} />
+          )}
         </div>
       </div>
     </div>

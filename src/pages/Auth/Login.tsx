@@ -19,7 +19,7 @@ export function Login() {
 
   const authLink = () => {
     const oauth: Oauth = JSON.parse(localStorage.getItem("oauth")!);
-    return oauth.url;
+    return oauth?.url;
   };
 
   useEffect(() => {
@@ -29,8 +29,6 @@ export function Login() {
       if (responseData?.success) {
         localStorage.setItem("oauth", JSON.stringify(responseData?.data));
         setReadyToLogin(true);
-      } else {
-        alert(responseData?.error);
       }
     };
     fetchOauthFunction();

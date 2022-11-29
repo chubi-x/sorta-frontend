@@ -36,6 +36,10 @@
   @apply cursor-pointer;
   @apply rounded bg-primary-1;
 
+  &[type="submit"] {
+    @apply bg-primary-1;
+  }
+
   &--small {
     @apply px-3 py-3;
 
@@ -45,8 +49,7 @@
   }
 
   &--medium {
-    @apply px-4 py-4;
-
+    @apply px-6 py-4;
     & > a {
       @apply space-x-3;
       @apply flex;
@@ -54,6 +57,18 @@
 
     &:hover {
       @apply bg-primary-1-hover text-neutral-8;
+    }
+  }
+
+  &--inverted {
+    @apply px-6 py-4;
+
+    @apply bg-neutral-8;
+    @apply text-primary-1;
+    @apply border-2 border-neutral-6;
+
+    &:hover {
+      @apply bg-neutral-7;
     }
   }
   &--disabled {
@@ -77,6 +92,29 @@
   @apply font-medium text-primary-1;
   img {
     @apply ml-1;
+  }
+}
+
+.more-btn {
+  @apply flex items-center justify-center;
+  @apply gap-[2px];
+  @apply h-[10px] w-[22px];
+  @apply ml-auto p-[2px];
+
+  @apply bg-neutral-6;
+  @apply cursor-pointer;
+  @apply rounded-[40px];
+
+  div {
+    @apply h-[0.2rem] w-[0.2rem];
+    @apply bg-neutral-4;
+    @apply rounded-full;
+  }
+
+  &:hover {
+    div {
+      @apply bg-neutral-2;
+    }
   }
 }
 

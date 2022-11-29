@@ -40,6 +40,13 @@ interface Bookmark {
     urls: TweetEntityUrl[];
   };
 }
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  image?: string;
+  bookmarks: string[];
+}
 
 interface TweetEntityUrl {
   start: number;
@@ -80,3 +87,4 @@ interface OauthResponse extends ServerResponse {
 interface BookmarksResponse extends ServerResponse {
   data: Bookmarks;
 }
+

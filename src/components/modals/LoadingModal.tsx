@@ -8,7 +8,7 @@ export function LoadingModal() {
         animationData={loadingAnimation}
         loop={true}
         autoplay={true}
-        style={{ width: "150px" }}
+        style={{ width: "100px" }}
       />
     </div>
   );

@@ -1,0 +1,33 @@
+.dropdown {
+  @apply absolute top-6 right-0 z-20;
+  @apply h-auto w-48;
+  @apply space-y-[20px] py-7;
+  @apply rounded-lg border border-neutral-6 bg-neutral-8;
+  @apply flex flex-col justify-between;
+  @apply text-[14px] text-neutral-4;
+  @apply font-body;
+  box-shadow: 3px 5px 3px 1px #716f8c1a;
+
+  &__item {
+    @apply border-neutral-6;
+    @apply flex items-center;
+    @apply space-x-2;
+    @apply cursor-pointer;
+    @apply h-full w-full;
+    @apply px-5;
+
+    img {
+      width: 16px;
+    }
+
+    &--delete {
+      @apply text-secondary-4;
+    }
+  }
+  & div:first-child {
+    @apply rounded-t-lg;
+  }
+  & div:last-child {
+    @apply rounded-b-lg;
+  }
+}

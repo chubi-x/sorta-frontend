@@ -5,36 +5,11 @@
   @apply h-screen;
   @apply relative;
   @apply overflow-hidden;
-}
-.main-container {
-  @apply h-full w-[85%] md:w-4/5;
-  @apply mb-10 md:px-10 lg:px-20;
-  @apply relative;
-}
-main {
-  @apply h-full w-full;
-  @apply font-body;
-  @apply overflow-auto;
-  @apply relative;
-  @apply z-10;
 
-  -ms-overflow-style: auto;
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
+  &__header {
+    @apply flex items-center space-x-3 pt-10;
 
-  &::-webkit-scrollbar-thumb {
-    background: theme("colors.neutral-6");
-  }
-
-  .user {
-    &__header {
-      @apply flex items-center space-x-3 md:pt-10;
-    }
-    &__name {
+    &__text {
       @apply font-header-2 text-md font-medium text-primary-1;
 
       span {
@@ -42,12 +17,39 @@ main {
       }
     }
   }
+}
+.main-container {
+  @apply h-full w-[85%] md:w-3/5 md:flex-grow;
+  @apply mb-10 md:mr-4 md:px-10 lg:px-20;
+  @apply relative;
+}
+main {
+  @apply h-full w-full;
+  @apply sm:pr-6;
+  @apply font-body;
+  @apply relative;
+  @apply z-10;
+  @apply overflow-auto;
+  -ms-overflow-style: auto;
+  &::-webkit-scrollbar {
+    width: 5px;
+    padding: 20px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
+  &::-webkit-scrollbar-thumb {
+    // background: ;
+    border-radius: 1000px;
+    background-color: transparent;
+    border-bottom: 200px solid theme("colors.primary-1");
+  }
   .new-category-container {
     @apply h-[110px] w-full md:h-28 lg:w-5/6;
     @apply mt-10;
     @apply bg-neutral-7;
-    @apply sticky top-[0px] z-20;
+    @apply sticky top-[0px] z-30;
 
     &--stuck {
       @apply h-[100px];
@@ -62,6 +64,9 @@ main {
     @media screen and (min-width: 770px) {
       @apply hidden;
     }
+  }
+  .need-help {
+    @apply mr-1 flex cursor-help items-center space-x-2 self-start font-medium;
   }
 }
 
