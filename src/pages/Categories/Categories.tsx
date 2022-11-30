@@ -10,8 +10,7 @@ export function Categories({ openModal, categoriesArray }: CategoriesProps) {
     <div className="categories--empty">
       <img src={emptyCategoriesImage} alt="empty categories image" />
       <p>
-        You have not created any category yet <br /> click on the button below to create a new
-        category
+        You don't have any category yet <br /> click on the button below to create a new category
       </p>
       <button className="primary-btn primary-btn--medium" onClick={openModal}>
         Create Category
