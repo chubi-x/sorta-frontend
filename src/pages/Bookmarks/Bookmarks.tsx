@@ -17,7 +17,7 @@ type BookmarksProps = {
   bookmarksContext: BookmarksContextInterface;
 };
 export function Bookmarks({ user, bookmarksContext }: BookmarksProps) {
-  const { bookmarks, setBookmarks, helpers } = bookmarksContext;
+  const { bookmarks, updateBookmarks, helpers } = bookmarksContext;
 
   const bookmarksPerPage = 20;
   const [pageLoading, setPageLoading] = useState(true);
@@ -32,10 +32,9 @@ export function Bookmarks({ user, bookmarksContext }: BookmarksProps) {
   };
 
   useQuery("get-bookmarks", getBookmarks, {
-    enabled: !!user,
     onSuccess(data) {
       if (data.success) {
-        setBookmarks({ ...data.data });
+        updateBookmarks({ ...data.data });
         sessionStorage.setItem("bookmarks", JSON.stringify(data.data));
       } else {
         alert(data.message);
@@ -77,10 +76,10 @@ export function Bookmarks({ user, bookmarksContext }: BookmarksProps) {
     }
   };
   const loadMoreBookmarks = () => {
-    helpers.setBookmarksLoading(true);
+    helpers.updateBookmarksLoading(true);
     setTimeout(() => {
       loadBookmarks(bookmarks?.data!);
-      helpers.setBookmarksLoading(false);
+      helpers.updateBookmarksLoading(false);
     }, 1000);
   };
   const loaderComponent = (

@@ -1,6 +1,6 @@
 // LIBRARIES
 import { useEffect, useContext } from "react";
-import { ActiveContext, UserContextInterface } from "../../helpers/Context";
+import { ActiveContext } from "../../helpers/Context";
 import { useNavigate } from "react-router";
 import { useInView } from "react-intersection-observer";
 import Lottie from "lottie-react";
@@ -20,7 +20,11 @@ import { StickyDashboardBar, StickyDashboardBarText } from "../../components/mis
 
 // ASSETS
 import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
-import { BookmarksContextInterface, CategoryModalContextInterface } from "../../App";
+import {
+  BookmarksContextInterface,
+  CategoryModalContextInterface,
+  UserContextInterface,
+} from "../../App";
 
 type Props = {
   activeTab: string;
@@ -39,7 +43,7 @@ export function Dashboard({
 }: Props) {
   const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
   const { bookmarksActive, categoriesActive } = activeTabState;
-  const { user, setUser } = userContext;
+  const { user, updateUser } = userContext;
   const { bookmarks, helpers } = bookmarksContext;
   const { bookmarksLoading, bookmarksScrollRef } = helpers;
   const { categoryModalOpen, openCategoryModal, closeCategoryModal } = categoryModalContext;
@@ -88,12 +92,7 @@ export function Dashboard({
     enabled: !user,
     onSuccess(data) {
       if (data.success) {
-        setUser((prev) => {
-          return {
-            ...prev,
-            ...data.data,
-          };
-        });
+        updateUser({ ...data.data });
         sessionStorage.setItem("user", JSON.stringify({ ...data.data }));
       } else {
         alert(data.message);

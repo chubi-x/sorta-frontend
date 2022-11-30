@@ -1,7 +1,8 @@
 // LIBRARIES
 import { useReducer, useRef, useState } from "react";
 import { QueryClientProvider, QueryClient } from "react-query";
-import { ActiveContext, UserContextInterface } from "./helpers/Context";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { ActiveContext } from "./helpers/Context";
 import { activeTabReducer } from "./helpers/Reducer";
 
 import { Routes, Route } from "react-router-dom";
@@ -14,14 +15,18 @@ import { Categories, Category } from "./pages/Categories";
 import "./assets/styles/App.css";
 import { Bookmarks } from "./pages/Bookmarks";
 
+export interface UserContextInterface {
+  user: User;
+  updateUser: (user: User) => void;
+}
 interface BookmarksHelpers {
   bookmarksScrollRef: React.RefObject<HTMLDivElement>;
   bookmarksLoading: boolean;
-  setBookmarksLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  updateBookmarksLoading: (state: boolean) => void;
 }
 export interface BookmarksContextInterface {
   bookmarks: Bookmarks;
-  setBookmarks: React.Dispatch<React.SetStateAction<Bookmarks>>;
+  updateBookmarks: (bookmarks: Bookmarks) => void;
   helpers: BookmarksHelpers;
 }
 export interface CategoryModalContextInterface {
@@ -48,17 +53,27 @@ export function App() {
 
   const userContext: UserContextInterface = {
     user,
-    setUser,
+    updateUser,
   };
   const bookmarksContext: BookmarksContextInterface = {
     bookmarks,
-    setBookmarks,
+    updateBookmarks,
     helpers: {
       bookmarksScrollRef,
       bookmarksLoading,
-      setBookmarksLoading,
+      updateBookmarksLoading,
     },
   };
+
+  function updateUser(user: User) {
+    setUser(user);
+  }
+  function updateBookmarks(bookmarks: Bookmarks) {
+    setBookmarks(bookmarks);
+  }
+  function updateBookmarksLoading(state: boolean) {
+    setBookmarksLoading(state);
+  }
 
   const categoriesArray: Category[] = [
     // {
@@ -176,6 +191,7 @@ export function App() {
           </Routes>
         </div>
       </ActiveContext.Provider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
