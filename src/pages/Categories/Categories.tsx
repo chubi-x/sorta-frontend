@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { QueryObserverResult } from "react-query";
+import { Link } from "react-router-dom";
 import { CategoryCard } from ".";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 
@@ -30,8 +31,15 @@ export function Categories({ openModal, categoriesArray, fetchCategories }: Cate
   );
   const categories = (
     <div className="categories--full">
-      {categoriesArray.map((category) => (
-        <CategoryCard category={category} key={category.id} />
+      {categoriesArray.map(({ id, image, name, description }) => (
+        <CategoryCard image={image} key={id}>
+          <Link to={`/categories/${id}`}>
+            <div className="category__card__text">
+              <h2>{name}</h2>
+              <p>{description}</p>
+            </div>
+          </Link>
+        </CategoryCard>
       ))}
       <div className="category__card"></div>
     </div>
