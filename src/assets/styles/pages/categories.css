@@ -29,6 +29,7 @@
 
   &--full {
     @apply z-10;
+    @apply w-auto;
     @apply md:rounded-[40px] md:border md:border-neutral-6;
     @apply py-[30px] md:px-[30px];
 
