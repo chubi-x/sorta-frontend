@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from "react";
-
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
+import { usePostCategory } from "../../hooks";
+import { QueryObserverResult } from "react-query";
 import Compressor from "compressorjs";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { firebaseStorage } from "../../../firebase";
+
+import { LoadingModal } from "./LoadingModal";
 import cancelIcon from "../../assets/icons/cancel.svg";
 import imageIcon from "../../assets/icons/image.svg";
-import { firebaseStorage } from "../../../firebase";
+
 type CategoryModalProps = {
   closeModal: () => void;
   user: User;
+  refetchCategories?: () => Promise<QueryObserverResult<CategoriesResponse, unknown>>;
 };
 
-export function CategoryModal({ closeModal, user }: CategoryModalProps) {
+export function CategoryModal({ closeModal, user, refetchCategories }: CategoryModalProps) {
+  const navigate = useNavigate();
+  const { mutate: postCategory } = usePostCategory();
   const descriptionMaxLength = 200;
-  const [categoryForm, setCategoryForm] = useState<Omit<Category, "id" | "bookmarks">>({
+  const [categoryForm, setCategoryForm] = useState<Omit<Category, "id" | "image" | "bookmarks">>({
     name: "",
     description: "",
-    image: "",
   });
   const [imageFileBlob, setImageFileBlob] = useState<File | Blob>();
   const [thumbnailSrc, setThumbnailSrc] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (imageFileBlob) {
@@ -35,7 +43,7 @@ export function CategoryModal({ closeModal, user }: CategoryModalProps) {
     // compress here
     new Compressor(image, {
       checkOrientation: true,
-      quality: 0.6,
+      quality: 0.4,
       success(result) {
         setImageFileBlob(result);
       },
@@ -47,8 +55,7 @@ export function CategoryModal({ closeModal, user }: CategoryModalProps) {
     try {
       const uploadedImage = await uploadBytes(imageRef, imageFileBlob);
       const imageUrl = await getDownloadURL(uploadedImage.ref);
-      setCategoryForm((prev) => ({ ...prev, image: imageUrl }));
-      alert("upload successful!");
+      return imageUrl;
     } catch (e) {
       alert("There was an error uploading your file. Please try again.");
     }
@@ -64,7 +71,20 @@ export function CategoryModal({ closeModal, user }: CategoryModalProps) {
   }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await uploadImage(categoryForm.name);
+    setLoading(true);
+    const image = await uploadImage(categoryForm.name);
+
+    postCategory(
+      { ...categoryForm, image },
+      {
+        async onSuccess() {
+          await refetchCategories?.();
+          setLoading(false);
+          navigate("/categories");
+          closeModal();
+        },
+      }
+    );
   }
   return (
     <div className="category__modal">
@@ -140,6 +160,7 @@ export function CategoryModal({ closeModal, user }: CategoryModalProps) {
           </div>
         </form>
       </div>
+      {loading && <LoadingModal />}
     </div>
   );
 }
