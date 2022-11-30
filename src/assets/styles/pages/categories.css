@@ -16,7 +16,7 @@
   @apply pt-10 pb-40 md:pb-20;
   &--empty {
     @apply flex flex-col items-center justify-center;
-    @apply space-y-6;
+    @apply space-y-6 pb-20;
 
     p {
       @apply w-full md:w-96;
@@ -223,7 +223,7 @@
 
   &__banner {
     @apply flex flex-col;
-    @apply h-[270px] w-full;
+    @apply h-[200px] w-full md:h-[270px];
     @apply bg-cover bg-center bg-no-repeat;
 
     &__controls {
