@@ -5,16 +5,25 @@ import { BookmarksContextInterface } from "../../App";
 import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
 import { MoreButton } from "../../components/buttons";
-import { CardDropdown } from "../../components/dropdowns";
-import { dropdownItems } from "./CategoryCard";
+import { CardDropdown, DropDownItem } from "../../components/dropdowns";
+import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
+
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
-import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
+import addIcon from "../../assets/icons/add.svg";
+import editIcon from "../../assets/icons/edit.svg";
+import deleteIcon from "../../assets/icons/delete.svg";
 
 type Props = {
   bookmarksContext: BookmarksContextInterface;
   categories: Category[];
 };
+
+export const dropdownItems: DropDownItem[] = [
+  { icon: addIcon, text: "Add bookmarks" },
+  { icon: editIcon, text: "Edit category" },
+  { icon: deleteIcon, text: "Delete category" },
+];
 export function Category({ bookmarksContext, categories }: Props) {
   const { bookmarks } = bookmarksContext;
 
