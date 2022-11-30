@@ -3,7 +3,7 @@ import { NavigateFunction } from "react-router-dom";
 import { fetchUser } from "../api";
 
 export function useQueryUser(
-  user: User,
+  logged: boolean,
   updateUser: (user: User) => void,
   navigate: NavigateFunction
 ) {
@@ -14,13 +14,13 @@ export function useQueryUser(
   };
 
   return useQuery("user", returnUser, {
-    enabled: !user,
+    enabled: logged,
     onSuccess(data) {
       if (data.success) {
         updateUser({ ...data.data });
         sessionStorage.setItem("user", JSON.stringify({ ...data.data }));
       } else {
-        alert(data.message);
+        // alert(data.message);
         navigate("/login");
       }
     },

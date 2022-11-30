@@ -16,7 +16,10 @@ import { LoginCard } from "../../components/cards";
 // ASSETS
 import loadingAnimation from "../../assets/lotties/loading.json";
 
-export function OauthCallback() {
+type Props = {
+  login: () => void;
+};
+export function OauthCallback({ login }: Props) {
   const params = useLocation();
   const navigate = useNavigate();
 
@@ -28,12 +31,9 @@ export function OauthCallback() {
     const queryString = parse(params.search, { ignoreQueryPrefix: true });
     const callbackParams = queryString as unknown as CallbackQueryParams;
     const completeOauthFunction = async () => {
-      const oauthResponse = await completeOauth(
-        callbackParams,
-        oauth,
-        abortController
-      );
+      const oauthResponse = await completeOauth(callbackParams, oauth, abortController);
       if (oauthResponse?.success) {
+        login();
         navigate("/dashboard");
       } else {
         alert(oauthResponse?.error);
@@ -44,7 +44,7 @@ export function OauthCallback() {
     return () => {
       abortController.abort();
       localStorage.removeItem("callbackParams");
-      // localStorage.removeItem("oauth");
+      localStorage.removeItem("oauth");
     };
   }, []);
 
@@ -64,4 +64,3 @@ export function OauthCallback() {
     </>
   );
 }
-

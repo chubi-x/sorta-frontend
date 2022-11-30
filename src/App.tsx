@@ -36,15 +36,8 @@ export interface CategoryModalContextInterface {
 
 export function App() {
   const navigate = useNavigate();
-
+  const [logged, setLogged] = useState(false);
   const [user, setUser] = useState<User>(JSON.parse(sessionStorage.getItem("user")!) || null);
-  const { refetch: refetchCategories } = useQueryCategories(updateCategories, navigate);
-  const { isSuccess: userFetched } = useQueryUser(user, updateUser, navigate);
-
-  const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
-    bookmarksActive: true,
-    categoriesActive: false,
-  });
   const [categories, setCategories] = useState<Category[]>(
     JSON.parse(localStorage.getItem("categories")!) || []
   );
@@ -53,6 +46,13 @@ export function App() {
   );
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
+    bookmarksActive: true,
+    categoriesActive: false,
+  });
+
+  const { refetch: refetchCategories } = useQueryCategories(updateCategories, navigate);
+  const { isSuccess: userFetched } = useQueryUser(logged, updateUser, navigate);
 
   const bookmarksScrollRef = useRef<HTMLDivElement>(null);
 
@@ -69,6 +69,10 @@ export function App() {
       updateBookmarksLoading,
     },
   };
+
+  function login() {
+    setLogged(true);
+  }
 
   function updateUser(user: User) {
     setUser(user);
@@ -145,10 +149,16 @@ export function App() {
               </Dashboard>
             }
           />
-          <Route path="/oauth/callback/:query" element={<OauthCallback />} />
+          <Route path="/oauth/callback/:query" element={<OauthCallback login={login} />} />
           <Route
             path="/categories/:id"
-            element={<Category bookmarksContext={bookmarksContext} categories={categories} />}
+            element={
+              <Category
+                bookmarksContext={bookmarksContext}
+                refetchCategories={refetchCategories}
+                categories={categories}
+              />
+            }
           />
         </Routes>
       </div>
