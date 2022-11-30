@@ -90,3 +90,6 @@ interface BookmarksResponse extends ServerResponse {
 interface CategoryResponse extends ServerResponse {
   data: Category;
 }
+interface CategoriesResponse extends ServerResponse {
+  data: Category[];
+}
