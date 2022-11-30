@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { BookmarksContextInterface } from "../../App";
+
 import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
 import { MoreButton } from "../../components/buttons";
@@ -7,7 +9,7 @@ import { CardDropdown } from "../../components/dropdowns";
 import { dropdownItems } from "./CategoryCard";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
-import { BookmarksContextInterface } from "../../App";
+import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 
 type Props = {
   bookmarksContext: BookmarksContextInterface;
@@ -30,6 +32,24 @@ export function Category({ bookmarksContext, categories }: Props) {
   function backToCategories() {
     navigate("/categories");
   }
+
+  const emptyCategory = (
+    <div className="categories--empty">
+      <img src={emptyCategoriesImage} alt="empty categories image" />
+      <p>
+        No bookmarks here yet <br /> click on the button below to add bookmarks
+      </p>
+      <button className="primary-btn primary-btn--medium">Add bookmarks</button>
+    </div>
+  );
+  const fullCategory = categoryBookmarks.map((bookmark, index) => (
+    <Bookmark
+      key={bookmark.id}
+      bookmark={bookmark}
+      bookmarksLength={categoryBookmarks.length}
+      index={index}
+    />
+  ));
   return (
     <div className="category__page__wrapper">
       <Menu />
@@ -63,14 +83,7 @@ export function Category({ bookmarksContext, categories }: Props) {
             </p>
           </div>
           <div className="category__page__bookmarks">
-            {categoryBookmarks.map((bookmark, index) => (
-              <Bookmark
-                key={bookmark.id}
-                bookmark={bookmark}
-                bookmarksLength={categoryBookmarks.length}
-                index={index}
-              />
-            ))}
+            {categoryBookmarks.length > 0 ? fullCategory : emptyCategory}
           </div>
         </div>
       </div>
