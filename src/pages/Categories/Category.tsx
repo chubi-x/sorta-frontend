@@ -23,7 +23,7 @@ export function Category({ bookmarksContext, categories }: Props) {
   const params = useParams();
   const { id } = params;
   const category = categories.find((item) => item.id === id);
-
+  const { name, image, description } = { ...category };
   const categoryBookmarks = bookmarks?.data?.filter((bookmark) =>
     category?.bookmarks.includes(bookmark?.id)
   );
@@ -34,10 +34,7 @@ export function Category({ bookmarksContext, categories }: Props) {
     <div className="category__page__wrapper">
       <Menu />
       <div className="category__page">
-        <div
-          className="category__page__banner"
-          style={{ backgroundImage: `url(${category?.image})` }}
-        >
+        <div className="category__page__banner" style={{ backgroundImage: `url(${image})` }}>
           <div className="category__page__banner__controls">
             <div className="back-button" onClick={backToCategories}>
               <img src={backIcon} alt="back button icon" />
@@ -49,9 +46,9 @@ export function Category({ bookmarksContext, categories }: Props) {
           </div>
           <div className="category__page__banner__text__wrapper rounded-none">
             <div className="category__page__banner__text">
-              <h2>{category?.name}</h2>
+              <h2>{name}</h2>
               <p>
-                <span className="text-primary-1">Description: </span> {category?.description}
+                <span className="text-primary-1">Description: </span> {description}
               </p>
             </div>
           </div>
