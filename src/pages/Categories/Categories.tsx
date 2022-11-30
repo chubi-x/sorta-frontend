@@ -5,6 +5,7 @@ type CategoriesProps = {
   openModal: () => void;
   categoriesArray: Category[];
 };
+
 export function Categories({ openModal, categoriesArray }: CategoriesProps) {
   const emptyCategories = (
     <div className="categories--empty">
@@ -22,6 +23,7 @@ export function Categories({ openModal, categoriesArray }: CategoriesProps) {
       {categoriesArray.map((category) => (
         <CategoryCard category={category} key={category.id} />
       ))}
+      <div className="category__card"></div>
     </div>
   );
   return (
