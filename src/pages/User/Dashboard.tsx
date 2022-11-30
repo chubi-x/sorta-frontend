@@ -1,15 +1,13 @@
 // LIBRARIES
 import { useEffect, useContext } from "react";
 import { ActiveContext } from "../../helpers/Context";
-import { useNavigate } from "react-router";
 import { useInView } from "react-intersection-observer";
 import Lottie from "lottie-react";
 import { ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
 
 // API
-import { useQuery } from "react-query";
+import { QueryObserverResult } from "react-query";
 
-import { fetchUser } from "../../api";
 // LAYOUTS
 import { Menu } from "../../layouts";
 
@@ -32,6 +30,7 @@ type Props = {
   userContext: UserContextInterface;
   bookmarksContext: BookmarksContextInterface;
   categoryModalContext: CategoryModalContextInterface;
+  refetchCategories?: () => Promise<QueryObserverResult<CategoriesResponse, unknown>>;
 
   children: React.ReactNode;
 };
@@ -40,17 +39,15 @@ export function Dashboard({
   userContext,
   bookmarksContext,
   categoryModalContext,
+  refetchCategories,
   children,
 }: Props) {
   const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
   const { bookmarksActive, categoriesActive } = activeTabState;
-  const { user, updateUser } = userContext;
+  const { user } = userContext;
   const { bookmarks, helpers } = bookmarksContext;
   const { bookmarksLoading, bookmarksScrollRef } = helpers;
   const { categoryModalOpen, openCategoryModal, closeCategoryModal } = categoryModalContext;
-
-  const navigate = useNavigate();
-  useQueryUser(user, updateUser, navigate);
 
   const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
@@ -130,7 +127,13 @@ export function Dashboard({
         </main>
       </div>
       {bookmarksLoading && <LoadingModal />}
-      {categoryModalOpen && <CategoryModal user={user} closeModal={closeCategoryModal} />}
+      {categoryModalOpen && (
+        <CategoryModal
+          user={user}
+          refetchCategories={refetchCategories}
+          closeModal={closeCategoryModal}
+        />
+      )}
     </div>
   );
 }

@@ -1,12 +1,22 @@
+import { useEffect } from "react";
+import { QueryObserverResult } from "react-query";
 import { CategoryCard } from ".";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 
 type CategoriesProps = {
   openModal: () => void;
   categoriesArray: Category[];
+  fetchCategories?: () => Promise<QueryObserverResult<CategoriesResponse, unknown>>;
 };
 
-export function Categories({ openModal, categoriesArray }: CategoriesProps) {
+export function Categories({ openModal, categoriesArray, fetchCategories }: CategoriesProps) {
+  async function fetch() {
+    await fetchCategories?.();
+  }
+  useEffect(() => {
+    fetch();
+  }, []);
+
   const emptyCategories = (
     <div className="categories--empty">
       <img src={emptyCategoriesImage} alt="empty categories image" />

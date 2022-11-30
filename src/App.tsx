@@ -3,7 +3,7 @@ import { useReducer, useRef, useState } from "react";
 import { ActiveContext } from "./helpers/Context";
 import { activeTabReducer } from "./helpers/Reducer";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 // PAGES
 import { Login, OauthCallback } from "./pages/Auth";
 import { Dashboard } from "./pages/User";
@@ -12,7 +12,7 @@ import { Categories, Category } from "./pages/Categories";
 
 // ASSETS
 import "./assets/styles/App.css";
-import { useQueryCategories } from "./hooks";
+import { useQueryCategories, useQueryUser } from "./hooks";
 
 export interface UserContextInterface {
   user: User;
@@ -35,11 +35,16 @@ export interface CategoryModalContextInterface {
 }
 
 export function App() {
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState<User>(JSON.parse(sessionStorage.getItem("user")!) || null);
+  const { refetch: refetchCategories } = useQueryCategories(updateCategories, navigate);
+  const { isSuccess: userFetched } = useQueryUser(user, updateUser, navigate);
+
   const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
     bookmarksActive: true,
     categoriesActive: false,
   });
-  const [user, setUser] = useState<User>(JSON.parse(sessionStorage.getItem("user")!) || null);
   const [categories, setCategories] = useState<Category[]>(
     JSON.parse(localStorage.getItem("categories")!) || []
   );
@@ -85,8 +90,6 @@ export function App() {
     setCategoryModalOpen(false);
   }
 
-  useQueryCategories(updateCategories);
-
   const categoryModalContext: CategoryModalContextInterface = {
     categoryModalOpen,
     openCategoryModal,
@@ -116,7 +119,11 @@ export function App() {
                 bookmarksContext={bookmarksContext}
                 categoryModalContext={categoryModalContext}
               >
-                <Bookmarks user={user} bookmarksContext={bookmarksContext} />
+                <Bookmarks
+                  user={user}
+                  userFetched={userFetched}
+                  bookmarksContext={bookmarksContext}
+                />
               </Dashboard>
             }
           />
@@ -128,8 +135,13 @@ export function App() {
                 userContext={userContext}
                 bookmarksContext={bookmarksContext}
                 categoryModalContext={categoryModalContext}
+                refetchCategories={refetchCategories}
               >
-                <Categories categoriesArray={categories} openModal={openCategoryModal} />
+                <Categories
+                  categoriesArray={categories}
+                  fetchCategories={refetchCategories}
+                  openModal={openCategoryModal}
+                />
               </Dashboard>
             }
           />
