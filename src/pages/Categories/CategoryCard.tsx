@@ -19,24 +19,19 @@ type CategoryProps = {
 };
 export function CategoryCard({ category }: CategoryProps) {
   const [showTooltip, setShowTooltip] = useState(false);
-
+  const { id, name, description, image } = category;
   return (
-    <div
-      className="category__card"
-      style={{ backgroundImage: `url(${category.image})` }}
-    >
-      <Link to={`/categories/${category.id}`}>
+    <div className="category__card" style={{ backgroundImage: `url(${image})` }}>
+      <Link to={`/categories/${id}`}>
         <div className="category__card__text">
-          <h2>{category.name}</h2>
-          <p>{category.description}</p>
+          <h2>{name}</h2>
+          <p>{description}</p>
         </div>
       </Link>
 
       <div className="category__card__dropdown">
         <MoreButton showTooltip={setShowTooltip} />
-        {showTooltip && (
-          <CardDropdown items={dropdownItems} show={setShowTooltip} />
-        )}
+        {showTooltip && <CardDropdown items={dropdownItems} show={setShowTooltip} />}
       </div>
     </div>
   );
