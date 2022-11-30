@@ -1,6 +1,5 @@
 // LIBRARIES
 import { useReducer, useRef, useState } from "react";
-import { useQuery } from "react-query";
 import { ActiveContext } from "./helpers/Context";
 import { activeTabReducer } from "./helpers/Reducer";
 
@@ -8,12 +7,12 @@ import { Routes, Route } from "react-router-dom";
 // PAGES
 import { Login, OauthCallback } from "./pages/Auth";
 import { Dashboard } from "./pages/User";
+import { Bookmarks } from "./pages/Bookmarks";
 import { Categories, Category } from "./pages/Categories";
 
 // ASSETS
 import "./assets/styles/App.css";
-import { Bookmarks } from "./pages/Bookmarks";
-import { fetchCategories } from "./api";
+import { useQueryCategories } from "./hooks";
 
 export interface UserContextInterface {
   user: User;
@@ -72,6 +71,9 @@ export function App() {
   function updateBookmarks(bookmarks: Bookmarks) {
     setBookmarks(bookmarks);
   }
+  function updateCategories(categories: Category[]) {
+    setCategories(categories);
+  }
   function updateBookmarksLoading(state: boolean) {
     setBookmarksLoading(state);
   }
@@ -83,23 +85,7 @@ export function App() {
     setCategoryModalOpen(false);
   }
 
-  async function getCategories() {
-    const response: CategoriesResponse = await fetchCategories();
-    return response;
-  }
-
-  const {} = useQuery("fetch-categories", getCategories, {
-    // enabled: false,
-    onSuccess(data) {
-      if (data.success) {
-        setCategories(data.data);
-        localStorage.setItem("categories", JSON.stringify(data.data)!);
-      }
-    },
-    onError(err) {
-      alert(err);
-    },
-  });
+  useQueryCategories(updateCategories);
 
   const categoryModalContext: CategoryModalContextInterface = {
     categoryModalOpen,

@@ -11,6 +11,7 @@ import { Bookmark } from "./Bookmark";
 
 // TYPES
 import { BookmarksContextInterface } from "../../App";
+import { useQueryBookmarks } from "../../hooks";
 
 type BookmarksProps = {
   user: User;
@@ -25,27 +26,7 @@ export function Bookmarks({ user, bookmarksContext }: BookmarksProps) {
   const [numOfBookmarksToRender, setNumOfBookmarksToRender] = useState(bookmarksPerPage);
   const navigate = useNavigate();
 
-  const getBookmarks = async () => {
-    const abortController = new AbortController();
-    const response: BookmarksResponse = await fetchBookmarks(abortController);
-    return response;
-  };
-
-  useQuery("get-bookmarks", getBookmarks, {
-    onSuccess(data) {
-      if (data.success) {
-        updateBookmarks({ ...data.data });
-        sessionStorage.setItem("bookmarks", JSON.stringify(data.data));
-      } else {
-        alert(data.message);
-        navigate("/login");
-      }
-    },
-    onError(err) {
-      alert(err);
-      navigate("/login");
-    },
-  });
+  useQueryBookmarks(updateBookmarks, navigate);
 
   const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
     let renderedBookmarks = [];

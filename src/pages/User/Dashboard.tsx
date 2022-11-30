@@ -25,6 +25,7 @@ import {
   CategoryModalContextInterface,
   UserContextInterface,
 } from "../../App";
+import { useQueryUser } from "../../hooks";
 
 type Props = {
   activeTab: string;
@@ -49,6 +50,7 @@ export function Dashboard({
   const { categoryModalOpen, openCategoryModal, closeCategoryModal } = categoryModalContext;
 
   const navigate = useNavigate();
+  useQueryUser(user, updateUser, navigate);
 
   const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
@@ -81,29 +83,6 @@ export function Dashboard({
   //     }
   //   };
   // }, []);
-
-  const returnUser = async () => {
-    const abortController = new AbortController();
-    const userResponse: UserResponse = await fetchUser(abortController);
-    return userResponse;
-  };
-
-  useQuery("user", returnUser, {
-    enabled: !user,
-    onSuccess(data) {
-      if (data.success) {
-        updateUser({ ...data.data });
-        sessionStorage.setItem("user", JSON.stringify({ ...data.data }));
-      } else {
-        alert(data.message);
-        navigate("/login");
-      }
-    },
-    onError(err) {
-      alert(err);
-      navigate("/login");
-    },
-  });
 
   const userInfo = (
     <>
