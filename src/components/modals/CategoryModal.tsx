@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePostCategory } from "../../hooks";
-import { QueryObserverResult } from "react-query";
 import Compressor from "compressorjs";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseStorage } from "../../../firebase";
 
-import { LoadingModal } from "./LoadingModal";
 import cancelIcon from "../../assets/icons/cancel.svg";
 import imageIcon from "../../assets/icons/image.svg";
 
 type CategoryModalProps = {
   closeModal: () => void;
   user: User;
-  refetchCategories?: () => Promise<QueryObserverResult<CategoriesResponse, unknown>>;
 };
 
-export function CategoryModal({ closeModal, user, refetchCategories }: CategoryModalProps) {
+export function CategoryModal({ closeModal, user }: CategoryModalProps) {
   const navigate = useNavigate();
   const { mutate: postCategory } = usePostCategory();
   const descriptionMaxLength = 200;
@@ -40,7 +37,12 @@ export function CategoryModal({ closeModal, user, refetchCategories }: CategoryM
 
   function handleImageFile(e: React.ChangeEvent<HTMLInputElement>) {
     const image = e.target.files![0];
-    // compress here
+    const acceptedTypes = ["image/jpeg", "image/jpg", "image/gif", "image/png"];
+    if (!acceptedTypes.includes(image.type)) {
+      console.log(image.type);
+      alert("file must be an image!");
+      return;
+    } // compress here
     new Compressor(image, {
       checkOrientation: true,
       quality: 0.4,
@@ -51,7 +53,7 @@ export function CategoryModal({ closeModal, user, refetchCategories }: CategoryM
   }
   async function uploadImage(categoryName: string) {
     if (!imageFileBlob || categoryName.length < 1) return;
-    const imageRef = ref(firebaseStorage, `images/${user.name}/categories/${categoryName}/image`);
+    const imageRef = ref(firebaseStorage, `images/${user.id}/categories/${categoryName}/image`);
     try {
       const uploadedImage = await uploadBytes(imageRef, imageFileBlob);
       const imageUrl = await getDownloadURL(uploadedImage.ref);
@@ -73,19 +75,23 @@ export function CategoryModal({ closeModal, user, refetchCategories }: CategoryM
     e.preventDefault();
     setLoading(true);
     const image = await uploadImage(categoryForm.name);
-
     postCategory(
       { ...categoryForm, image },
       {
-        async onSuccess() {
-          await refetchCategories?.();
+        onSettled() {
           setLoading(false);
-          navigate("/categories");
           closeModal();
+          navigate("/categories");
         },
       }
     );
   }
+
+  const spinner = (
+    <svg className="spinner" viewBox="0 0 50 50">
+      <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>
+    </svg>
+  );
   return (
     <div className="category__modal">
       <div className="category__modal__card">
@@ -114,7 +120,7 @@ export function CategoryModal({ closeModal, user, refetchCategories }: CategoryM
                 <input
                   type="file"
                   id="categoryImage"
-                  accept=".jpg,.jpeg, .png, .gif"
+                  accept="image/jpg,image/jpeg, image/png, image/gif"
                   onChange={(e) => {
                     handleImageFile(e);
                   }}
@@ -154,13 +160,19 @@ export function CategoryModal({ closeModal, user, refetchCategories }: CategoryM
             >
               Cancel
             </button>
-            <button className="primary-btn primary-btn--medium" type="submit">
-              Create Category
+            <button
+              className={` primary-btn--medium ${
+                loading ? "primary-btn--disabled pr-4" : ""
+              } primary-btn flex items-center space-x-2`}
+              type="submit"
+              disabled={loading ? true : false}
+            >
+              <span>Create Category</span>
+              {loading && spinner}
             </button>
           </div>
         </form>
       </div>
-      {loading && <LoadingModal />}
     </div>
   );
 }

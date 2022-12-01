@@ -72,7 +72,7 @@
     }
   }
   &--disabled {
-    @apply bg-primary-1-disabled;
+    @apply !bg-primary-1-disabled;
     &,
     > a {
       @apply cursor-not-allowed;
@@ -117,4 +117,3 @@
     }
   }
 }
-
