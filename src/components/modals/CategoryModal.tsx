@@ -45,7 +45,6 @@ export function CategoryModal({ closeModal, user, action, idToUpdate }: Category
     const image = e.target.files![0];
     const acceptedTypes = ["image/jpeg", "image/jpg", "image/gif", "image/png"];
     if (!acceptedTypes.includes(image.type)) {
-      console.log(image.type);
       alert("file must be an image!");
       return;
     } // compress here
