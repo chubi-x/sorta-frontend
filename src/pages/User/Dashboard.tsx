@@ -5,46 +5,37 @@ import { useInView } from "react-intersection-observer";
 import Lottie from "lottie-react";
 import { ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
 
-// API
-import { QueryObserverResult } from "react-query";
-
 // LAYOUTS
 import { Menu } from "../../layouts";
 
 // COMPONENTS
 import { NewCategoryButton } from "../../components/buttons";
-import { CategoryModal, LoadingModal } from "../../components/modals";
+import { LoadingModal } from "../../components/modals";
 import { StickyDashboardBar, StickyDashboardBarText } from "../../components/miscellaneous";
 
 // ASSETS
 import userSkeleton from "../../assets/lotties/user-details-skeleton.json";
-import {
-  BookmarksContextInterface,
-  CategoryModalContextInterface,
-  UserContextInterface,
-} from "../../App";
+import { BookmarksContextInterface, CategoryModalAction } from "../../App";
 
 type Props = {
   activeTab: string;
-  userContext: UserContextInterface;
+  user: User;
   bookmarksContext: BookmarksContextInterface;
-  categoryModalContext: CategoryModalContextInterface;
+  openCategoryModal: (action: CategoryModalAction, categoryId?: string) => void;
 
   children: React.ReactNode;
 };
 export function Dashboard({
   activeTab,
-  userContext,
+  user,
   bookmarksContext,
-  categoryModalContext,
+  openCategoryModal,
   children,
 }: Props) {
   const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
   const { bookmarksActive, categoriesActive } = activeTabState;
-  const { user } = userContext;
   const { bookmarks, helpers } = bookmarksContext;
   const { bookmarksLoading, bookmarksScrollRef } = helpers;
-  const { categoryModalOpen, openCategoryModal, closeCategoryModal } = categoryModalContext;
 
   const [ref, inView] = useInView({
     root: document.querySelector(".dashboard"),
@@ -124,7 +115,6 @@ export function Dashboard({
         </main>
       </div>
       {bookmarksLoading && <LoadingModal />}
-      {categoryModalOpen && <CategoryModal user={user} closeModal={closeCategoryModal} />}
     </div>
   );
 }
