@@ -5,7 +5,7 @@ import { BookmarksContextInterface } from "../../App";
 import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
 import { MoreButton } from "../../components/buttons";
-import { CardDropdown, DropDownItem } from "../../components/dropdowns";
+import { CardDropdown } from "../../components/dropdowns";
 import { QueryObserverResult } from "react-query";
 
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
@@ -16,10 +16,9 @@ import { dropdownItems } from ".";
 type Props = {
   bookmarksContext: BookmarksContextInterface;
   categories: Category[];
-  refetchCategories: () => Promise<QueryObserverResult<CategoriesResponse, unknown>>;
 };
 
-export function Category({ bookmarksContext, categories, refetchCategories }: Props) {
+export function Category({ bookmarksContext, categories }: Props) {
   const { bookmarks } = bookmarksContext;
 
   const [showTooltip, setShowTooltip] = useState(false);
@@ -31,7 +30,7 @@ export function Category({ bookmarksContext, categories, refetchCategories }: Pr
   var category = categories.find((item) => item.id === id);
   const { name, image, description } = { ...category };
   const categoryBookmarks = bookmarks?.data?.filter((bookmark) =>
-    category?.bookmarks.includes(bookmark?.id)
+    category?.bookmarks?.includes(bookmark?.id)
   );
   function backToCategories() {
     navigate("/categories");
