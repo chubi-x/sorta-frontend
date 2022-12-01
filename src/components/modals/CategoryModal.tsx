@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePostCategory } from "../../hooks";
+import { usePatchCategory, usePostCategory } from "../../hooks";
 import Compressor from "compressorjs";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseStorage } from "../../../firebase";
 
 import cancelIcon from "../../assets/icons/cancel.svg";
 import imageIcon from "../../assets/icons/image.svg";
+import { CategoryModalAction } from "../../App";
 
 type CategoryModalProps = {
+  action: CategoryModalAction | undefined;
+  idToUpdate: string | undefined;
   closeModal: () => void;
   user: User;
 };
 
-export function CategoryModal({ closeModal, user }: CategoryModalProps) {
+export function CategoryModal({ closeModal, user, action, idToUpdate }: CategoryModalProps) {
   const navigate = useNavigate();
   const { mutate: postCategory } = usePostCategory();
+  const { mutate: patchCategory } = usePatchCategory();
+
   const descriptionMaxLength = 200;
+
   const [categoryForm, setCategoryForm] = useState<Omit<Category, "id" | "image" | "bookmarks">>({
     name: "",
     description: "",
@@ -75,17 +81,33 @@ export function CategoryModal({ closeModal, user }: CategoryModalProps) {
     e.preventDefault();
     setLoading(true);
     const image = await uploadImage(categoryForm.name);
-    postCategory(
-      { ...categoryForm, image },
-      {
-        onSettled() {
-          setLoading(false);
-          closeModal();
-          navigate("/categories");
-        },
-      }
-    );
+    if (action === CategoryModalAction.CREATE) {
+      postCategory(
+        { ...categoryForm, image },
+        {
+          onSettled() {
+            closeModal();
+            setLoading(false);
+            navigate("/categories");
+          },
+        }
+      );
+    } else {
+      patchCategory(
+        { categoryId: idToUpdate!, body: { ...categoryForm, image } },
+        {
+          onSettled() {
+            closeModal();
+            setLoading(false);
+          },
+        }
+      );
+    }
   }
+
+  const headerMessage =
+    action === CategoryModalAction.CREATE ? "Create new category" : "Edit category";
+  const ctaMessage = action === CategoryModalAction.CREATE ? "Create new category" : "Save";
 
   const spinner = (
     <svg className="spinner" viewBox="0 0 50 50">
@@ -96,7 +118,7 @@ export function CategoryModal({ closeModal, user }: CategoryModalProps) {
     <div className="category__modal">
       <div className="category__modal__card">
         <div className="category__modal__card__header">
-          <h1>Create new category</h1>
+          <h1>{headerMessage}</h1>
           <div className="category__modal__card__cancel" onClick={closeModal}>
             <img src={cancelIcon} alt="cancel icon" />
           </div>
@@ -138,7 +160,7 @@ export function CategoryModal({ closeModal, user }: CategoryModalProps) {
                 value={categoryForm.name}
                 onChange={(e) => handleInputChange(e)}
                 maxLength={30}
-                required={true}
+                required={action === CategoryModalAction.CREATE}
               />
               <textarea
                 name="description"
@@ -147,7 +169,7 @@ export function CategoryModal({ closeModal, user }: CategoryModalProps) {
                 value={categoryForm.description}
                 onChange={(e) => handleInputChange(e)}
                 maxLength={descriptionMaxLength}
-                required={true}
+                required={action === CategoryModalAction.CREATE}
               ></textarea>
               <div className="category__modal__card__form__description__char_count">{`${categoryForm.description.length}/${descriptionMaxLength}`}</div>
             </div>
@@ -167,7 +189,7 @@ export function CategoryModal({ closeModal, user }: CategoryModalProps) {
               type="submit"
               disabled={loading ? true : false}
             >
-              <span>Create Category</span>
+              <span>{ctaMessage}</span>
               {loading && spinner}
             </button>
           </div>

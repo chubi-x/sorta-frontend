@@ -46,8 +46,46 @@ export function usePostCategory() {
   });
 }
 
-export function usePatchCategory(categoryId: string) {
-  // return useMutation(patch);
+export function usePatchCategory() {
+  const queryClient = useQueryClient();
+  return useMutation(patchCategory, {
+    onMutate({ categoryId, body }) {
+      queryClient.cancelQueries("fetch-categories");
+      const oldCategoriesResponse =
+        queryClient.getQueryData<CategoriesResponse>("fetch-categories");
+      if (oldCategoriesResponse) {
+        const newCategories = oldCategoriesResponse.data.map((category) => {
+          if (category.id === categoryId) {
+            const { image, description } = body;
+            category = {
+              ...category,
+              image: image ? image : category.image,
+              description: description ? description : category.description,
+            };
+          }
+          return category;
+        });
+        queryClient.setQueryData<CategoriesResponse>("fetch-categories", {
+          ...oldCategoriesResponse,
+          data: [...newCategories],
+        });
+
+        return { oldCategoriesResponse };
+      }
+    },
+    onError(error, variables, context) {
+      if (context?.oldCategoriesResponse) {
+        queryClient.setQueryData<CategoriesResponse>(
+          "fetch-categories",
+          context.oldCategoriesResponse
+        );
+      }
+    },
+    onSettled() {
+      console.log("settled");
+      queryClient.invalidateQueries("fetch-categories");
+    },
+  });
 }
 
 export function useDeleteCategory(navigate: NavigateFunction) {

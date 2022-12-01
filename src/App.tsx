@@ -27,8 +27,15 @@ export interface BookmarksContextInterface {
 }
 export interface CategoryModalContextInterface {
   categoryModalOpen: boolean;
-  openCategoryModal: () => void;
+  openCategoryModal: (action: CategoryModalAction, categoryId?: string) => void;
+  categoryModalAction?: CategoryModalAction;
+  categoryIdToUpdate: string | undefined;
   closeCategoryModal: () => void;
+}
+
+export enum CategoryModalAction {
+  CREATE = "CREATE",
+  EDIT = "EDIT",
 }
 
 export function App() {
@@ -43,6 +50,8 @@ export function App() {
   );
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const [categoryModalAction, setCategoryModalAction] = useState<CategoryModalAction>();
+  const [categoryIdToUpdate, setCategoryIdToUpdate] = useState<string | undefined>(undefined);
   const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
     bookmarksActive: true,
     categoriesActive: false,
