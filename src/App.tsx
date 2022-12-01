@@ -13,11 +13,8 @@ import { Categories, Category } from "./pages/Categories";
 // ASSETS
 import "./assets/styles/App.css";
 import { useFetchUser } from "./hooks";
+import { CategoryModal } from "./components/modals";
 
-export interface UserContextInterface {
-  user: User;
-  updateUser: (user: User) => void;
-}
 interface BookmarksHelpers {
   bookmarksScrollRef: React.RefObject<HTMLDivElement>;
   bookmarksLoading: boolean;
@@ -55,10 +52,6 @@ export function App() {
 
   const bookmarksScrollRef = useRef<HTMLDivElement>(null);
 
-  const userContext: UserContextInterface = {
-    user,
-    updateUser,
-  };
   const bookmarksContext: BookmarksContextInterface = {
     bookmarks,
     updateBookmarks,
@@ -86,18 +79,17 @@ export function App() {
     setBookmarksLoading(state);
   }
 
-  function openCategoryModal() {
+  function openCategoryModal(action: CategoryModalAction, categoryId?: string) {
+    setCategoryModalAction(action);
     setCategoryModalOpen(true);
+
+    if (categoryId) {
+      setCategoryIdToUpdate(categoryId);
+    }
   }
   function closeCategoryModal() {
     setCategoryModalOpen(false);
   }
-
-  const categoryModalContext: CategoryModalContextInterface = {
-    categoryModalOpen,
-    openCategoryModal,
-    closeCategoryModal,
-  };
 
   // logic to set root element
   let root: JSX.Element = <Login />;
@@ -118,9 +110,9 @@ export function App() {
             element={
               <Dashboard
                 activeTab="bookmarks"
-                userContext={userContext}
+                user={user}
                 bookmarksContext={bookmarksContext}
-                categoryModalContext={categoryModalContext}
+                openCategoryModal={openCategoryModal}
               >
                 <Bookmarks
                   user={user}
@@ -135,14 +127,14 @@ export function App() {
             element={
               <Dashboard
                 activeTab="categories"
-                userContext={userContext}
+                user={user}
                 bookmarksContext={bookmarksContext}
-                categoryModalContext={categoryModalContext}
+                openCategoryModal={openCategoryModal}
               >
                 <Categories
                   categoriesArray={categories}
                   updateCategories={updateCategories}
-                  openModal={openCategoryModal}
+                  openCategoryModal={openCategoryModal}
                 />
               </Dashboard>
             }
