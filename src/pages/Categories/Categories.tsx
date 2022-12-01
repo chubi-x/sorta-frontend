@@ -9,15 +9,17 @@ import addIcon from "../../assets/icons/add.svg";
 import editIcon from "../../assets/icons/edit.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
+import { CategoryModalAction } from "../../App";
 
 type CategoriesProps = {
-  openModal: () => void;
+  openCategoryModal: (action: CategoryModalAction, categoryId?: string) => void;
+
   categoriesArray: Category[];
   updateCategories: (categories: Category[]) => void;
 };
 let dropdownItems: DropDownItem[];
 
-function Categories({ openModal, categoriesArray, updateCategories }: CategoriesProps) {
+function Categories({ openCategoryModal, categoriesArray, updateCategories }: CategoriesProps) {
   const navigate = useNavigate();
 
   useFetchCategories(updateCategories, navigate);
@@ -25,7 +27,13 @@ function Categories({ openModal, categoriesArray, updateCategories }: Categories
 
   dropdownItems = [
     { icon: addIcon, text: "Add bookmarks" },
-    { icon: editIcon, text: "Edit category" },
+    {
+      icon: editIcon,
+      text: "Edit category",
+      itemFunction: (categoryId: string) => {
+        openCategoryModal(CategoryModalAction.EDIT, categoryId);
+      },
+    },
     {
       icon: deleteIcon,
       text: "Delete category",
@@ -41,7 +49,10 @@ function Categories({ openModal, categoriesArray, updateCategories }: Categories
       <p>
         You don't have any category yet <br /> click on the button below to create a new category
       </p>
-      <button className="primary-btn primary-btn--medium" onClick={openModal}>
+      <button
+        className="primary-btn primary-btn--medium"
+        onClick={() => openCategoryModal(CategoryModalAction.CREATE)}
+      >
         Create Category
       </button>
     </div>
