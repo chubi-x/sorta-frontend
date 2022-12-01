@@ -6,7 +6,6 @@ import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
 import { MoreButton } from "../../components/buttons";
 import { CardDropdown } from "../../components/dropdowns";
-import { QueryObserverResult } from "react-query";
 
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import backIcon from "../../assets/icons/back.svg";
