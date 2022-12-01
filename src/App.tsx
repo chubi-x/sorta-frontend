@@ -12,7 +12,7 @@ import { Categories, Category } from "./pages/Categories";
 
 // ASSETS
 import "./assets/styles/App.css";
-import { useQueryCategories, useQueryUser } from "./hooks";
+import { useFetchUser } from "./hooks";
 
 export interface UserContextInterface {
   user: User;
@@ -51,8 +51,7 @@ export function App() {
     categoriesActive: false,
   });
 
-  const { refetch: refetchCategories } = useQueryCategories(updateCategories, navigate);
-  const { isSuccess: userFetched } = useQueryUser(logged, updateUser, navigate);
+  const { isSuccess: userFetched } = useFetchUser(logged, updateUser, navigate);
 
   const bookmarksScrollRef = useRef<HTMLDivElement>(null);
 
@@ -139,11 +138,10 @@ export function App() {
                 userContext={userContext}
                 bookmarksContext={bookmarksContext}
                 categoryModalContext={categoryModalContext}
-                refetchCategories={refetchCategories}
               >
                 <Categories
                   categoriesArray={categories}
-                  fetchCategories={refetchCategories}
+                  updateCategories={updateCategories}
                   openModal={openCategoryModal}
                 />
               </Dashboard>
@@ -152,13 +150,7 @@ export function App() {
           <Route path="/oauth/callback/:query" element={<OauthCallback login={login} />} />
           <Route
             path="/categories/:id"
-            element={
-              <Category
-                bookmarksContext={bookmarksContext}
-                refetchCategories={refetchCategories}
-                categories={categories}
-              />
-            }
+            element={<Category bookmarksContext={bookmarksContext} categories={categories} />}
           />
         </Routes>
       </div>
