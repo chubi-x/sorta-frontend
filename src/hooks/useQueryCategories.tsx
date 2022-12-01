@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "react-query";
 import { NavigateFunction } from "react-router-dom";
 import { createCategory, deleteCategory, fetchCategories } from "../api";
 
@@ -8,38 +8,55 @@ async function get() {
 }
 async function post(body: Omit<Category, "bookmarks" | "id">) {
   const response = createCategory(body);
-  return response as unknown as ServerResponse;
+  return response as unknown as CategoryResponse;
 }
 async function _delete(categoryId: string) {
   const response = deleteCategory(categoryId);
   return response as unknown as ServerResponse;
 }
-export function useQueryCategories(
+
+export function useFetchCategories(
   setCategories: (category: Category[]) => void,
   navigate: NavigateFunction
 ) {
   return useQuery("fetch-categories", get, {
-    enabled: false,
     onSuccess(data) {
       if (data.success) {
         setCategories(data.data);
         localStorage.setItem("categories", JSON.stringify(data.data)!);
+      } else {
+        if (data.message?.includes("not logged")) {
+          // alert("You're not logged in!");
+          navigate("/login");
+        }
       }
-      // else {
-      //   if (data.message?.includes("not logged")) {
-      //     // alert("You're not logged in!");
-      //     navigate("/login");
-      //   }
-      // }
     },
     onError(err) {
-      alert(err);
+      console.log(err);
+      alert("There was an error fetching your categories");
     },
   });
 }
 
 export function usePostCategory() {
-  return useMutation(post);
+  const queryClient = useQueryClient();
+
+  return useMutation(post, {
+    async onMutate(newCategory) {
+      await queryClient.cancelQueries("fetch-categories");
+      const oldCategories = queryClient.getQueryData<CategoriesResponse>("fetch-categories");
+      await queryClient.invalidateQueries("fetch-categories");
+      if (oldCategories) {
+        queryClient.setQueryData<CategoriesResponse>("fetch-categories", {
+          ...oldCategories,
+          data: [...oldCategories.data, { ...newCategory, id: ".348hv2458uqetn", bookmarks: [] }],
+        });
+      }
+    },
+    async onSettled() {
+      await queryClient.invalidateQueries("fetch-categories");
+    },
+  });
 }
 
 export function useDeleteCategory(navigate: NavigateFunction) {
