@@ -10,7 +10,7 @@ export async function fetchCategories() {
     },
   });
   const response = await request.json();
-  return response;
+  return response as CategoriesResponse;
 }
 export async function createCategory(body: Omit<Category, "bookmarks" | "id">) {
   //   const body = JSON.stringify({ bookmarks: ["1", "2", "3", "4"] });
@@ -52,5 +52,5 @@ export async function deleteCategory(categoryId: string) {
     },
   });
   const response = await request.json();
-  return response;
+  return response as ServerResponse;
 }
