@@ -3,7 +3,7 @@ import { QueryObserverResult } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { CategoryCard } from ".";
 import { DropDownItem } from "../../components/dropdowns";
-import { useDeleteCategory, useQueryCategories } from "../../hooks";
+import { useDeleteCategory, useFetchCategories } from "../../hooks";
 
 import addIcon from "../../assets/icons/add.svg";
 import editIcon from "../../assets/icons/edit.svg";
@@ -20,7 +20,7 @@ let dropdownItems: DropDownItem[];
 function Categories({ openModal, categoriesArray, updateCategories }: CategoriesProps) {
   const navigate = useNavigate();
 
-  useQueryCategories(updateCategories, navigate);
+  useFetchCategories(updateCategories, navigate);
   const { mutate: deleteCategory } = useDeleteCategory(navigate);
 
   dropdownItems = [
