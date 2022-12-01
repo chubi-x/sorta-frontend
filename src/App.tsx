@@ -153,6 +153,14 @@ export function App() {
             element={<Category bookmarksContext={bookmarksContext} categories={categories} />}
           />
         </Routes>
+        {categoryModalOpen && (
+          <CategoryModal
+            action={categoryModalAction}
+            idToUpdate={categoryIdToUpdate}
+            user={user}
+            closeModal={closeCategoryModal}
+          />
+        )}
       </div>
     </ActiveContext.Provider>
   );
