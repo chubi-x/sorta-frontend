@@ -44,7 +44,7 @@ export function Category({ bookmarksContext, categories }: Props) {
       <button className="primary-btn primary-btn--medium">Add bookmarks</button>
     </div>
   );
-  const fullCategory = categoryBookmarks.map((bookmark, index) => (
+  const fullCategory = categoryBookmarks?.map((bookmark, index) => (
     <Bookmark
       key={bookmark.id}
       bookmark={bookmark}
@@ -87,7 +87,7 @@ export function Category({ bookmarksContext, categories }: Props) {
             </p>
           </div>
           <div className="category__page__bookmarks">
-            {categoryBookmarks.length > 0 ? fullCategory : emptyCategory}
+            {categoryBookmarks?.length > 0 ? fullCategory : emptyCategory}
           </div>
         </div>
       </div>
