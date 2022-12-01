@@ -23,14 +23,12 @@ import {
   CategoryModalContextInterface,
   UserContextInterface,
 } from "../../App";
-import { useQueryUser } from "../../hooks";
 
 type Props = {
   activeTab: string;
   userContext: UserContextInterface;
   bookmarksContext: BookmarksContextInterface;
   categoryModalContext: CategoryModalContextInterface;
-  refetchCategories?: () => Promise<QueryObserverResult<CategoriesResponse, unknown>>;
 
   children: React.ReactNode;
 };
@@ -39,7 +37,6 @@ export function Dashboard({
   userContext,
   bookmarksContext,
   categoryModalContext,
-  refetchCategories,
   children,
 }: Props) {
   const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
@@ -127,13 +124,7 @@ export function Dashboard({
         </main>
       </div>
       {bookmarksLoading && <LoadingModal />}
-      {categoryModalOpen && (
-        <CategoryModal
-          user={user}
-          refetchCategories={refetchCategories}
-          closeModal={closeCategoryModal}
-        />
-      )}
+      {categoryModalOpen && <CategoryModal user={user} closeModal={closeCategoryModal} />}
     </div>
   );
 }

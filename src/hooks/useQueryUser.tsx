@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { NavigateFunction } from "react-router-dom";
 import { fetchUser } from "../api";
 
-export function useQueryUser(
+export function useFetchUser(
   logged: boolean,
   updateUser: (user: User) => void,
   navigate: NavigateFunction
