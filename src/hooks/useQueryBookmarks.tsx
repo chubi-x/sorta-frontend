@@ -7,11 +7,13 @@ const getBookmarks = async () => {
   return response;
 };
 export function useQueryBookmarks(
+  userFetched: boolean,
   updateBookmarks: (bookmarks: Bookmarks) => void,
   navigate: NavigateFunction
 ) {
   return useQuery("get-bookmarks", getBookmarks, {
-    enabled: false,
+    enabled: userFetched,
+    refetchOnMount: false,
     onSuccess(data) {
       if (data.success) {
         updateBookmarks({ ...data.data });

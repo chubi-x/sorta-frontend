@@ -15,9 +15,10 @@ import { useQueryBookmarks } from "../../hooks";
 
 type BookmarksProps = {
   user: User;
+  userFetched: boolean;
   bookmarksContext: BookmarksContextInterface;
 };
-export function Bookmarks({ user, bookmarksContext }: BookmarksProps) {
+export function Bookmarks({ user, userFetched, bookmarksContext }: BookmarksProps) {
   const { bookmarks, updateBookmarks, helpers } = bookmarksContext;
 
   const bookmarksPerPage = 20;
@@ -26,7 +27,7 @@ export function Bookmarks({ user, bookmarksContext }: BookmarksProps) {
   const [numOfBookmarksToRender, setNumOfBookmarksToRender] = useState(bookmarksPerPage);
   const navigate = useNavigate();
 
-  useQueryBookmarks(updateBookmarks, navigate);
+  useQueryBookmarks(userFetched, updateBookmarks, navigate);
 
   const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
     let renderedBookmarks = [];
