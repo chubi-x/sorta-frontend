@@ -6,25 +6,20 @@ import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
 import { MoreButton } from "../../components/buttons";
 import { CardDropdown, DropDownItem } from "../../components/dropdowns";
-import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
+import { QueryObserverResult } from "react-query";
 
+import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
-import addIcon from "../../assets/icons/add.svg";
-import editIcon from "../../assets/icons/edit.svg";
-import deleteIcon from "../../assets/icons/delete.svg";
+import { dropdownItems } from ".";
 
 type Props = {
   bookmarksContext: BookmarksContextInterface;
   categories: Category[];
+  refetchCategories: () => Promise<QueryObserverResult<CategoriesResponse, unknown>>;
 };
 
-export const dropdownItems: DropDownItem[] = [
-  { icon: addIcon, text: "Add bookmarks" },
-  { icon: editIcon, text: "Edit category" },
-  { icon: deleteIcon, text: "Delete category" },
-];
-export function Category({ bookmarksContext, categories }: Props) {
+export function Category({ bookmarksContext, categories, refetchCategories }: Props) {
   const { bookmarks } = bookmarksContext;
 
   const [showTooltip, setShowTooltip] = useState(false);
@@ -33,7 +28,7 @@ export function Category({ bookmarksContext, categories }: Props) {
 
   const params = useParams();
   const { id } = params;
-  const category = categories.find((item) => item.id === id);
+  var category = categories.find((item) => item.id === id);
   const { name, image, description } = { ...category };
   const categoryBookmarks = bookmarks?.data?.filter((bookmark) =>
     category?.bookmarks.includes(bookmark?.id)
@@ -70,7 +65,9 @@ export function Category({ bookmarksContext, categories }: Props) {
             </div>
             <div className="category__page__dropdown__container">
               <MoreButton showTooltip={setShowTooltip} />
-              {showTooltip && <CardDropdown items={dropdownItems} show={setShowTooltip} />}
+              {showTooltip && (
+                <CardDropdown items={dropdownItems} show={setShowTooltip} resourceId={id} />
+              )}
             </div>
           </div>
           <div className="category__page__banner__text__wrapper rounded-none">

@@ -23,3 +23,15 @@ export async function createCategory(body: Omit<Category, "bookmarks" | "id">) {
   const response = await request.json();
   return response;
 }
+
+export async function deleteCategory(categoryId: string) {
+  const request = await fetch(`${import.meta.env.VITE_API_URL!}/categories/${categoryId}`, {
+    credentials: "include",
+    method: "DELETE",
+    headers: {
+      "ngrok-skip-browser-warning": "true",
+    },
+  });
+  const response = await request.json();
+  return response;
+}
