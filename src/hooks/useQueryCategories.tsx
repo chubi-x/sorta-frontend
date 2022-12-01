@@ -1,25 +1,12 @@
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { NavigateFunction } from "react-router-dom";
-import { createCategory, deleteCategory, fetchCategories } from "../api";
-
-async function get() {
-  const response: CategoriesResponse = await fetchCategories();
-  return response;
-}
-async function post(body: Omit<Category, "bookmarks" | "id">) {
-  const response = createCategory(body);
-  return response as unknown as CategoryResponse;
-}
-async function _delete(categoryId: string) {
-  const response = deleteCategory(categoryId);
-  return response as unknown as ServerResponse;
-}
+import { createCategory, deleteCategory, fetchCategories, patchCategory } from "../api";
 
 export function useFetchCategories(
   setCategories: (category: Category[]) => void,
   navigate: NavigateFunction
 ) {
-  return useQuery("fetch-categories", get, {
+  return useQuery("fetch-categories", fetchCategories, {
     onSuccess(data) {
       if (data.success) {
         setCategories(data.data);
@@ -41,7 +28,7 @@ export function useFetchCategories(
 export function usePostCategory() {
   const queryClient = useQueryClient();
 
-  return useMutation(post, {
+  return useMutation(createCategory, {
     async onMutate(newCategory) {
       await queryClient.cancelQueries("fetch-categories");
       const oldCategories = queryClient.getQueryData<CategoriesResponse>("fetch-categories");
@@ -59,9 +46,13 @@ export function usePostCategory() {
   });
 }
 
+export function usePatchCategory(categoryId: string) {
+  // return useMutation(patch);
+}
+
 export function useDeleteCategory(navigate: NavigateFunction) {
   const queryClient = useQueryClient();
-  return useMutation(_delete, {
+  return useMutation(deleteCategory, {
     onMutate(categoryId) {
       const oldData = queryClient.getQueryData<CategoriesResponse>("fetch-categories");
       if (oldData) {
