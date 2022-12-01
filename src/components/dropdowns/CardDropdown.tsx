@@ -1,6 +1,5 @@
 // LIBRARIES
 import { useRef } from "react";
-import { UseMutateFunction } from "react-query";
 // HOOKS
 import { useHideDropdown } from "../../hooks";
 
