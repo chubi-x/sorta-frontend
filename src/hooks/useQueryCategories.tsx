@@ -49,8 +49,8 @@ export function usePostCategory() {
 export function usePatchCategory() {
   const queryClient = useQueryClient();
   return useMutation(patchCategory, {
-    onMutate({ categoryId, body }) {
-      queryClient.cancelQueries("fetch-categories");
+    async onMutate({ categoryId, body }) {
+      await queryClient.cancelQueries("fetch-categories");
       const oldCategoriesResponse =
         queryClient.getQueryData<CategoriesResponse>("fetch-categories");
       if (oldCategoriesResponse) {
@@ -81,9 +81,9 @@ export function usePatchCategory() {
         );
       }
     },
-    onSettled() {
+    async onSettled() {
       console.log("settled");
-      queryClient.invalidateQueries("fetch-categories");
+      await queryClient.invalidateQueries("fetch-categories");
     },
   });
 }
@@ -91,7 +91,9 @@ export function usePatchCategory() {
 export function useDeleteCategory(navigate: NavigateFunction) {
   const queryClient = useQueryClient();
   return useMutation(deleteCategory, {
-    onMutate(categoryId) {
+    async onMutate(categoryId) {
+      await queryClient.cancelQueries("fetch-categories");
+
       const oldData = queryClient.getQueryData<CategoriesResponse>("fetch-categories");
       if (oldData) {
         const updatedCategories = oldData.data.filter((category) => category.id !== categoryId);
