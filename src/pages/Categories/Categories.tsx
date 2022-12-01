@@ -1,22 +1,39 @@
 import { useEffect } from "react";
 import { QueryObserverResult } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CategoryCard } from ".";
+import { DropDownItem } from "../../components/dropdowns";
+import { useDeleteCategory, useQueryCategories } from "../../hooks";
+
+import addIcon from "../../assets/icons/add.svg";
+import editIcon from "../../assets/icons/edit.svg";
+import deleteIcon from "../../assets/icons/delete.svg";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 
 type CategoriesProps = {
   openModal: () => void;
   categoriesArray: Category[];
-  fetchCategories?: () => Promise<QueryObserverResult<CategoriesResponse, unknown>>;
+  updateCategories: (categories: Category[]) => void;
 };
+let dropdownItems: DropDownItem[];
 
-export function Categories({ openModal, categoriesArray, fetchCategories }: CategoriesProps) {
-  async function fetch() {
-    await fetchCategories?.();
-  }
-  useEffect(() => {
-    fetch();
-  }, []);
+function Categories({ openModal, categoriesArray, updateCategories }: CategoriesProps) {
+  const navigate = useNavigate();
+
+  useQueryCategories(updateCategories, navigate);
+  const { mutate: deleteCategory } = useDeleteCategory(navigate);
+
+  dropdownItems = [
+    { icon: addIcon, text: "Add bookmarks" },
+    { icon: editIcon, text: "Edit category" },
+    {
+      icon: deleteIcon,
+      text: "Delete category",
+      itemFunction: (categoryId: string) => {
+        deleteCategory(categoryId);
+      },
+    },
+  ];
 
   const emptyCategories = (
     <div className="categories--empty">
@@ -31,8 +48,8 @@ export function Categories({ openModal, categoriesArray, fetchCategories }: Cate
   );
   const categories = (
     <div className="categories--full">
-      {categoriesArray.map(({ id, image, name, description }) => (
-        <CategoryCard image={image} key={id}>
+      {categoriesArray?.map(({ id, image, name, description }) => (
+        <CategoryCard image={image} key={id} id={id}>
           <Link to={`/categories/${id}`}>
             <div className="category__card__text">
               <h2>{name}</h2>
@@ -48,3 +65,5 @@ export function Categories({ openModal, categoriesArray, fetchCategories }: Cate
     <div className="categories">{categoriesArray.length > 0 ? categories : emptyCategories}</div>
   );
 }
+
+export { Categories, dropdownItems };
