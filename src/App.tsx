@@ -14,6 +14,7 @@ import { Categories, Category } from "./pages/Categories";
 import "./assets/styles/App.css";
 import { useFetchUser } from "./hooks";
 import { CategoryModal } from "./components/modals";
+import { DashboardHeader } from "./pages/User/DashboardHeader";
 
 interface BookmarksHelpers {
   bookmarksScrollRef: React.RefObject<HTMLDivElement>;
@@ -99,7 +100,6 @@ export function App() {
   function closeCategoryModal() {
     setCategoryModalOpen(false);
   }
-
   // logic to set root element
   let root: JSX.Element = <Login />;
 
@@ -117,12 +117,13 @@ export function App() {
           <Route
             path="/dashboard"
             element={
-              <Dashboard
-                activeTab="bookmarks"
-                user={user}
-                bookmarksContext={bookmarksContext}
-                openCategoryModal={openCategoryModal}
-              >
+              <Dashboard activeTabState={activeTabState} bookmarksContext={bookmarksContext}>
+                <DashboardHeader
+                  user={user}
+                  activeTabState={activeTabState}
+                  bookmarksContext={bookmarksContext}
+                  openCategoryModal={openCategoryModal}
+                />
                 <Bookmarks
                   user={user}
                   userFetched={userFetched}
@@ -134,12 +135,13 @@ export function App() {
           <Route
             path="/categories"
             element={
-              <Dashboard
-                activeTab="categories"
-                user={user}
-                bookmarksContext={bookmarksContext}
-                openCategoryModal={openCategoryModal}
-              >
+              <Dashboard activeTabState={activeTabState} bookmarksContext={bookmarksContext}>
+                <DashboardHeader
+                  user={user}
+                  bookmarksContext={bookmarksContext}
+                  openCategoryModal={openCategoryModal}
+                  activeTabState={activeTabState}
+                />
                 <Categories
                   categoriesArray={categories}
                   updateCategories={updateCategories}
