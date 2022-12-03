@@ -14,7 +14,7 @@ import { Navbar } from "../../layouts";
 import { LoginCard } from "../../components/cards";
 
 // ASSETS
-import loadingAnimation from "../../assets/lotties/loading.json";
+import loadingAnimation from "../../assets/animations/loading.json";
 
 type Props = {
   login: () => void;
