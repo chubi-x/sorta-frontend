@@ -160,7 +160,7 @@ export function App() {
         {categoryModalOpen && (
           <CategoryModal
             action={categoryModalAction}
-            idToUpdate={categoryIdToUpdate}
+            category={categories.find((category) => category.id === categoryIdToUpdate)}
             user={user}
             closeModal={closeCategoryModal}
           />
