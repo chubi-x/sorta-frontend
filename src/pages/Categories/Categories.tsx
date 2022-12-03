@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { QueryObserverResult } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { CategoryCard } from ".";
 import { DropDownItem } from "../../components/dropdowns";

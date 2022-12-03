@@ -9,6 +9,7 @@ import logo from "../assets/logo/logo.svg";
 import bookmarksIcon from "../assets/icons/bookmarks.svg";
 import categoriesIcon from "../assets/icons/categories.svg";
 import logoutIcon from "../assets/icons/logout.svg";
+import { ACTIVE_TAB_ACTIONS } from "../helpers/Reducer";
 
 export type MenuButtonProps = {
   icon: string;
@@ -23,7 +24,7 @@ export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [loggingOut, setLoggingOut] = useState(false);
 
-  const { activeTabState } = useContext(ActiveContext);
+  const { activeTabState, activeTabDispatch } = useContext(ActiveContext);
   const { bookmarksActive, categoriesActive } = activeTabState;
 
   useEffect(() => {
@@ -41,10 +42,12 @@ export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
     if (bookmarksActive) {
       scroll?.current?.scrollTo({ top: 0, behavior: "smooth" });
     } else {
+      activeTabDispatch({ type: ACTIVE_TAB_ACTIONS.BOOKMARKS_ACTIVE });
       navigate("/dashboard");
     }
   }
   function toggleCategories() {
+    activeTabDispatch({ type: ACTIVE_TAB_ACTIONS.CATEGORIES_ACTIVE });
     navigate("/categories");
   }
   function logout() {
