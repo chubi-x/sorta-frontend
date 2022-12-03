@@ -12,12 +12,12 @@ import { Spinner } from "../../assets/animations";
 
 type CategoryModalProps = {
   action: CategoryModalAction | undefined;
-  idToUpdate: string | undefined;
+  category: Category | undefined;
   closeModal: () => void;
   user: User;
 };
 
-export function CategoryModal({ closeModal, user, action, idToUpdate }: CategoryModalProps) {
+export function CategoryModal({ closeModal, user, action, category }: CategoryModalProps) {
   const navigate = useNavigate();
   const { mutate: postCategory } = usePostCategory();
   const { mutate: patchCategory } = usePatchCategory();
@@ -80,8 +80,9 @@ export function CategoryModal({ closeModal, user, action, idToUpdate }: Category
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-    const image = await uploadImage(categoryForm.name);
     if (action === CategoryModalAction.CREATE) {
+      const image = await uploadImage(categoryForm.name);
+
       postCategory(
         { ...categoryForm, image },
         {
@@ -93,8 +94,10 @@ export function CategoryModal({ closeModal, user, action, idToUpdate }: Category
         }
       );
     } else {
+      const image = await uploadImage(category!.name);
+      // console.log(image);
       patchCategory(
-        { categoryId: idToUpdate!, body: { ...categoryForm, image } },
+        { categoryId: category!.id, body: { ...categoryForm, image } },
         {
           onSettled() {
             closeModal();
