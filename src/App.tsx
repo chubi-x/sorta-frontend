@@ -154,7 +154,7 @@ export function App() {
           <Route path="/oauth/callback/:query" element={<OauthCallback login={login} />} />
           <Route
             path="/categories/:id"
-            element={<Category bookmarksContext={bookmarksContext} categories={categories} />}
+            element={<Category bookmarksContext={bookmarksContext} />}
           />
         </Routes>
         {categoryModalOpen && (

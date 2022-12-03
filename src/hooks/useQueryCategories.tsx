@@ -1,6 +1,12 @@
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { NavigateFunction } from "react-router-dom";
-import { createCategory, deleteCategory, fetchCategories, patchCategory } from "../api";
+import {
+  createCategory,
+  deleteCategory,
+  fetchCategories,
+  fetchCategoryById,
+  patchCategory,
+} from "../api";
 
 export function useFetchCategories(
   setCategories: (category: Category[]) => void,
@@ -24,7 +30,9 @@ export function useFetchCategories(
     },
   });
 }
-
+export function useFetchCategoryById(categoryId: string) {
+  return useQuery(["fetch-category", categoryId], () => fetchCategoryById(categoryId));
+}
 export function usePostCategory() {
   const queryClient = useQueryClient();
 
