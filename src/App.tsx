@@ -54,6 +54,7 @@ export function App() {
   const [categoryModalAction, setCategoryModalAction] = useState<CategoryModalAction>();
   const [categoryIdToUpdate, setCategoryIdToUpdate] = useState<string | undefined>(undefined);
   const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
+    activeTab: "bookmarks",
     bookmarksActive: true,
     categoriesActive: false,
   });

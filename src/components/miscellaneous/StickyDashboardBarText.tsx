@@ -3,14 +3,9 @@ import help from "../../assets/icons/help.svg";
 type Props = {
   inView: boolean;
   categoriesActive: boolean;
-  activeTab: string;
   bookmarks: Bookmarks;
 };
-export function StickyDashboardBarText({
-  inView,
-  activeTab,
-  bookmarks,
-}: Props) {
+export function StickyDashboardBarText({ inView, bookmarks, categoriesActive }: Props) {
   return (
     <div
       className={`my-6 flex items-center text-primary-1 tall:w-auto ${
@@ -18,7 +13,7 @@ export function StickyDashboardBarText({
       }`}
     >
       <p className={`font-semibold ${!inView ? "hidden" : ""}`}>
-        {activeTab === "bookmarks"
+        {!categoriesActive
           ? `   ${bookmarks ? bookmarks?.data.length : ""} Tweets`
           : "All Categories"}
       </p>
