@@ -12,6 +12,7 @@ import { Bookmark } from "./Bookmark";
 // TYPES
 import { BookmarksContextInterface } from "../../App";
 import { useQueryBookmarks } from "../../hooks";
+import { Spinner } from "../../assets/animations";
 
 type BookmarksProps = {
   user: User;
@@ -65,12 +66,16 @@ export function Bookmarks({ user, userFetched, bookmarksContext }: BookmarksProp
     }, 1000);
   };
   const loaderComponent = (
-    <div
-      className={`mt-10 flex justify-center ${helpers.bookmarksLoading ? "hidden" : "flex"}`}
-      key={0}
-    >
-      <button onClick={loadMoreBookmarks} className="primary-btn primary-btn--medium">
-        Load More
+    <div className="mt-10 flex justify-center" key={0}>
+      <button
+        onClick={loadMoreBookmarks}
+        className={`primary-btn primary-btn--medium flex items-center space-x-2 ${
+          helpers.bookmarksLoading ? "primary-btn--disabled pr-4" : ""
+        }`}
+        disabled={helpers.bookmarksLoading ? true : false}
+      >
+        <span>Load More</span>
+        {helpers.bookmarksLoading && <Spinner />}
       </button>
     </div>
   );

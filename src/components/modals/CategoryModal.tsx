@@ -8,6 +8,7 @@ import { firebaseStorage } from "../../../firebase";
 import cancelIcon from "../../assets/icons/cancel.svg";
 import imageIcon from "../../assets/icons/image.svg";
 import { CategoryModalAction } from "../../App";
+import { Spinner } from "../../assets/animations";
 
 type CategoryModalProps = {
   action: CategoryModalAction | undefined;
@@ -108,11 +109,6 @@ export function CategoryModal({ closeModal, user, action, idToUpdate }: Category
     action === CategoryModalAction.CREATE ? "Create new category" : "Edit category";
   const ctaMessage = action === CategoryModalAction.CREATE ? "Create new category" : "Save";
 
-  const spinner = (
-    <svg className="spinner" viewBox="0 0 50 50">
-      <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>
-    </svg>
-  );
   return (
     <div className="category__modal">
       <div className="category__modal__card">
@@ -189,7 +185,7 @@ export function CategoryModal({ closeModal, user, action, idToUpdate }: Category
               disabled={loading ? true : false}
             >
               <span>{ctaMessage}</span>
-              {loading && spinner}
+              {loading && <Spinner />}
             </button>
           </div>
         </form>
