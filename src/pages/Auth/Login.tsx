@@ -12,7 +12,7 @@ import { PrimaryButton } from "../../components/buttons";
 import { LoginCard } from "../../components/cards";
 
 // ASSETS
-import loginLottie from "../../assets/lotties/login.json";
+import loginLottie from "../../assets/animations/login.json";
 
 export function Login() {
   const [readyToLogin, setReadyToLogin] = useState(false);
@@ -44,9 +44,7 @@ export function Login() {
         <LoginCard>
           <div className="login__card__title">
             <h1>Connect Account</h1>
-            <p className="text-xs">
-              Hey! Click the button below to connect your twitter account
-            </p>
+            <p className="text-xs">Hey! Click the button below to connect your twitter account</p>
           </div>
           <div className="login__card__animation">
             <Lottie animationData={loginLottie} loop={true} autoplay={true} />
@@ -58,4 +56,3 @@ export function Login() {
     </>
   );
 }
-

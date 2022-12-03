@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import loadingAnimation from "../../assets/lotties/loading.json";
+import loadingAnimation from "../../assets/animations/loading.json";
 
 export function LoadingModal() {
   return (
@@ -13,4 +13,3 @@ export function LoadingModal() {
     </div>
   );
 }
-
