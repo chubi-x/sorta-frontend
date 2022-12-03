@@ -12,6 +12,17 @@ export async function fetchCategories() {
   const response = await request.json();
   return response as CategoriesResponse;
 }
+export async function fetchCategoryById(categoryId: string) {
+  const request = await fetch(`${import.meta.env.VITE_API_URL!}/categories/${categoryId}`, {
+    credentials: "include",
+    headers: {
+      "ngrok-skip-browser-warning": "true",
+    },
+  });
+  const response = await request.json();
+  return response as CategoryResponse;
+}
+
 export async function createCategory(body: Omit<Category, "bookmarks" | "id">) {
   //   const body = JSON.stringify({ bookmarks: ["1", "2", "3", "4"] });
   const request = await fetch(`${import.meta.env.VITE_API_URL!}/categories`, {

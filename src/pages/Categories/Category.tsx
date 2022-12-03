@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BookmarksContextInterface } from "../../App";
 
@@ -11,22 +11,29 @@ import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
 import { dropdownItems } from ".";
+import { useFetchCategoryById } from "../../hooks";
 
 type Props = {
   bookmarksContext: BookmarksContextInterface;
-  categories: Category[];
 };
 
-export function Category({ bookmarksContext, categories }: Props) {
-  const { bookmarks } = bookmarksContext;
-
-  const [showTooltip, setShowTooltip] = useState(false);
-
+export function Category({ bookmarksContext }: Props) {
+  const params = useParams();
   const navigate = useNavigate();
 
-  const params = useParams();
   const { id } = params;
-  var category = categories.find((item) => item.id === id);
+  const [category, setCategory] = useState<Category>();
+
+  const { bookmarks } = bookmarksContext;
+  const { data, isSuccess, isFetching } = useFetchCategoryById(id!);
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setCategory(data.data);
+    }
+  }, [isSuccess, isFetching]);
+
   const { name, image, description } = { ...category };
   const categoryBookmarks = bookmarks?.data?.filter((bookmark) =>
     category?.bookmarks?.includes(bookmark?.id)
