@@ -4,22 +4,19 @@ import InfiniteScroll from "react-infinite-scroller";
 import { useNavigate } from "react-router";
 
 // APIS
-import { fetchBookmarks } from "../../api/bookmarks-api";
-import { useQuery } from "react-query";
+import { useQueryBookmarks } from "../../hooks";
 // COMPONENTS
 import { Bookmark } from "./Bookmark";
 
 // TYPES
 import { BookmarksContextInterface } from "../../App";
-import { useQueryBookmarks } from "../../hooks";
 import { Spinner } from "../../assets/animations";
 
 type BookmarksProps = {
-  user: User;
   userFetched: boolean;
   bookmarksContext: BookmarksContextInterface;
 };
-export function Bookmarks({ user, userFetched, bookmarksContext }: BookmarksProps) {
+export function Bookmarks({ userFetched, bookmarksContext }: BookmarksProps) {
   const { bookmarks, updateBookmarks, helpers } = bookmarksContext;
 
   const bookmarksPerPage = 20;

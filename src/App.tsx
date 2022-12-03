@@ -118,25 +118,21 @@ export function App() {
           <Route
             path="/dashboard"
             element={
-              <Dashboard activeTabState={activeTabState} bookmarksContext={bookmarksContext}>
+              <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
                 <DashboardHeader
                   user={user}
                   activeTabState={activeTabState}
                   bookmarksContext={bookmarksContext}
                   openCategoryModal={openCategoryModal}
                 />
-                <Bookmarks
-                  user={user}
-                  userFetched={userFetched}
-                  bookmarksContext={bookmarksContext}
-                />
+                <Bookmarks userFetched={userFetched} bookmarksContext={bookmarksContext} />
               </Dashboard>
             }
           />
           <Route
             path="/categories"
             element={
-              <Dashboard activeTabState={activeTabState} bookmarksContext={bookmarksContext}>
+              <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
                 <DashboardHeader
                   user={user}
                   bookmarksContext={bookmarksContext}

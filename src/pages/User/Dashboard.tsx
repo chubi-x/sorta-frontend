@@ -4,22 +4,18 @@ import { ActiveContext } from "../../helpers/Context";
 import { ActiveTabState, ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
 
 // LAYOUTS
-import { Menu } from "../../layouts";
-// ASSETS
-import { BookmarksContextInterface } from "../../App";
 import { useLocation } from "react-router-dom";
+import { Menu } from "../../layouts";
 
 type Props = {
   activeTabState: ActiveTabState;
-  bookmarksContext: BookmarksContextInterface;
+  bookmarksScrollRef: React.RefObject<HTMLDivElement>;
   children: React.ReactNode;
 };
-export function Dashboard({ bookmarksContext, children }: Props) {
+export function Dashboard({ bookmarksScrollRef, children }: Props) {
   const { activeTabDispatch } = useContext(ActiveContext);
   const location = useLocation();
   const path = location.pathname.replace("/", "");
-  const { helpers } = bookmarksContext;
-  const { bookmarksScrollRef } = helpers;
 
   useEffect(() => {
     if (path === "bookmarks") {
