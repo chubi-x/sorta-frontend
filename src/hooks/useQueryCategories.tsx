@@ -59,39 +59,56 @@ export function usePatchCategory() {
   return useMutation(patchCategory, {
     async onMutate({ categoryId, body }) {
       await queryClient.cancelQueries("fetch-categories");
+      await queryClient.cancelQueries(["fetch-category", categoryId]);
       const oldCategoriesResponse =
         queryClient.getQueryData<CategoriesResponse>("fetch-categories");
-      if (oldCategoriesResponse) {
+
+      const oldCategoryResponse: CategoryResponse | undefined =
+        queryClient.getQueryData<CategoryResponse>(["fetch-category", categoryId]);
+
+      if (oldCategoriesResponse && oldCategoryResponse) {
         const newCategories = oldCategoriesResponse.data.map((category) => {
           if (category.id === categoryId) {
-            const { image, description } = body;
+            const { image, description, name } = body;
             category = {
               ...category,
+              name: name ? name : category.name,
               image: image ? image : category.image,
               description: description ? description : category.description,
             };
           }
           return category;
         });
+        queryClient.setQueryData<CategoryResponse>(["fetch-category", categoryId], {
+          ...oldCategoryResponse,
+          data: { ...oldCategoryResponse.data, ...body },
+        });
+
         queryClient.setQueryData<CategoriesResponse>("fetch-categories", {
           ...oldCategoriesResponse,
           data: [...newCategories],
         });
 
-        return { oldCategoriesResponse };
+        return { oldCategoriesResponse, oldCategoryResponse };
       }
     },
     onError(error, variables, context) {
-      if (context?.oldCategoriesResponse) {
+      const { categoryId } = variables;
+      if (context?.oldCategoriesResponse || context?.oldCategoryResponse) {
+        alert("Error updating category");
         queryClient.setQueryData<CategoriesResponse>(
           "fetch-categories",
           context.oldCategoriesResponse
         );
+        queryClient.setQueryData<CategoryResponse>(["fetch-category", categoryId], {
+          ...context.oldCategoryResponse,
+        });
       }
     },
-    async onSettled() {
-      console.log("settled");
+    async onSettled(data, error, variables, context) {
+      const categoryId = variables.categoryId;
       await queryClient.invalidateQueries("fetch-categories");
+      await queryClient.invalidateQueries(["fetch-category", categoryId]);
     },
   });
 }
