@@ -2,6 +2,13 @@ export enum ACTIVE_TAB_ACTIONS {
   BOOKMARKS_ACTIVE = "BOOKMARKS ACTIVE",
   CATEGORIES_ACTIVE = "CATEGORIES_ACTIVE",
 }
+export interface ActiveTabState {
+  bookmarksActive: boolean;
+  categoriesActive: boolean;
+}
+export interface ActiveTabAction {
+  type: ACTIVE_TAB_ACTIONS;
+}
 export enum CATEGORY_MODAL_ACTIONS {
   CREATE_CATEGORY = "CREATE_CATEGORY",
   EDIT_CATEGORY = "EDIT_CATEGORY",
@@ -17,14 +24,6 @@ export interface CategoryModalActionsInterface {
   type: CATEGORY_MODAL_ACTIONS;
   payload?: string;
 }
-export interface ActiveTabState {
-  activeTab: string;
-  bookmarksActive: boolean;
-  categoriesActive: boolean;
-}
-export interface ActiveTabAction {
-  type: ACTIVE_TAB_ACTIONS;
-}
 
 export interface CategoryModalState {
   categoryModalOpen: boolean;
@@ -34,11 +33,14 @@ export interface CategoryModalState {
 
 export function activeTabReducer(state: ActiveTabState, action: ActiveTabAction) {
   const { type } = action;
+  let newState: ActiveTabState;
   switch (type) {
     case ACTIVE_TAB_ACTIONS.BOOKMARKS_ACTIVE:
-      return { bookmarksActive: true, categoriesActive: false, activeTab: "bookmarks" };
+      newState = { bookmarksActive: true, categoriesActive: false };
+      return newState;
     case ACTIVE_TAB_ACTIONS.CATEGORIES_ACTIVE:
-      return { bookmarksActive: false, categoriesActive: true, activeTab: "bookmarks" };
+      newState = { bookmarksActive: false, categoriesActive: true };
+      return newState;
 
     default:
       return state;
