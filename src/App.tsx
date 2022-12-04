@@ -49,7 +49,7 @@ export function App() {
     categoryIdToUpdate: undefined,
   });
 
-  const { isSuccess: userFetched } = useFetchUser(logged, updateUser, navigate);
+  const { isStale: userFetched } = useFetchUser(logged, updateUser, navigate);
 
   const bookmarksScrollRef = useRef<HTMLDivElement>(null);
 

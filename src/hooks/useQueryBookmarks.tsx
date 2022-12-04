@@ -1,13 +1,13 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { NavigateFunction } from "react-router-dom";
-import { fetchBookmarks } from "../api/bookmarks-api";
+import { deleteBookmark, fetchBookmarks } from "../api/bookmarks-api";
 
 export function useFetchBookmarks(
   userFetched: boolean,
   updateBookmarks: (bookmarks: Bookmarks) => void,
   navigate: NavigateFunction
 ) {
-  return useQuery("get-bookmarks", fetchBookmarks, {
+  return useQuery("fetch-bookmarks", fetchBookmarks, {
     enabled: userFetched,
     refetchOnMount: false,
     onSuccess(data) {
@@ -22,6 +22,37 @@ export function useFetchBookmarks(
     onError(err) {
       alert(err);
       navigate("/login");
+    },
+  });
+}
+
+export function useDeleteBookmark() {
+  const queryClient = useQueryClient();
+  return useMutation("delete-bookmark", deleteBookmark, {
+    async onMutate(bookmarkId) {
+      await queryClient.cancelQueries("fetch-bookmarks");
+      const oldBookmarksResponse = queryClient.getQueryData<BookmarksResponse>("fetch-bookmarks");
+      if (oldBookmarksResponse) {
+        const newBookmarks = oldBookmarksResponse.data.data.filter(
+          (bookmark) => bookmark.id !== bookmarkId
+        );
+        queryClient.setQueryData<BookmarksResponse>("fetch-bookmarks", {
+          ...oldBookmarksResponse,
+          data: { ...oldBookmarksResponse.data, data: newBookmarks },
+        });
+      }
+      return { oldBookmarksResponse };
+    },
+    onError(error, variables, context) {
+      if (context?.oldBookmarksResponse) {
+        queryClient.setQueryData<BookmarksResponse>(
+          "fetch-bookmarks",
+          context.oldBookmarksResponse
+        );
+      }
+    },
+    async onSettled() {
+      await queryClient.invalidateQueries("fetch-bookmarks");
     },
   });
 }

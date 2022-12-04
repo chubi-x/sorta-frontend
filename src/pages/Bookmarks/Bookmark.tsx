@@ -8,6 +8,7 @@ import { MoreButton } from "../../components/buttons";
 import verifiedIcon from "../../assets/icons/verified.svg";
 import addIcon from "../../assets/icons/add.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
+import { useDeleteBookmark } from "../../hooks";
 
 type BookmarkProps = {
   bookmark: Bookmark;
@@ -15,12 +16,13 @@ type BookmarkProps = {
   bookmarksLength?: number | undefined;
 };
 
-const dropdownItems: DropDownItem[] = [
-  { icon: addIcon, text: "Add to category" },
-  { icon: deleteIcon, text: "Delete" },
-];
 export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
   const [showTooltip, setShowTooltip] = useState(false);
+  const { mutate: deleteBookmark } = useDeleteBookmark();
+  const dropdownItems: DropDownItem[] = [
+    { icon: addIcon, text: "Add to category" },
+    { icon: deleteIcon, text: "Delete", itemFunction: () => deleteBookmark(bookmark.id) },
+  ];
 
   function convertDate(date_string: string) {
     let date = new Date(date_string);
@@ -79,9 +81,7 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
 
             <div className="bookmark__card__date__container">
               <div className="h-[2px] w-[2px] self-center rounded-full bg-neutral-4"></div>
-              <p className="bookmark__card__date">
-                {convertDate(bookmark?.created_at)}
-              </p>
+              <p className="bookmark__card__date">{convertDate(bookmark?.created_at)}</p>
             </div>
             <MoreButton showTooltip={setShowTooltip} />
           </div>
@@ -95,11 +95,10 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
           </h1>
 
           {showTooltip && (
-            <CardDropdown items={dropdownItems} show={setShowTooltip} />
+            <CardDropdown resourceId={bookmark.id} items={dropdownItems} show={setShowTooltip} />
           )}
         </div>
       </div>
     </div>
   );
 }
-
