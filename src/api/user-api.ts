@@ -1,14 +1,12 @@
-export async function fetchUser(abortController: AbortController) {
+export async function fetchUser() {
   try {
     const request = await fetch(`${import.meta.env.VITE_API_URL!}/user`, {
       credentials: "include",
-      signal: abortController.signal,
       headers: { "ngrok-skip-browser-warning": "true" },
     });
     const response = await request.json();
-    return response;
+    return response as UserResponse;
   } catch (err) {
     console.log("Error fetching user. \n", err);
   }
 }
-
