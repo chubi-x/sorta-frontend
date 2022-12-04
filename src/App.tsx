@@ -40,7 +40,6 @@ export function App() {
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
 
   const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
-    activeTab: "bookmarks",
     bookmarksActive: true,
     categoriesActive: false,
   });
