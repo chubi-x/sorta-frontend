@@ -60,7 +60,7 @@ export function Menu({ scroll }: { scroll?: React.RefObject<HTMLDivElement> }) {
         setLoggingOut(false);
         localStorage.clear();
         sessionStorage.clear();
-        location.href = "http://192.168.1.9:5173/login";
+        location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
       } else {
         alert("There was a problem logging you out. Please try again.");
         setLoggingOut(false);
