@@ -23,7 +23,16 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
   const { mutate: patchCategory } = usePatchCategory();
 
   const descriptionMaxLength = 200;
-
+  const colors = [
+    "#A4CDE3",
+    "#E4D7CF",
+    "#FFD166",
+    "#FA8F54",
+    "3B71FE",
+    "#8BC5E5",
+    "#92A5EF",
+    "#58C27D",
+  ];
   const [categoryForm, setCategoryForm] = useState<Omit<Category, "id" | "image" | "bookmarks">>({
     name: "",
     description: "",
@@ -77,14 +86,21 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
       };
     });
   }
+  function generateBg() {
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    const randomColor = colors[randomIndex];
+    return randomColor;
+  }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     if (action === CategoryModalAction.CREATE) {
-      const image = await uploadImage(categoryForm.name);
-
+      const imageUrl = await uploadImage(categoryForm.name);
+      let categoryImage = "";
+      if (imageUrl) categoryImage = imageUrl;
+      else categoryImage = generateBg();
       postCategory(
-        { ...categoryForm, image },
+        { ...categoryForm, image: categoryImage },
         {
           onSettled() {
             closeModal();

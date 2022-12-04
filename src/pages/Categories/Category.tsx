@@ -59,11 +59,19 @@ export function Category({ bookmarksContext }: Props) {
       index={index}
     />
   ));
+  const isHex = image?.includes("#");
+
   return (
     <div className="category__page__wrapper">
       <Menu />
       <div className="category__page">
-        <div className="category__page__banner" style={{ backgroundImage: `url(${image})` }}>
+        <div
+          className="category__page__banner"
+          style={{
+            backgroundImage: !isHex ? `url(${image})` : "",
+            backgroundColor: isHex ? image : "",
+          }}
+        >
           <div className="category__page__banner__controls">
             <div className="back-button" onClick={backToCategories}>
               <img src={backIcon} alt="back button icon" />
