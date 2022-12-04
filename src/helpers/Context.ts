@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { ActiveTabAction, ActiveTabState } from "./Reducer";
+import { ActiveTabAction, ActiveTabState } from "./Reducers";
 
 export interface ActiveContextInterface {
   activeTabState: ActiveTabState;

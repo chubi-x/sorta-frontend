@@ -4,14 +4,14 @@ import { StickyDashboardBar, StickyDashboardBarText } from "../../components/mis
 
 import userSkeleton from "../../assets/animations/user-details-skeleton.json";
 import { useInView } from "react-intersection-observer";
-import { BookmarksContextInterface, CategoryModalAction } from "../../App";
-import { ActiveTabState } from "../../helpers/Reducer";
+import { BookmarksContextInterface } from "../../App";
+import { ActiveTabState } from "../../helpers/Reducers";
 
 type Props = {
   user: User;
   activeTabState: ActiveTabState;
   bookmarksContext: BookmarksContextInterface;
-  openCategoryModal: (action: CategoryModalAction, categoryId?: string) => void;
+  openCategoryModal: (action: "create category" | "edit category", categoryId?: string) => void;
 };
 
 export function DashboardHeader({

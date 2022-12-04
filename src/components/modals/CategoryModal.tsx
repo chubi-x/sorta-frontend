@@ -4,10 +4,10 @@ import { usePatchCategory, usePostCategory } from "../../hooks";
 import Compressor from "compressorjs";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseStorage } from "../../../firebase";
+import { CategoryModalAction } from "../../helpers/Reducers";
 
 import cancelIcon from "../../assets/icons/cancel.svg";
 import imageIcon from "../../assets/icons/image.svg";
-import { CategoryModalAction } from "../../App";
 import { Spinner } from "../../assets/animations";
 
 type CategoryModalProps = {
@@ -94,7 +94,7 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-    if (action === CategoryModalAction.CREATE) {
+    if (action?.createCategory) {
       const imageUrl = await uploadImage(categoryForm.name);
       let categoryImage = "";
       if (imageUrl) categoryImage = imageUrl;
@@ -124,9 +124,8 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
     }
   }
 
-  const headerMessage =
-    action === CategoryModalAction.CREATE ? "Create new category" : "Edit category";
-  const ctaMessage = action === CategoryModalAction.CREATE ? "Create new category" : "Save";
+  const headerMessage = action?.createCategory ? "Create new category" : "Edit category";
+  const ctaMessage = action?.createCategory ? "Create new category" : "Save";
 
   return (
     <div className="category__modal">
@@ -174,7 +173,7 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
                 value={categoryForm.name}
                 onChange={(e) => handleInputChange(e)}
                 maxLength={30}
-                required={action === CategoryModalAction.CREATE}
+                required={action?.createCategory}
               />
               <textarea
                 name="description"
@@ -183,7 +182,7 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
                 value={categoryForm.description}
                 onChange={(e) => handleInputChange(e)}
                 maxLength={descriptionMaxLength}
-                required={action === CategoryModalAction.CREATE}
+                required={action?.createCategory}
               ></textarea>
               <div className="category__modal__card__form__description__char_count">{`${categoryForm.description.length}/${descriptionMaxLength}`}</div>
             </div>

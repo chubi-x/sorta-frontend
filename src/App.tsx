@@ -1,7 +1,7 @@
 // LIBRARIES
 import { useReducer, useRef, useState } from "react";
 import { ActiveContext } from "./helpers/Context";
-import { activeTabReducer } from "./helpers/Reducer";
+import { activeTabReducer, categoryModalReducer, CATEGORY_MODAL_ACTIONS } from "./helpers/Reducers";
 
 import { Routes, Route, useNavigate } from "react-router-dom";
 // PAGES
@@ -26,18 +26,6 @@ export interface BookmarksContextInterface {
   updateBookmarks: (bookmarks: Bookmarks) => void;
   helpers: BookmarksHelpers;
 }
-export interface CategoryModalContextInterface {
-  categoryModalOpen: boolean;
-  openCategoryModal: (action: CategoryModalAction, categoryId?: string) => void;
-  categoryModalAction?: CategoryModalAction;
-  categoryIdToUpdate: string | undefined;
-  closeCategoryModal: () => void;
-}
-
-export enum CategoryModalAction {
-  CREATE = "CREATE",
-  EDIT = "EDIT",
-}
 
 export function App() {
   const navigate = useNavigate();
@@ -50,13 +38,16 @@ export function App() {
     JSON.parse(sessionStorage.getItem("bookmarks")!) || null
   );
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
-  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
-  const [categoryModalAction, setCategoryModalAction] = useState<CategoryModalAction>();
-  const [categoryIdToUpdate, setCategoryIdToUpdate] = useState<string | undefined>(undefined);
+
   const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
     activeTab: "bookmarks",
     bookmarksActive: true,
     categoriesActive: false,
+  });
+  const [categoryModalState, dispatchCategoryModalState] = useReducer(categoryModalReducer, {
+    categoryModalOpen: false,
+    categoryModalAction: { createCategory: true, editCategory: false },
+    categoryIdToUpdate: undefined,
   });
 
   const { isSuccess: userFetched } = useFetchUser(logged, updateUser, navigate);
@@ -90,16 +81,22 @@ export function App() {
     setBookmarksLoading(state);
   }
 
-  function openCategoryModal(action: CategoryModalAction, categoryId?: string) {
-    setCategoryModalAction(action);
-    setCategoryModalOpen(true);
+  function openCategoryModal(action: "create category" | "edit category", categoryId?: string) {
+    action === "create category"
+      ? dispatchCategoryModalState({ type: CATEGORY_MODAL_ACTIONS.CREATE_CATEGORY })
+      : dispatchCategoryModalState({ type: CATEGORY_MODAL_ACTIONS.EDIT_CATEGORY });
+
+    dispatchCategoryModalState({ type: CATEGORY_MODAL_ACTIONS.OPEN_MODAL });
 
     if (categoryId) {
-      setCategoryIdToUpdate(categoryId);
+      dispatchCategoryModalState({
+        type: CATEGORY_MODAL_ACTIONS.SET_CATEGORY_ID,
+        payload: categoryId,
+      });
     }
   }
   function closeCategoryModal() {
-    setCategoryModalOpen(false);
+    dispatchCategoryModalState({ type: CATEGORY_MODAL_ACTIONS.CLOSE_MODAL });
   }
   // logic to set root element
   let root: JSX.Element = <Login />;
@@ -153,10 +150,12 @@ export function App() {
             element={<Category bookmarksContext={bookmarksContext} />}
           />
         </Routes>
-        {categoryModalOpen && (
+        {categoryModalState.categoryModalOpen && (
           <CategoryModal
-            action={categoryModalAction}
-            category={categories.find((category) => category.id === categoryIdToUpdate)}
+            action={categoryModalState.categoryModalAction}
+            category={categories.find(
+              (category) => category.id === categoryModalState.categoryIdToUpdate
+            )}
             user={user}
             closeModal={closeCategoryModal}
           />
