@@ -4,7 +4,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import { useNavigate } from "react-router";
 
 // APIS
-import { useQueryBookmarks } from "../../hooks";
+import { useFetchBookmarks } from "../../hooks";
 // COMPONENTS
 import { Bookmark } from "./Bookmark";
 
@@ -25,7 +25,7 @@ export function Bookmarks({ userFetched, bookmarksContext }: BookmarksProps) {
   const [numOfBookmarksToRender, setNumOfBookmarksToRender] = useState(bookmarksPerPage);
   const navigate = useNavigate();
 
-  useQueryBookmarks(userFetched, updateBookmarks, navigate);
+  useFetchBookmarks(userFetched, updateBookmarks, navigate);
 
   const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
     let renderedBookmarks = [];
