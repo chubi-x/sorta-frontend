@@ -1,25 +1,21 @@
 import { useQuery } from "react-query";
 import { NavigateFunction } from "react-router-dom";
 import { fetchBookmarks } from "../api/bookmarks-api";
-const getBookmarks = async () => {
-  const abortController = new AbortController();
-  const response: BookmarksResponse = await fetchBookmarks(abortController);
-  return response;
-};
-export function useQueryBookmarks(
+
+export function useFetchBookmarks(
   userFetched: boolean,
   updateBookmarks: (bookmarks: Bookmarks) => void,
   navigate: NavigateFunction
 ) {
-  return useQuery("get-bookmarks", getBookmarks, {
+  return useQuery("get-bookmarks", fetchBookmarks, {
     enabled: userFetched,
     refetchOnMount: false,
     onSuccess(data) {
-      if (data.success) {
+      if (data?.success) {
         updateBookmarks({ ...data.data });
         sessionStorage.setItem("bookmarks", JSON.stringify(data.data));
       } else {
-        alert(data.message);
+        alert(data?.message);
         navigate("/login");
       }
     },
