@@ -1,4 +1,4 @@
-import { MenuButtonProps } from "../../layouts";
+import { MenuButtonProps } from ".";
 
 export function MenuButton({
   icon,
@@ -14,10 +14,7 @@ export function MenuButton({
   }
 
   return (
-    <div
-      className={`menu__button ${menuButtonClass} ${mobileClass} `}
-      onClick={toggle}
-    >
+    <div className={`menu__button ${menuButtonClass} ${mobileClass} `} onClick={toggle}>
       <div className="menu__button__image">
         <img className="menu__icon" src={icon} alt="bookmarks icon" />
       </div>
@@ -25,4 +22,3 @@ export function MenuButton({
     </div>
   );
 }
-
