@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { ActiveContext } from "../helpers/Context";
 import { logoutUser } from "../api";
 
-import { MenuButton } from "../components/buttons";
+import { MenuButton } from ".";
 import { LoadingModal } from "../components/modals";
 import logo from "../assets/logo/logo.svg";
 import bookmarksIcon from "../assets/icons/bookmarks.svg";
