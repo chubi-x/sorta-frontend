@@ -40,7 +40,6 @@ export function usePostCategory() {
     async onMutate(newCategory) {
       await queryClient.cancelQueries("fetch-categories");
       const oldCategories = queryClient.getQueryData<CategoriesResponse>("fetch-categories");
-      await queryClient.invalidateQueries("fetch-categories");
       if (oldCategories) {
         queryClient.setQueryData<CategoriesResponse>("fetch-categories", {
           ...oldCategories,
