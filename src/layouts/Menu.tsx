@@ -9,7 +9,7 @@ import logo from "../assets/logo/logo.svg";
 import bookmarksIcon from "../assets/icons/bookmarks.svg";
 import categoriesIcon from "../assets/icons/categories.svg";
 import logoutIcon from "../assets/icons/logout.svg";
-import { ACTIVE_TAB_ACTIONS } from "../helpers/Reducer";
+import { ACTIVE_TAB_ACTIONS } from "../helpers/Reducers";
 
 export type MenuButtonProps = {
   icon: string;

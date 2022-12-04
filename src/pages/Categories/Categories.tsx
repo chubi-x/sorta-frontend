@@ -7,11 +7,9 @@ import addIcon from "../../assets/icons/add.svg";
 import editIcon from "../../assets/icons/edit.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
-import { CategoryModalAction } from "../../App";
 
 type CategoriesProps = {
-  openCategoryModal: (action: CategoryModalAction, categoryId?: string) => void;
-
+  openCategoryModal: (action: "create category" | "edit category", categoryId?: string) => void;
   categoriesArray: Category[];
   updateCategories: (categories: Category[]) => void;
 };
@@ -29,7 +27,7 @@ function Categories({ openCategoryModal, categoriesArray, updateCategories }: Ca
       icon: editIcon,
       text: "Edit category",
       itemFunction: (categoryId: string) => {
-        openCategoryModal(CategoryModalAction.EDIT, categoryId);
+        openCategoryModal("edit category", categoryId);
       },
     },
     {
@@ -49,7 +47,7 @@ function Categories({ openCategoryModal, categoriesArray, updateCategories }: Ca
       </p>
       <button
         className="primary-btn primary-btn--medium"
-        onClick={() => openCategoryModal(CategoryModalAction.CREATE)}
+        onClick={() => openCategoryModal("create category")}
       >
         Create Category
       </button>

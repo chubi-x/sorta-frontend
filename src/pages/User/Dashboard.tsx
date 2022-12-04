@@ -1,7 +1,7 @@
 // LIBRARIES
 import { useEffect, useContext } from "react";
 import { ActiveContext } from "../../helpers/Context";
-import { ActiveTabState, ACTIVE_TAB_ACTIONS } from "../../helpers/Reducer";
+import { ActiveTabState, ACTIVE_TAB_ACTIONS } from "../../helpers/Reducers";
 
 // LAYOUTS
 import { useLocation } from "react-router-dom";
