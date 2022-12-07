@@ -1,34 +1,33 @@
 import Lottie from "lottie-react";
-import { NewCategoryButton } from "../../components/buttons";
-import { StickyDashboardBar, StickyDashboardBarText } from "../../components/miscellaneous";
+import { StickyDashboardBar } from "../../components/miscellaneous";
 
 import userSkeleton from "../../assets/animations/user-details-skeleton.json";
+import newCategoryIcon from "../../assets/icons/create-category.svg";
+
 import { useInView } from "react-intersection-observer";
-import { BookmarksContextInterface } from "../../App";
 import { ActiveTabState } from "../../helpers/Reducers";
 
 type Props = {
   user: User;
   activeTabState: ActiveTabState;
-  bookmarksContext: BookmarksContextInterface;
+  bookmarksScrollRef: React.RefObject<HTMLDivElement>;
+
   openCategoryModal: (action: "create category" | "edit category", categoryId?: string) => void;
 };
 
 export function DashboardHeader({
   user,
   activeTabState,
-  bookmarksContext,
+  bookmarksScrollRef,
   openCategoryModal,
 }: Props) {
-  const { bookmarks, helpers } = bookmarksContext;
-  const { bookmarksScrollRef } = helpers;
   const { bookmarksActive, categoriesActive } = activeTabState;
 
-  const [ref, inView] = useInView({
+  const [inViewRef, inView] = useInView({
     root: document.querySelector(".dashboard"),
     initialInView: true,
     threshold: 1,
-    rootMargin: "-175px",
+    rootMargin: "175px",
   });
   const userInfo = (
     <>
