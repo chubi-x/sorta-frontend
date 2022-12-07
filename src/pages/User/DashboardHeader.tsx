@@ -59,14 +59,15 @@ export function DashboardHeader({
       </p>
 
       <StickyDashboardBar inView={inView} categoriesActive={categoriesActive}>
-        <NewCategoryButton sticky={!inView} openModal={openCategoryModal} />
-        <StickyDashboardBarText
-          inView={inView}
-          bookmarks={bookmarks}
-          categoriesActive={categoriesActive}
-        />
+        <NewCategoryButton>
+          <button
+            className={`new-category-btn ${!inView ? "mr-4" : ""}`}
+            onClick={() => openCategoryModal("create category")}
+          >
+            create category <img src={newCategoryIcon} alt="create category icon" />
+          </button>
+        </NewCategoryButton>
       </StickyDashboardBar>
-      <div className="scroll ref" ref={ref}></div>
     </>
   );
 }
