@@ -13,7 +13,7 @@
   --bg-blur: blur(4.5px);
 }
 .categories {
-  @apply pt-10 pb-40 md:pb-20;
+  @apply pb-40 md:pb-20;
   &--empty {
     @apply flex flex-col items-center justify-center;
     @apply space-y-6 pb-20;
