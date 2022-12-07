@@ -1,7 +1,7 @@
 // LIBRARIES
 import { memo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // APIS
 import { fetchBookmarks } from "../../api/bookmarks-api";
@@ -20,10 +20,14 @@ type BookmarksProps = {
 };
 const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.search;
+  const toAddToCategory = path.includes("addToCategory");
+
   const [bookmarksLoading, setBookmarksLoading] = useState(false);
 
   const [bookmarks, setBookmarks] = useState<Bookmarks>(
-    JSON.parse(sessionStorage.getItem("bookmarks")!) || null
+    JSON.parse(sessionStorage.getItem("bookmarks")!)
   );
   const bookmarksPerPage = 20;
   const [hasMoreBookmarks, setHasMoreBookmarks] = useState(true);
@@ -53,22 +57,17 @@ const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => 
     for (let i = 0; i < numOfBookmarksToRender; i++) {
       if (bookmarksArray) {
         if (i < bookmarksArray.length) {
-          const bookmark = bookmarksArray[i];
-          const index = i;
-          const bookmarksLength = bookmarksArray.length;
-          const EnhancedBookmark = withAddBookmarkToCategory(Bookmark, {
-            bookmark,
-            index,
-            bookmarksLength,
-          });
+          // const bookmark = bookmarksArray[i];
+          // const index = i;
+          // const bookmarksLength = bookmarksArray.length;
+
           renderedBookmarks.push(
-            // <Bookmark
-            //     bookmark={bookmarksArray[i]}
-            //     key={bookmarksArray[i].id}
-            //     index={i}
-            //     bookmarksLength={bookmarksArray.length}
-            //   />
-            <EnhancedBookmark key={bookmark.id} />
+            <Bookmark
+              bookmark={bookmarksArray[i]}
+              key={bookmarksArray[i].id}
+              index={i}
+              bookmarksLength={bookmarksArray.length}
+            />
           );
         }
       }
@@ -112,15 +111,26 @@ const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => 
             <p className="font-semibold ">{bookmarks ? bookmarks?.data.length : ""} Tweets</p>
           </DashboardBarText>
 
-          <InfiniteScroll
-            pageStart={0}
-            loadMore={() => {}}
-            hasMore={hasMoreBookmarks}
-            loader={loaderComponent}
-            useWindow={false}
-          >
-            {renderBookmarks(bookmarks?.data)}
-          </InfiniteScroll>
+          {toAddToCategory ? (
+            bookmarks.data?.map((bookmark, index) => {
+              const EnhancedBookmark = withAddBookmarkToCategory(Bookmark, {
+                bookmark,
+                index,
+                bookmarksLength: bookmarks.data.length,
+              });
+              return <EnhancedBookmark key={bookmark.id} />;
+            })
+          ) : (
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={() => {}}
+              hasMore={hasMoreBookmarks}
+              loader={loaderComponent}
+              useWindow={false}
+            >
+              {renderBookmarks(bookmarks?.data)}
+            </InfiniteScroll>
+          )}
         </div>
       </div>
     </>
