@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { ActiveContext } from "../../helpers/Context";
 import { ActiveTabState, ACTIVE_TAB_ACTIONS } from "../../helpers/Reducers";
 
@@ -15,12 +15,12 @@ type Props = {
 export function Dashboard({ bookmarksScrollRef, children }: Props) {
   const { activeTabDispatch } = useContext(ActiveContext);
   const location = useLocation();
-  const path = location.pathname.replace("/", "");
+  const path = location.pathname;
 
   useEffect(() => {
-    if (path === "bookmarks") {
+    if (path.includes("dashboard")) {
       activeTabDispatch({ type: ACTIVE_TAB_ACTIONS.BOOKMARKS_ACTIVE });
-    } else if (path === "categories") {
+    } else if (path.includes("categories")) {
       activeTabDispatch({ type: ACTIVE_TAB_ACTIONS.CATEGORIES_ACTIVE });
     }
   }, [path]);

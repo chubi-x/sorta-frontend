@@ -36,7 +36,7 @@ export function OauthCallback({ login }: Props) {
         login();
         navigate("/dashboard");
       } else {
-        alert(oauthResponse?.error);
+        if (oauthResponse?.error) alert(oauthResponse.error);
         navigate("/login");
       }
     };
