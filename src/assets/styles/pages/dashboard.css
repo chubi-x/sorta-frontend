@@ -46,7 +46,7 @@ main {
     border-bottom: 200px solid theme("colors.primary-1");
   }
   .new-category-container {
-    @apply h-[110px] w-full md:h-28 lg:w-5/6;
+    @apply h-20 w-full lg:w-5/6;
     @apply mt-10;
     @apply bg-neutral-7;
     @apply sticky top-[0px] z-30;
@@ -69,4 +69,3 @@ main {
     @apply mr-1 flex cursor-help items-center space-x-2 self-start font-medium;
   }
 }
-
