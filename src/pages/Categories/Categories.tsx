@@ -7,6 +7,7 @@ import addIcon from "../../assets/icons/add.svg";
 import editIcon from "../../assets/icons/edit.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
+import { DashboardBarText } from "../../components/miscellaneous";
 
 type CategoriesProps = {
   openCategoryModal: (action: "create category" | "edit category", categoryId?: string) => void;
@@ -22,7 +23,13 @@ function Categories({ openCategoryModal, categoriesArray, updateCategories }: Ca
   const { mutate: deleteCategory } = useDeleteCategory(navigate);
 
   dropdownItems = [
-    { icon: addIcon, text: "Add bookmarks" },
+    {
+      icon: addIcon,
+      text: "Add bookmarks",
+      itemFunction: (categoryId: string) => {
+        navigate(`/dashboard/?action=addToCategory&categoryId=${categoryId}`);
+      },
+    },
     {
       icon: editIcon,
       text: "Edit category",
@@ -69,7 +76,12 @@ function Categories({ openCategoryModal, categoriesArray, updateCategories }: Ca
     </div>
   );
   return (
-    <div className="categories">{categoriesArray.length > 0 ? categories : emptyCategories}</div>
+    <div className="categories">
+      <DashboardBarText>
+        <p className={`font-semibold `}>All Categories</p>
+      </DashboardBarText>
+      {categoriesArray.length > 0 ? categories : emptyCategories}
+    </div>
   );
 }
 

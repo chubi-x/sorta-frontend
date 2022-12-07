@@ -16,15 +16,10 @@ import { useFetchUser } from "./hooks";
 import { CategoryModal } from "./components/modals";
 import { DashboardHeader } from "./pages/User/DashboardHeader";
 
-interface BookmarksHelpers {
-  bookmarksScrollRef: React.RefObject<HTMLDivElement>;
-  bookmarksLoading: boolean;
-  updateBookmarksLoading: (state: boolean) => void;
-}
 export interface BookmarksContextInterface {
   bookmarks: Bookmarks;
   updateBookmarks: (bookmarks: Bookmarks) => void;
-  helpers: BookmarksHelpers;
+  bookmarksScrollRef: React.RefObject<HTMLDivElement>;
 }
 
 export function App() {
@@ -56,11 +51,7 @@ export function App() {
   const bookmarksContext: BookmarksContextInterface = {
     bookmarks,
     updateBookmarks,
-    helpers: {
-      bookmarksScrollRef,
-      bookmarksLoading,
-      updateBookmarksLoading,
-    },
+    bookmarksScrollRef,
   };
 
   function login() {
@@ -112,13 +103,13 @@ export function App() {
           <Route path="/" element={root} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/dashboard"
+            path="/dashboard/*"
             element={
               <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
                 <DashboardHeader
                   user={user}
                   activeTabState={activeTabState}
-                  bookmarksContext={bookmarksContext}
+                  bookmarksScrollRef={bookmarksScrollRef}
                   openCategoryModal={openCategoryModal}
                 />
                 <Bookmarks userFetched={userFetched} bookmarksContext={bookmarksContext} />
@@ -131,7 +122,7 @@ export function App() {
               <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
                 <DashboardHeader
                   user={user}
-                  bookmarksContext={bookmarksContext}
+                  bookmarksScrollRef={bookmarksScrollRef}
                   openCategoryModal={openCategoryModal}
                   activeTabState={activeTabState}
                 />
