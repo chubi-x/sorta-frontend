@@ -52,21 +52,19 @@ export function DashboardHeader({
         {headerInfo}
       </div>
 
-      <p className="my-2 text-neutral-4">
+      <p className="my-2 text-neutral-4" ref={inViewRef}>
         {bookmarksActive
           ? " See all your bookmarked tweets below"
           : " See all your bookmark categories below"}
       </p>
 
       <StickyDashboardBar inView={inView} categoriesActive={categoriesActive}>
-        <NewCategoryButton>
-          <button
-            className={`new-category-btn ${!inView ? "mr-4" : ""}`}
-            onClick={() => openCategoryModal("create category")}
-          >
-            create category <img src={newCategoryIcon} alt="create category icon" />
-          </button>
-        </NewCategoryButton>
+        <button
+          className={`new-category-btn ${!inView ? "mr-4" : ""}`}
+          onClick={() => openCategoryModal("create category")}
+        >
+          create category <img src={newCategoryIcon} alt="create category icon" />
+        </button>
       </StickyDashboardBar>
     </>
   );
