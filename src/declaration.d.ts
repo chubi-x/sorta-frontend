@@ -45,7 +45,7 @@ interface Category {
   name: string;
   description: string;
   image?: string;
-  bookmarks: string[];
+  bookmarks: Bookmark[];
 }
 
 interface TweetEntityUrl {
