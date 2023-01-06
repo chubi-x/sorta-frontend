@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BookmarksContextInterface } from "../../App";
 
 import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
@@ -13,18 +12,13 @@ import help from "../../assets/icons/help.svg";
 import { dropdownItems } from ".";
 import { useFetchCategoryById } from "../../hooks";
 
-type Props = {
-  bookmarksContext: BookmarksContextInterface;
-};
-
-export function Category({ bookmarksContext }: Props) {
+export function Category() {
   const params = useParams();
   const navigate = useNavigate();
 
   const { id } = params;
   const [category, setCategory] = useState<Category>();
 
-  const { bookmarks } = bookmarksContext;
   const { data, isSuccess, isFetching } = useFetchCategoryById(id!);
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -34,10 +28,8 @@ export function Category({ bookmarksContext }: Props) {
     }
   }, [isSuccess, isFetching]);
 
-  const { name, image, description } = { ...category };
-  const categoryBookmarks = bookmarks?.data?.filter((bookmark) =>
-    category?.bookmarks?.includes(bookmark?.id)
-  );
+  const { name, image, description, bookmarks } = { ...category };
+
   function backToCategories() {
     navigate("/categories");
   }
@@ -51,11 +43,11 @@ export function Category({ bookmarksContext }: Props) {
       <button className="primary-btn primary-btn--medium">Add bookmarks</button>
     </div>
   );
-  const fullCategory = categoryBookmarks?.map((bookmark, index) => (
+  const fullCategory = bookmarks?.map((bookmark, index) => (
     <Bookmark
       key={bookmark.id}
       bookmark={bookmark}
-      bookmarksLength={categoryBookmarks.length}
+      bookmarksLength={bookmarks.length}
       index={index}
     />
   ));
@@ -102,7 +94,7 @@ export function Category({ bookmarksContext }: Props) {
             </p>
           </div>
           <div className="category__page__bookmarks">
-            {categoryBookmarks?.length > 0 ? fullCategory : emptyCategory}
+            {bookmarks?.length! > 0 ? fullCategory : emptyCategory}
           </div>
         </div>
       </div>
