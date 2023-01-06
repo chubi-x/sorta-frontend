@@ -2,7 +2,7 @@
 
 .login {
   @apply flex items-start justify-center;
-  @apply bg-cover md:bg-[length:100%] md:bg-bottom;
+  @apply bg-cover bg-no-repeat md:bg-[length:80%] md:bg-bottom;
   @apply h-[85%] w-full pb-20;
   @apply overflow-auto;
   background-image: url("../../images/login.png");
@@ -17,7 +17,7 @@
     @apply border-neutral-6 bg-[white];
     @apply flex flex-col items-center justify-center text-center;
     @apply min-h-[450px] w-10/12 max-w-xs;
-    @apply mx-auto mt-4 py-8 px-8 lg:px-10 lg:py-6;
+    @apply mx-auto mt-20 py-8 px-8 lg:px-10 lg:py-6;
 
     box-shadow: 1px 14px 22px 12px rgba(6, 6, 6, 0.03);
     border-radius: 20px;
@@ -40,4 +40,3 @@
     }
   }
 }
-
