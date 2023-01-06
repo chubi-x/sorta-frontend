@@ -11,7 +11,7 @@ import { useQuery } from "react-query";
 import { Bookmark } from "./Bookmark";
 import withAddBookmarkToCategory from "../../helpers/hocs/withAddBookmarkToCategory";
 import { DashboardBarText } from "../../components/miscellaneous";
-import { Spinner } from "../../assets/animations";
+import { BookmarksSkeleton, Spinner } from "../../assets/animations";
 
 // TYPES
 type BookmarksProps = {
@@ -29,11 +29,13 @@ const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => 
   const [bookmarks, setBookmarks] = useState<Bookmarks>(
     JSON.parse(sessionStorage.getItem("bookmarks")!)
   );
+  // const [checkedBookmarks, setCheckedBookmarks] = useState<Bookmark[]>([]);
+
   const bookmarksPerPage = 20;
   const [hasMoreBookmarks, setHasMoreBookmarks] = useState(true);
   const [numOfBookmarksToRender, setNumOfBookmarksToRender] = useState(bookmarksPerPage);
 
-  useQuery("fetch-bookmarks", fetchBookmarks, {
+  const { isLoading } = useQuery("fetch-bookmarks", fetchBookmarks, {
     enabled: userFetched,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -51,7 +53,13 @@ const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => 
       navigate("/login");
     },
   });
-
+  const checkedBookmarks: Bookmark[] = [];
+  function trackCheckedBookmark(e: React.ChangeEvent<HTMLInputElement>, bookmark: Bookmark) {
+    const { checked } = e.target;
+    if (checked) {
+      !checkedBookmarks.includes(bookmark) ? checkedBookmarks.push(bookmark) : null;
+    }
+  }
   const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
     let renderedBookmarks = [];
     for (let i = 0; i < numOfBookmarksToRender; i++) {
@@ -103,6 +111,31 @@ const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => 
     </div>
   );
 
+  const elements = toAddToCategory ? (
+    bookmarks?.data?.map((bookmark, index) => {
+      const EnhancedBookmark = withAddBookmarkToCategory(
+        Bookmark,
+        {
+          bookmark,
+          index,
+          bookmarksLength: bookmarks.data.length,
+        },
+        trackCheckedBookmark
+      );
+      return <EnhancedBookmark key={bookmark.id} />;
+    })
+  ) : (
+    <InfiniteScroll
+      pageStart={0}
+      loadMore={() => {}}
+      hasMore={hasMoreBookmarks}
+      loader={loaderComponent}
+      useWindow={false}
+    >
+      {renderBookmarks(bookmarks?.data)}
+    </InfiniteScroll>
+  );
+
   return (
     <>
       <div className="bookmarks__wrapper">
@@ -110,27 +143,8 @@ const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => 
           <DashboardBarText>
             <p className="font-semibold ">{bookmarks ? bookmarks?.data.length : ""} Tweets</p>
           </DashboardBarText>
-
-          {toAddToCategory ? (
-            bookmarks.data?.map((bookmark, index) => {
-              const EnhancedBookmark = withAddBookmarkToCategory(Bookmark, {
-                bookmark,
-                index,
-                bookmarksLength: bookmarks.data.length,
-              });
-              return <EnhancedBookmark key={bookmark.id} />;
-            })
-          ) : (
-            <InfiniteScroll
-              pageStart={0}
-              loadMore={() => {}}
-              hasMore={hasMoreBookmarks}
-              loader={loaderComponent}
-              useWindow={false}
-            >
-              {renderBookmarks(bookmarks?.data)}
-            </InfiniteScroll>
-          )}
+          {isLoading ? <BookmarksSkeleton /> : elements}
+          {/* <BookmarksSkeleton /> */}
         </div>
       </div>
     </>

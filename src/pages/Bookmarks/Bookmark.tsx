@@ -16,11 +16,16 @@ export type BookmarkProps = {
   index?: number;
   bookmarksLength?: number | undefined;
   addToCategory?: AddToCategoryData;
+  trackChecked?: (e: React.ChangeEvent<HTMLInputElement>, bookmark: Bookmark) => void;
 };
 
-export function Bookmark({ bookmark, index, bookmarksLength, addToCategory }: BookmarkProps) {
-  // console.log("rendered" + index);
-
+export function Bookmark({
+  bookmark,
+  index,
+  bookmarksLength,
+  addToCategory,
+  trackChecked,
+}: BookmarkProps) {
   const [showTooltip, setShowTooltip] = useState(false);
   const { mutate: deleteBookmark } = useDeleteBookmark();
 
@@ -44,7 +49,12 @@ export function Bookmark({ bookmark, index, bookmarksLength, addToCategory }: Bo
 
   const addToCategoryCheckbox = (
     <div className="ml-auto">
-      <input type="checkbox" />
+      <input
+        type="checkbox"
+        onChange={(e) => {
+          trackChecked?.(e, bookmark);
+        }}
+      />
     </div>
   );
 

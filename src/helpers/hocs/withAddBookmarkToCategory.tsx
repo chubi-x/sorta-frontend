@@ -1,5 +1,5 @@
 import { parse } from "qs";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { BookmarkProps } from "../../pages/Bookmarks";
 
@@ -13,7 +13,8 @@ export type AddToCategoryData = {
 };
 const withAddBookmarkToCategory = (
   WrappedComponent: React.ElementType,
-  bookmarkProps: BookmarkProps
+  bookmarkProps: BookmarkProps,
+  checkedBookmarks: (e: React.ChangeEvent<HTMLInputElement>, bookmark: Bookmark) => void
 ) => {
   function WithAddBookmarkToCategory() {
     const [addToCategory, setAddToCategory] = useState(false);
@@ -30,7 +31,13 @@ const withAddBookmarkToCategory = (
       }
     }, [action]);
 
-    return <WrappedComponent {...bookmarkProps} addToCategory={addToCategoryData} />;
+    return (
+      <WrappedComponent
+        {...bookmarkProps}
+        addToCategory={addToCategoryData}
+        trackChecked={checkedBookmarks}
+      />
+    );
   }
   return WithAddBookmarkToCategory;
 };
