@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchBookmarks } from "../../api/bookmarks-api";
 // COMPONENTS
 import { Bookmark } from "./Bookmark";
-import withAddBookmarkToCategory from "../../helpers/hocs/withAddBookmarkToCategory";
+// import withAddBookmarkToCategory from "../../helpers/hocs/withAddBookmarkToCategory";
 import { DashboardBarText } from "../../components/miscellaneous";
 import { Spinner } from "../../assets/animations";
 
@@ -67,19 +67,19 @@ const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => 
           const bookmark = bookmarksArray[i];
           const index = i;
           const bookmarksLength = bookmarksArray.length;
-          const EnhancedBookmark = withAddBookmarkToCategory(Bookmark, {
-            bookmark,
-            index,
-            bookmarksLength,
-          });
+          // const EnhancedBookmark = withAddBookmarkToCategory(Bookmark, {
+          //   bookmark,
+          //   index,
+          //   bookmarksLength,
+          // });
           renderedBookmarks.push(
-            // <Bookmark
-            //     bookmark={bookmarksArray[i]}
-            //     key={bookmarksArray[i].id}
-            //     index={i}
-            //     bookmarksLength={bookmarksArray.length}
-            //   />
-            <EnhancedBookmark key={bookmark.id} />
+            <Bookmark
+              bookmark={bookmarksArray[i]}
+              key={bookmarksArray[i].id}
+              index={i}
+              bookmarksLength={bookmarksArray.length}
+            />
+            // <EnhancedBookmark key={bookmark.id} />
           );
         }
       }
