@@ -1,4 +1,6 @@
 @import "../components/dropdowns.css";
+@import "../components/skeleton.css";
+
 .bookmarks {
   @apply h-full w-full;
   @apply mt-6 pb-40 md:pb-28 tall:pb-44;
@@ -126,4 +128,3 @@
     @apply whitespace-normal;
   }
 }
-
