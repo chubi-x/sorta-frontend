@@ -28,7 +28,7 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
     "#E4D7CF",
     "#FFD166",
     "#FA8F54",
-    "3B71FE",
+    "#3B71FE",
     "#8BC5E5",
     "#92A5EF",
     "#58C27D",
