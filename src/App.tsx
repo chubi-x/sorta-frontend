@@ -42,10 +42,6 @@ export function App() {
     setLogged(true);
   }
 
-  function login() {
-    setLogged(true);
-  }
-
   function updateUser(user: User) {
     setUser(user);
   }
