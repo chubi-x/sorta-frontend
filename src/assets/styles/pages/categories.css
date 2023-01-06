@@ -191,7 +191,7 @@
       backdrop-filter: var(--bg-blur);
 
       h2 {
-        @apply font-header text-md font-medium;
+        @apply font-header-2 text-md font-medium;
       }
       p {
         @apply text-[10px];
