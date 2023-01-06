@@ -1,31 +1,34 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { NavigateFunction } from "react-router-dom";
-import { fetchBookmarks } from "../api/bookmarks-api";
-const getBookmarks = async () => {
-  const abortController = new AbortController();
-  const response: BookmarksResponse = await fetchBookmarks(abortController);
-  return response;
-};
-export function useQueryBookmarks(
-  userFetched: boolean,
-  updateBookmarks: (bookmarks: Bookmarks) => void,
-  navigate: NavigateFunction
-) {
-  return useQuery("get-bookmarks", getBookmarks, {
-    enabled: userFetched,
-    refetchOnMount: false,
-    onSuccess(data) {
-      if (data.success) {
-        updateBookmarks({ ...data.data });
-        sessionStorage.setItem("bookmarks", JSON.stringify(data.data));
-      } else {
-        alert(data.message);
-        navigate("/login");
+import { deleteBookmark, fetchBookmarks } from "../api/bookmarks-api";
+
+export function useDeleteBookmark() {
+  const queryClient = useQueryClient();
+  return useMutation("delete-bookmark", deleteBookmark, {
+    async onMutate(bookmarkId) {
+      await queryClient.cancelQueries("fetch-bookmarks");
+      const oldBookmarksResponse = queryClient.getQueryData<BookmarksResponse>("fetch-bookmarks");
+      if (oldBookmarksResponse) {
+        const newBookmarks = oldBookmarksResponse.data.data.filter(
+          (bookmark) => bookmark.id !== bookmarkId
+        );
+        queryClient.setQueryData<BookmarksResponse>("fetch-bookmarks", {
+          ...oldBookmarksResponse,
+          data: { ...oldBookmarksResponse.data, data: newBookmarks },
+        });
+      }
+      return { oldBookmarksResponse };
+    },
+    onError(error, variables, context) {
+      if (context?.oldBookmarksResponse) {
+        queryClient.setQueryData<BookmarksResponse>(
+          "fetch-bookmarks",
+          context.oldBookmarksResponse
+        );
       }
     },
-    onError(err) {
-      alert(err);
-      navigate("/login");
+    async onSettled() {
+      await queryClient.invalidateQueries("fetch-bookmarks");
     },
   });
 }

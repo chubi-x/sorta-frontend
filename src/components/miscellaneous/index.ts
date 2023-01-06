@@ -1,2 +1,2 @@
 export * from "./StickyDashboardBar";
-export * from "./StickyDashboardBarText";
+export * from "./DashboardBarText";

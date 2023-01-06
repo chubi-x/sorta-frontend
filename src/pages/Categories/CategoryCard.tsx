@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CardDropdown } from "../../components/dropdowns";
 import { MoreButton } from "../../components/buttons";
 import { dropdownItems } from ".";

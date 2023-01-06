@@ -7,25 +7,21 @@ export function useFetchUser(
   updateUser: (user: User) => void,
   navigate: NavigateFunction
 ) {
-  const returnUser = async () => {
-    const abortController = new AbortController();
-    const userResponse: UserResponse = await fetchUser(abortController);
-    return userResponse;
-  };
-
-  return useQuery("user", returnUser, {
-    enabled: logged,
+  return useQuery("user", fetchUser, {
+    // enabled: logged,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     onSuccess(data) {
-      if (data.success) {
-        updateUser({ ...data.data });
-        sessionStorage.setItem("user", JSON.stringify({ ...data.data }));
+      if (data?.success) {
+        updateUser({ ...data.data, isLogged: true });
+        sessionStorage.setItem("user", JSON.stringify({ ...data.data, isLogged: true }));
       } else {
-        // alert(data.message);
+        if (data?.message) alert(data.message);
         navigate("/login");
       }
     },
     onError(err) {
-      alert(err);
+      if (err) alert(err);
       navigate("/login");
     },
   });

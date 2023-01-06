@@ -16,17 +16,6 @@ import { useFetchUser } from "./hooks";
 import { CategoryModal } from "./components/modals";
 import { DashboardHeader } from "./pages/User/DashboardHeader";
 
-interface BookmarksHelpers {
-  bookmarksScrollRef: React.RefObject<HTMLDivElement>;
-  bookmarksLoading: boolean;
-  updateBookmarksLoading: (state: boolean) => void;
-}
-export interface BookmarksContextInterface {
-  bookmarks: Bookmarks;
-  updateBookmarks: (bookmarks: Bookmarks) => void;
-  helpers: BookmarksHelpers;
-}
-
 export function App() {
   const navigate = useNavigate();
   const [logged, setLogged] = useState(false);
@@ -34,10 +23,6 @@ export function App() {
   const [categories, setCategories] = useState<Category[]>(
     JSON.parse(localStorage.getItem("categories")!) || []
   );
-  const [bookmarks, setBookmarks] = useState<Bookmarks>(
-    JSON.parse(sessionStorage.getItem("bookmarks")!) || null
-  );
-  const [bookmarksLoading, setBookmarksLoading] = useState(false);
 
   const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
     bookmarksActive: true,
@@ -49,19 +34,13 @@ export function App() {
     categoryIdToUpdate: undefined,
   });
 
-  const { isSuccess: userFetched } = useFetchUser(logged, updateUser, navigate);
+  const { isStale: userFetched } = useFetchUser(logged, updateUser, navigate);
 
   const bookmarksScrollRef = useRef<HTMLDivElement>(null);
 
-  const bookmarksContext: BookmarksContextInterface = {
-    bookmarks,
-    updateBookmarks,
-    helpers: {
-      bookmarksScrollRef,
-      bookmarksLoading,
-      updateBookmarksLoading,
-    },
-  };
+  function login() {
+    setLogged(true);
+  }
 
   function login() {
     setLogged(true);
@@ -70,14 +49,9 @@ export function App() {
   function updateUser(user: User) {
     setUser(user);
   }
-  function updateBookmarks(bookmarks: Bookmarks) {
-    setBookmarks(bookmarks);
-  }
+
   function updateCategories(categories: Category[]) {
     setCategories(categories);
-  }
-  function updateBookmarksLoading(state: boolean) {
-    setBookmarksLoading(state);
   }
 
   function openCategoryModal(action: "create category" | "edit category", categoryId?: string) {
@@ -112,16 +86,16 @@ export function App() {
           <Route path="/" element={root} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/dashboard"
+            path="/dashboard/*"
             element={
               <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
                 <DashboardHeader
                   user={user}
                   activeTabState={activeTabState}
-                  bookmarksContext={bookmarksContext}
+                  bookmarksScrollRef={bookmarksScrollRef}
                   openCategoryModal={openCategoryModal}
                 />
-                <Bookmarks userFetched={userFetched} bookmarksContext={bookmarksContext} />
+                <Bookmarks userFetched={userFetched} bookmarksScrollRef={bookmarksScrollRef} />
               </Dashboard>
             }
           />
@@ -131,7 +105,7 @@ export function App() {
               <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
                 <DashboardHeader
                   user={user}
-                  bookmarksContext={bookmarksContext}
+                  bookmarksScrollRef={bookmarksScrollRef}
                   openCategoryModal={openCategoryModal}
                   activeTabState={activeTabState}
                 />
@@ -144,10 +118,7 @@ export function App() {
             }
           />
           <Route path="/oauth/callback/:query" element={<OauthCallback login={login} />} />
-          <Route
-            path="/categories/:id"
-            element={<Category bookmarksContext={bookmarksContext} />}
-          />
+          <Route path="/categories/:id" element={<Category />} />
         </Routes>
         {categoryModalState.categoryModalOpen && (
           <CategoryModal

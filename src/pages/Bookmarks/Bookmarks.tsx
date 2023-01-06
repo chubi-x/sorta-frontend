@@ -1,47 +1,85 @@
 // LIBRARIES
-import { useState } from "react";
+import { memo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 // APIS
-import { useQueryBookmarks } from "../../hooks";
+import { fetchBookmarks } from "../../api/bookmarks-api";
 // COMPONENTS
 import { Bookmark } from "./Bookmark";
+import withAddBookmarkToCategory from "../../helpers/hocs/withAddBookmarkToCategory";
+import { DashboardBarText } from "../../components/miscellaneous";
+import { Spinner } from "../../assets/animations";
 
 // TYPES
-import { BookmarksContextInterface } from "../../App";
-import { Spinner } from "../../assets/animations";
+import { useInView } from "react-intersection-observer";
+import { useQuery } from "react-query";
 
 type BookmarksProps = {
   userFetched: boolean;
-  bookmarksContext: BookmarksContextInterface;
+  bookmarksScrollRef: React.RefObject<HTMLDivElement>;
 };
-export function Bookmarks({ userFetched, bookmarksContext }: BookmarksProps) {
-  const { bookmarks, updateBookmarks, helpers } = bookmarksContext;
+const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => {
+  const [inViewRef, inView] = useInView({
+    root: document.querySelector(".dashboard"),
+    initialInView: true,
+    threshold: 1,
+    rootMargin: "175px",
+    triggerOnce: true,
+  });
+  const navigate = useNavigate();
+  const [bookmarksLoading, setBookmarksLoading] = useState(false);
 
+  const [bookmarks, setBookmarks] = useState<Bookmarks>(
+    JSON.parse(sessionStorage.getItem("bookmarks")!) || null
+  );
+
+  useQuery("fetch-bookmarks", fetchBookmarks, {
+    enabled: userFetched,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    onSuccess(data) {
+      if (data?.success) {
+        setBookmarks({ ...data.data });
+        sessionStorage.setItem("bookmarks", JSON.stringify(data.data));
+      } else {
+        if (data?.message) alert(data.message);
+        navigate("/login");
+      }
+    },
+    onError(err) {
+      if (err) alert(err);
+
+      navigate("/login");
+    },
+  });
+
+  console.log("bookmarks rendered");
   const bookmarksPerPage = 20;
-  const [pageLoading, setPageLoading] = useState(true);
   const [hasMoreBookmarks, setHasMoreBookmarks] = useState(true);
   const [numOfBookmarksToRender, setNumOfBookmarksToRender] = useState(bookmarksPerPage);
-  const navigate = useNavigate();
-
-  useQueryBookmarks(userFetched, updateBookmarks, navigate);
 
   const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
     let renderedBookmarks = [];
     for (let i = 0; i < numOfBookmarksToRender; i++) {
       if (bookmarksArray) {
-        if (pageLoading) {
-          setPageLoading(false);
-        }
         if (i < bookmarksArray.length) {
+          const bookmark = bookmarksArray[i];
+          const index = i;
+          const bookmarksLength = bookmarksArray.length;
+          const EnhancedBookmark = withAddBookmarkToCategory(Bookmark, {
+            bookmark,
+            index,
+            bookmarksLength,
+          });
           renderedBookmarks.push(
-            <Bookmark
-              bookmark={bookmarksArray[i]}
-              key={bookmarksArray[i].id}
-              index={i}
-              bookmarksLength={bookmarksArray.length}
-            />
+            // <Bookmark
+            //     bookmark={bookmarksArray[i]}
+            //     key={bookmarksArray[i].id}
+            //     index={i}
+            //     bookmarksLength={bookmarksArray.length}
+            //   />
+            <EnhancedBookmark key={bookmark.id} />
           );
         }
       }
@@ -56,10 +94,10 @@ export function Bookmarks({ userFetched, bookmarksContext }: BookmarksProps) {
     }
   };
   const loadMoreBookmarks = () => {
-    helpers.updateBookmarksLoading(true);
+    setBookmarksLoading(true);
     setTimeout(() => {
       loadBookmarks(bookmarks?.data!);
-      helpers.updateBookmarksLoading(false);
+      setBookmarksLoading(false);
     }, 1000);
   };
   const loaderComponent = (
@@ -67,33 +105,38 @@ export function Bookmarks({ userFetched, bookmarksContext }: BookmarksProps) {
       <button
         onClick={loadMoreBookmarks}
         className={`primary-btn primary-btn--medium flex items-center space-x-2 ${
-          helpers.bookmarksLoading ? "primary-btn--disabled pr-4" : ""
+          bookmarksLoading ? "primary-btn--disabled pr-4" : ""
         }`}
-        disabled={helpers.bookmarksLoading ? true : false}
+        disabled={bookmarksLoading ? true : false}
       >
         <span>Load More</span>
-        {helpers.bookmarksLoading && <Spinner />}
+        {bookmarksLoading && <Spinner />}
       </button>
     </div>
   );
-  const infiniteScroll = (
-    <InfiniteScroll
-      pageStart={0}
-      loadMore={() => {}}
-      hasMore={hasMoreBookmarks}
-      loader={loaderComponent}
-      useWindow={false}
-    >
-      {renderBookmarks(bookmarks?.data)}
-    </InfiniteScroll>
-  );
+
   return (
     <>
-      <div className="bookmarks__wrapper">
-        <div className="bookmarks" ref={helpers.bookmarksScrollRef}>
-          {!pageLoading && infiniteScroll}
+      <div className={`bookmarks__wrapper ${!inView ? "bookmarks__wrapper--scrolled" : ""}`}>
+        <div className="bookmarks" ref={bookmarksScrollRef}>
+          <DashboardBarText>
+            <p className="font-semibold " ref={inViewRef}>
+              {bookmarks ? bookmarks?.data.length : ""} Tweets
+            </p>
+          </DashboardBarText>
+
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={() => {}}
+            hasMore={hasMoreBookmarks}
+            loader={loaderComponent}
+            useWindow={false}
+          >
+            {renderBookmarks(bookmarks?.data)}
+          </InfiniteScroll>
         </div>
       </div>
     </>
   );
-}
+});
+export { Bookmarks };
