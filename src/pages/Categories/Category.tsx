@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BookmarksContextInterface } from "../../App";
 
 import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
