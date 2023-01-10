@@ -12,10 +12,6 @@ import help from "../../assets/icons/help.svg";
 import { dropdownItems } from ".";
 import { useFetchCategoryById } from "../../hooks";
 
-// type Props = {
-//   bookmarksContext: BookmarksContextInterface;
-// };
-
 export function Category() {
   const params = useParams();
   const navigate = useNavigate();

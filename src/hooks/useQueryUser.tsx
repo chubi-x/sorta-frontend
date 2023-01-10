@@ -16,12 +16,12 @@ export function useFetchUser(
         updateUser({ ...data.data, isLogged: true });
         sessionStorage.setItem("user", JSON.stringify({ ...data.data, isLogged: true }));
       } else {
-        // alert(data.message);
+        if (data?.message) alert(data.message);
         navigate("/login");
       }
     },
     onError(err) {
-      alert(err);
+      if (err) alert(err);
       navigate("/login");
     },
   });

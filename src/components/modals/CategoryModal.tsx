@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePatchCategory, usePostCategory } from "../../hooks";
 import Compressor from "compressorjs";
+import { usePatchCategory, usePostCategory } from "../../hooks";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseStorage } from "../../../firebase";
 import { CategoryModalAction } from "../../helpers/Reducers";
@@ -21,7 +21,7 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
   const navigate = useNavigate();
   const { mutate: postCategory } = usePostCategory();
   const { mutate: patchCategory } = usePatchCategory();
-
+  const [modalClosed, setModalClosed] = useState(false);
   const descriptionMaxLength = 200;
   const colors = [
     "#A4CDE3",
@@ -51,6 +51,12 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
     };
   }, [imageFileBlob]);
 
+  function close() {
+    setModalClosed(true);
+    setTimeout(() => {
+      closeModal();
+    }, 500);
+  }
   function handleImageFile(e: React.ChangeEvent<HTMLInputElement>) {
     const image = e.target.files![0];
     const acceptedTypes = ["image/jpeg", "image/jpg", "image/gif", "image/png"];
@@ -125,14 +131,16 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
   }
 
   const headerMessage = action?.createCategory ? "Create new category" : "Edit category";
-  const ctaMessage = action?.createCategory ? "Create new category" : "Save";
+  const ctaMessage = action?.createCategory ? "Create category" : "Save";
 
   return (
     <div className="category__modal">
-      <div className="category__modal__card">
+      <div
+        className={`category__modal__card ${modalClosed ? "category__modal__card__closed" : ""}`}
+      >
         <div className="category__modal__card__header">
           <h1>{headerMessage}</h1>
-          <div className="category__modal__card__cancel" onClick={closeModal}>
+          <div className="category__modal__card__cancel" onClick={close}>
             <img src={cancelIcon} alt="cancel icon" />
           </div>
         </div>
@@ -161,38 +169,35 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
                   }}
                 />
               </label>
+            </div>
+            <p className="category__modal__card__form__image__caption">Add image</p>
 
-              <p className="category__modal__card__form__image__caption">Add image</p>
-            </div>
-            <div className="category__modal__card__form__text">
-              <input
-                name="name"
-                type="text"
-                className="category__modal__card__form__name"
-                placeholder="Enter name"
-                value={categoryForm.name}
-                onChange={(e) => handleInputChange(e)}
-                maxLength={30}
-                required={action?.createCategory}
-              />
-              <textarea
-                name="description"
-                className="category__modal__card__form__description"
-                placeholder="Description"
-                value={categoryForm.description}
-                onChange={(e) => handleInputChange(e)}
-                maxLength={descriptionMaxLength}
-                required={action?.createCategory}
-              ></textarea>
-              <div className="category__modal__card__form__description__char_count">{`${categoryForm.description.length}/${descriptionMaxLength}`}</div>
-            </div>
+            <input
+              name="name"
+              type="text"
+              className="category__modal__card__form__name"
+              placeholder="Enter name"
+              value={categoryForm.name}
+              onChange={(e) => handleInputChange(e)}
+              maxLength={30}
+              required={action?.createCategory}
+            />
+            {/* <div className="category__modal__card__form__text"> */}
+            <textarea
+              name="description"
+              className="category__modal__card__form__description"
+              placeholder="Description"
+              value={categoryForm.description}
+              onChange={(e) => handleInputChange(e)}
+              maxLength={descriptionMaxLength}
+              required={action?.createCategory}
+            ></textarea>
+            <div className="category__modal__card__form__description__char_count">{`${categoryForm.description.length}/${descriptionMaxLength}`}</div>
+            {/* </div> */}
           </div>
+
           <div className="category__modal__card__form__buttons">
-            <button
-              className="primary-btn primary-btn--inverted"
-              onClick={closeModal}
-              type="button"
-            >
+            <button className="primary-btn primary-btn--inverted" onClick={close} type="button">
               Cancel
             </button>
             <button
