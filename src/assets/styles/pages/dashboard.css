@@ -2,7 +2,7 @@
 
 .dashboard {
   @apply flex justify-center;
-  @apply h-screen;
+  @apply h-screen h-[100dvh];
   @apply relative;
   @apply overflow-hidden;
 

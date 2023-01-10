@@ -9,7 +9,9 @@ html,
 body {
   margin: 0;
   width: 100vw;
+  width: 100dvw;
   height: 100vh;
+  height: 100dvh;
   @apply bg-neutral-7;
 }
 body {
@@ -19,4 +21,3 @@ body {
   height: 100%;
   width: 100%;
 }
-

@@ -7,7 +7,7 @@
   @apply text-[14px] text-neutral-4;
   @apply font-body;
   box-shadow: 3px 5px 3px 1px #716f8c1a;
-
+  animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) alternate forwards;
   &__item {
     @apply border-neutral-6;
     @apply flex items-center;
@@ -29,5 +29,18 @@
   }
   & div:last-child {
     @apply rounded-b-lg;
+  }
+}
+
+@keyframes swing-in-top-fwd {
+  0% {
+    transform: rotateX(-100deg);
+    transform-origin: top;
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    transform-origin: top;
+    opacity: 1;
   }
 }
