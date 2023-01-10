@@ -9,7 +9,7 @@ import { useQuery } from "react-query";
 
 // COMPONENTS
 import { Bookmark } from "./Bookmark";
-// import withAddBookmarkToCategory from "../../helpers/hocs/withAddBookmarkToCategory";
+import withAddBookmarkToCategory from "../../helpers/hocs/withAddBookmarkToCategory";
 import { DashboardBarText } from "../../components/miscellaneous";
 import { BookmarksSkeleton, Spinner } from "../../assets/animations";
 
@@ -68,7 +68,6 @@ const Bookmarks = memo(({ userFetched, bookmarksScrollRef }: BookmarksProps) => 
           // const bookmark = bookmarksArray[i];
           // const index = i;
           // const bookmarksLength = bookmarksArray.length;
-
 
           renderedBookmarks.push(
             <Bookmark
