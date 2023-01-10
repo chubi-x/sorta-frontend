@@ -6,8 +6,8 @@ export function BookmarksSkeleton() {
   return (
     <>
       <div className="skeleton__container">
-        {skeletons.map((el) => (
-          <div className="skeleton">
+        {skeletons.map((el, index) => (
+          <div className="skeleton" key={index}>
             <div className="skeleton__block"></div>
             <div className="skeleton__block"></div>
             <div className="skeleton__block"></div>

@@ -9,16 +9,26 @@ import verifiedIcon from "../../assets/icons/verified.svg";
 import addIcon from "../../assets/icons/add.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 import { useDeleteBookmark } from "../../hooks";
+import { AddToCategoryData } from "../../helpers/hocs/withAddBookmarkToCategory";
 
-type BookmarkProps = {
+export type BookmarkProps = {
   bookmark: Bookmark;
   index?: number;
   bookmarksLength?: number | undefined;
+  addToCategory?: AddToCategoryData;
+  trackChecked?: (e: React.ChangeEvent<HTMLInputElement>, bookmark: Bookmark) => void;
 };
 
-export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
+export function Bookmark({
+  bookmark,
+  index,
+  bookmarksLength,
+  addToCategory,
+  trackChecked,
+}: BookmarkProps) {
   const [showTooltip, setShowTooltip] = useState(false);
   const { mutate: deleteBookmark } = useDeleteBookmark();
+
   const dropdownItems: DropDownItem[] = [
     { icon: addIcon, text: "Add to category" },
     { icon: deleteIcon, text: "Delete", itemFunction: () => deleteBookmark(bookmark.id) },
@@ -36,6 +46,17 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
     const url = `https://twitter.com/${bookmark.author_username}`;
     window.open(url, "_blank");
   }
+
+  const addToCategoryCheckbox = (
+    <div className="ml-auto">
+      <input
+        type="checkbox"
+        onChange={(e) => {
+          trackChecked?.(e, bookmark);
+        }}
+      />
+    </div>
+  );
 
   let roundedBorder = "";
   if (index == 0) {
@@ -83,7 +104,11 @@ export function Bookmark({ bookmark, index, bookmarksLength }: BookmarkProps) {
               <div className="h-[2px] w-[2px] self-center rounded-full bg-neutral-4"></div>
               <p className="bookmark__card__date">{convertDate(bookmark?.created_at)}</p>
             </div>
-            <MoreButton showTooltip={setShowTooltip} />
+            {addToCategory?.true ? (
+              addToCategoryCheckbox
+            ) : (
+              <MoreButton showTooltip={setShowTooltip} />
+            )}
           </div>
           <h1
             className="bookmark__card__text"
