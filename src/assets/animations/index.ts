@@ -1,2 +1,3 @@
-export * from "./spinner";
+export * from "./Spinner";
 export * from "./BookmarksSkeleton";
+export * from "./CategoriesSkeleton";

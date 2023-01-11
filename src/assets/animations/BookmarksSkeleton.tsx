@@ -5,12 +5,12 @@ export function BookmarksSkeleton() {
   }
   return (
     <>
-      <div className="skeleton__container">
+      <div className="bookmarks__skeleton__container">
         {skeletons.map((el, index) => (
-          <div className="skeleton" key={index}>
-            <div className="skeleton__block"></div>
-            <div className="skeleton__block"></div>
-            <div className="skeleton__block"></div>
+          <div className="bookmarks__skeleton" key={index}>
+            <div className="bookmarks__skeleton__block"></div>
+            <div className="bookmarks__skeleton__block"></div>
+            <div className="bookmarks__skeleton__block"></div>
           </div>
         ))}
       </div>

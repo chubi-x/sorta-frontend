@@ -1,46 +1,77 @@
-.skeleton {
+:root {
   --surface: #f4f5f6;
   --block: #e6e8ec;
   --loader: #f4f5f6;
   --padding: 1rem;
-  padding: var(--padding);
-  border-radius: 20px;
-  gap: calc(var(--padding) * 1);
-  width: 100%;
-  //   width: clamp(300px, 80vmin, 30rem);
-  height: clamp(150px, 5vmin, 10rem);
-  display: grid;
-  grid-template: 20% 1fr / clamp(10.5%, clamp(10%, 10%, 15%), 200px) 85%;
-  background: var(--surface);
 }
 
-.skeleton__block {
-  background: linear-gradient(-75deg, transparent 40%, var(--loader), transparent 60%) 0 0 / 200%
-      100%,
-    var(--block);
-  border-radius: calc(var(--padding) * 0.5);
-  animation: load 1s infinite linear;
-  background-attachment: fixed;
+.bookmarks {
+  &__skeleton {
+    padding: var(--padding);
+    border-radius: 20px;
+    gap: calc(var(--padding) * 1);
+    width: 100%;
+    //   width: clamp(300px, 80vmin, 30rem);
+    height: clamp(150px, 5vmin, 10rem);
+    display: grid;
+    grid-template: 10% 1fr / 70px 85%;
+    background: var(--surface);
+  }
+
+  &__skeleton__block {
+    background: linear-gradient(-75deg, transparent 40%, var(--loader), transparent 60%) 0 0 / 200%
+        100%,
+      var(--block);
+    border-radius: calc(var(--padding) * 0.5);
+    animation: load 1s infinite linear;
+    background-attachment: fixed;
+  }
+
+  &__skeleton__block:first-of-type {
+    width: 40px;
+    border-radius: 50%;
+    place-self: center;
+    align-self: flex-start;
+    grid-row: 1 / 1;
+    aspect-ratio: 1;
+  }
+  &__skeleton__block:nth-child(2) {
+    height: 20px;
+  }
+
+  &__skeleton__block:last-of-type {
+    height: 80%;
+    grid-column: 2 / 3;
+    align-self: flex-end;
+  }
+}
+.categories {
+  &__skeleton {
+    @apply relative;
+    @apply flex;
+    @apply mb-4;
+    @apply h-60 w-full md:w-[45%] xl:w-[32%];
+    @apply rounded-[22px];
+    @apply bg-cover bg-center bg-no-repeat;
+    background: linear-gradient(-75deg, transparent 40%, var(--loader), transparent 60%) 0 0 / 200%
+        100%,
+      var(--block);
+    animation: load 1s infinite linear;
+    background-attachment: fixed;
+
+    &__container {
+      @apply z-10;
+      @apply w-auto;
+      @apply md:rounded-[40px] md:border md:border-neutral-6;
+      @apply py-[30px] md:px-[30px];
+
+      @apply flex flex-wrap justify-between;
+    }
+  }
 }
 
 @keyframes load {
   to {
     background-position: 200% 0;
   }
-}
-
-.skeleton__block:first-of-type {
-  width: 100%;
-  border-radius: 50%;
-  place-self: center;
-  align-self: flex-start;
-  grid-row: 1 / -1;
-  aspect-ratio: 1;
-}
-.skeleton__block:nth-child(2) {
-  height: 30px;
-}
-
-.skeleton__block:last-of-type {
-  height: 100%;
 }
