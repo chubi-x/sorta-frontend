@@ -8,7 +8,7 @@ export function useFetchUser(
   navigate: NavigateFunction
 ) {
   return useQuery("user", fetchUser, {
-    // enabled: logged,
+    enabled: logged,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     onSuccess(data) {
