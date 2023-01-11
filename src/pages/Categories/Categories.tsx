@@ -8,6 +8,7 @@ import editIcon from "../../assets/icons/edit.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import { DashboardBarText } from "../../components/miscellaneous";
+import { CategoriesSkeleton } from "../../assets/animations";
 
 type CategoriesProps = {
   openCategoryModal: (action: "create category" | "edit category", categoryId?: string) => void;
@@ -19,7 +20,7 @@ let dropdownItems: DropDownItem[];
 function Categories({ openCategoryModal, categoriesArray, updateCategories }: CategoriesProps) {
   const navigate = useNavigate();
 
-  useFetchCategories(updateCategories, navigate);
+  const { isLoading } = useFetchCategories(updateCategories, navigate);
   const { mutate: deleteCategory } = useDeleteCategory(navigate);
 
   dropdownItems = [
@@ -75,12 +76,18 @@ function Categories({ openCategoryModal, categoriesArray, updateCategories }: Ca
       <div className="category__card"></div>
     </div>
   );
+  let child;
+  if (isLoading) {
+    child = <CategoriesSkeleton />;
+  } else {
+    child = categoriesArray.length > 0 ? categories : emptyCategories;
+  }
   return (
     <div className="categories">
       <DashboardBarText>
         <p className={`font-semibold `}>All Categories</p>
       </DashboardBarText>
-      {categoriesArray.length > 0 ? categories : emptyCategories}
+      {child}
     </div>
   );
 }
