@@ -4,7 +4,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ActiveContext } from "./helpers/Context";
 import { activeTabReducer, categoryModalReducer, CATEGORY_MODAL_ACTIONS } from "./helpers/Reducers";
 
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 // PAGES
 import { Login, OauthCallback } from "./pages/Auth";
 import { Dashboard } from "./pages/User";
@@ -82,6 +82,7 @@ export function App() {
       <div className="app">
         <Routes>
           <Route path="/" element={root} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login />} />
           <Route
             path="/dashboard/*"
@@ -145,6 +146,7 @@ export function App() {
             }
           />
         </Routes>
+
         {categoryModalState.categoryModalOpen && (
           <CategoryModal
             action={categoryModalState.categoryModalAction}
