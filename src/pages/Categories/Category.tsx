@@ -4,15 +4,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
 import { MoreButton } from "../../components/buttons";
-import { CardDropdown } from "../../components/dropdowns";
+import { CardDropdown, DropDownItem } from "../../components/dropdowns";
 
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
-import { dropdownItems } from ".";
 import { useFetchCategoryById } from "../../hooks";
 
-export function Category() {
+type Props = {
+  dropdownItems: DropDownItem[];
+};
+export function Category({ dropdownItems }: Props) {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -40,7 +42,12 @@ export function Category() {
       <p>
         No bookmarks here yet <br /> click on the button below to add bookmarks
       </p>
-      <button className="primary-btn primary-btn--medium">Add bookmarks</button>
+      <button
+        className="primary-btn primary-btn--medium"
+        onClick={() => dropdownItems[0].itemFunction?.(id)}
+      >
+        Add bookmarks
+      </button>
     </div>
   );
   const fullCategory = bookmarks?.map((bookmark, index) => (

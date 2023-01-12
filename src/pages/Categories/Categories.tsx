@@ -3,9 +3,6 @@ import { CategoryCard } from ".";
 import { DropDownItem } from "../../components/dropdowns";
 import { useDeleteCategory, useFetchCategories } from "../../hooks";
 
-import addIcon from "../../assets/icons/add.svg";
-import editIcon from "../../assets/icons/edit.svg";
-import deleteIcon from "../../assets/icons/delete.svg";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import { DashboardBarText } from "../../components/miscellaneous";
 import { CategoriesSkeleton } from "../../assets/animations";
@@ -14,38 +11,18 @@ type CategoriesProps = {
   openCategoryModal: (action: "create category" | "edit category", categoryId?: string) => void;
   categoriesArray: Category[];
   updateCategories: (categories: Category[]) => void;
+  dropdownItems: DropDownItem[];
 };
-let dropdownItems: DropDownItem[];
 
-function Categories({ openCategoryModal, categoriesArray, updateCategories }: CategoriesProps) {
+function Categories({
+  openCategoryModal,
+  categoriesArray,
+  updateCategories,
+  dropdownItems,
+}: CategoriesProps) {
   const navigate = useNavigate();
 
   const { isLoading } = useFetchCategories(updateCategories, navigate);
-  const { mutate: deleteCategory } = useDeleteCategory(navigate);
-
-  dropdownItems = [
-    {
-      icon: addIcon,
-      text: "Add bookmarks",
-      itemFunction: (categoryId: string) => {
-        navigate(`/dashboard/?action=addToCategory&categoryId=${categoryId}`);
-      },
-    },
-    {
-      icon: editIcon,
-      text: "Edit category",
-      itemFunction: (categoryId: string) => {
-        openCategoryModal("edit category", categoryId);
-      },
-    },
-    {
-      icon: deleteIcon,
-      text: "Delete category",
-      itemFunction: (categoryId: string) => {
-        deleteCategory(categoryId);
-      },
-    },
-  ];
 
   const emptyCategories = (
     <div className="categories--empty">
@@ -64,7 +41,7 @@ function Categories({ openCategoryModal, categoriesArray, updateCategories }: Ca
   const categories = (
     <div className="categories--full">
       {categoriesArray?.map(({ id, image, name, description }) => (
-        <CategoryCard image={image} key={id} id={id}>
+        <CategoryCard dropdownItems={dropdownItems} image={image} key={id} id={id}>
           <Link to={`/categories/${id}`}>
             <div className="category__card__text">
               <h2>{name}</h2>
@@ -92,4 +69,4 @@ function Categories({ openCategoryModal, categoriesArray, updateCategories }: Ca
   );
 }
 
-export { Categories, dropdownItems };
+export { Categories };
