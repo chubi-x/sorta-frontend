@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { CategoryCard } from ".";
 import { DropDownItem } from "../../components/dropdowns";
-import { useDeleteCategory, useFetchCategories } from "../../hooks";
+import { useDeleteCategory, useFetchCategories } from "../../api/hooks";
 
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import { DashboardBarText } from "../../components/miscellaneous";

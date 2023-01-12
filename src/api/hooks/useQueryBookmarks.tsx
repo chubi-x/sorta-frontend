@@ -1,6 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { NavigateFunction } from "react-router-dom";
-import { deleteBookmark, fetchBookmarks } from "../api/bookmarks-api";
+import { useMutation, useQueryClient } from "react-query";
+import { deleteBookmark } from "../bookmarks-api";
 
 export function useDeleteBookmark() {
   const queryClient = useQueryClient();

@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { NavigateFunction } from "react-router-dom";
-import { fetchUser } from "../api";
+import { fetchUser } from "..";
 
 export function useFetchUser(
   logged: boolean,

@@ -13,7 +13,7 @@ import { Categories, Category } from "./pages/Categories";
 
 // ASSETS
 import "./assets/styles/App.css";
-import { useDeleteCategory, useFetchUser } from "./hooks";
+import { useDeleteCategory, useFetchUser } from "./api/hooks";
 import { DashboardHeader } from "./pages/User/DashboardHeader";
 import { BookmarksError, CategoriesError } from "./pages/Errors";
 import { DropDownItem } from "./components/dropdowns";

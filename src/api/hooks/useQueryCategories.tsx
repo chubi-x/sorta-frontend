@@ -6,7 +6,7 @@ import {
   fetchCategories,
   fetchCategoryById,
   patchCategory,
-} from "../api";
+} from "..";
 
 export function useFetchCategories(
   setCategories: (category: Category[]) => void,

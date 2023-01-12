@@ -9,7 +9,7 @@ import { CardDropdown, DropDownItem } from "../../components/dropdowns";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
-import { useFetchCategoryById } from "../../hooks";
+import { useFetchCategoryById } from "../../api/hooks";
 
 type Props = {
   dropdownItems: DropDownItem[];

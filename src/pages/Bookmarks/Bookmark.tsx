@@ -8,7 +8,7 @@ import { MoreButton } from "../../components/buttons";
 import verifiedIcon from "../../assets/icons/verified.svg";
 import addIcon from "../../assets/icons/add.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
-import { useDeleteBookmark } from "../../hooks";
+import { useDeleteBookmark } from "../../api/hooks";
 import { AddToCategoryData } from "../../helpers/hocs/withAddBookmarkToCategory";
 
 export type BookmarkProps = {
