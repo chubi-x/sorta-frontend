@@ -85,7 +85,7 @@
 
 .new-category-btn {
   @apply flex justify-center;
-  @apply w-full sm:w-[210px] md:w-[250px];
+  @apply w-full  md:w-[250px];
   @apply py-4 px-6;
   @apply hover:bg-neutral-6;
   @apply rounded-md border border-primary-1;
