@@ -1,0 +1,115 @@
+.category {
+  &__card {
+    @apply relative;
+    @apply flex;
+    @apply mb-4;
+    @apply h-60 w-full md:w-[45%] xl:w-[32%];
+    @apply rounded-[22px];
+    @apply bg-cover bg-center bg-no-repeat;
+
+    a {
+      @apply flex self-end;
+      @apply h-[55%] w-full;
+      @apply mr-[1px];
+    }
+
+    &__text {
+      @apply flex flex-col justify-center self-end;
+      @apply h-full w-full;
+      @apply pl-6;
+      @apply rounded-b-2xl;
+      @apply text-neutral-8;
+
+      background: var(--bg-gradient);
+      backdrop-filter: var(--bg-blur);
+
+      h2 {
+        @apply font-header-2 text-md font-medium;
+      }
+      p {
+        @apply text-[10px];
+        @apply max-w-[90%];
+        @apply overflow-hidden whitespace-nowrap;
+        @apply text-ellipsis;
+      }
+    }
+
+    &__dropdown {
+      @apply absolute top-4 right-3;
+    }
+  }
+
+  &__page {
+    @apply h-screen w-2/3;
+    @apply flex-grow;
+    @apply font-body;
+
+    &__wrapper {
+      @apply flex;
+      @apply h-screen w-screen;
+    }
+
+    &__dropdown__container {
+      @apply relative;
+    }
+
+    &__banner {
+      @apply flex flex-col;
+      @apply h-[200px] w-full md:h-[270px];
+      @apply bg-cover bg-center bg-no-repeat;
+
+      &__controls {
+        @apply flex items-center justify-between;
+        @apply px-6 py-4 md:py-7 md:px-16;
+
+        .back-button {
+          @apply flex items-center justify-center;
+          @apply h-[25px] w-[35px];
+          @apply rounded-2xl;
+          @apply bg-neutral-6;
+          @apply cursor-pointer;
+        }
+      }
+
+      &__text {
+        background: var(--bg-gradient);
+        backdrop-filter: var(--bg-blur);
+
+        @apply flex flex-col justify-end;
+        @apply h-full;
+        @apply px-6 py-6 md:py-7 lg:px-16;
+
+        &__wrapper {
+          @apply flex flex-col justify-end self-end;
+          @apply h-3/4 w-full md:h-[90%];
+          @apply rounded-b-2xl;
+          @apply text-neutral-8;
+          @apply mt-auto;
+        }
+
+        h2 {
+          @apply font-header text-[40px] font-bold;
+          @apply mb-2;
+        }
+        p {
+          @apply text-[14px] font-medium;
+          @apply max-h-full max-w-[100%];
+        }
+      }
+    }
+
+    &__bookmarks {
+      &__wrapper {
+        @apply px-6 pb-80 md:px-32  xl:px-56;
+        @apply h-full;
+        @apply overflow-auto;
+
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+      }
+    }
+  }
+}

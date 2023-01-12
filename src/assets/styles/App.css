@@ -1,8 +1,13 @@
 @import "./layouts/navbar.css";
 @import "./layouts/menu.css";
+@import "./components/buttons.css";
+@import "./components/modals.css";
+
 @import "./pages/login.css";
 @import "./pages/dashboard.css";
 @import "./pages/categories.css";
+@import "./pages/category.css";
+
 .app {
   height: 100%;
   width: 100%;
