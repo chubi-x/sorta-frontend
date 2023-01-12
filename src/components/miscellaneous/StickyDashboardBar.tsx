@@ -3,15 +3,11 @@ type Props = {
   categoriesActive: boolean;
   children: React.ReactNode;
 };
-export function StickyDashboardBar({
-  inView,
-  categoriesActive,
-  children,
-}: Props) {
+export function StickyDashboardBar({ inView, categoriesActive, children }: Props) {
   return (
     <div
-      className={`new-category-container ${
-        !inView ? "new-category-container--stuck" : ""
+      className={`dashboard-header-btn-container ${
+        !inView ? "dashboard-header-btn-container--stuck" : ""
       }`}
       style={{ width: `${categoriesActive ? "100%" : ""}` }}
     >
