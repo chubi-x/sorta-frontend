@@ -1,5 +1,6 @@
 // LIBRARIES
 import { useReducer, useRef, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { ActiveContext } from "./helpers/Context";
 import { activeTabReducer, categoryModalReducer, CATEGORY_MODAL_ACTIONS } from "./helpers/Reducers";
 
@@ -15,6 +16,7 @@ import "./assets/styles/App.css";
 import { useFetchUser } from "./hooks";
 import { CategoryModal } from "./components/modals";
 import { DashboardHeader } from "./pages/User/DashboardHeader";
+import { BookmarksError, CategoriesError } from "./pages/Errors";
 
 export function App() {
   const navigate = useNavigate();
@@ -91,7 +93,14 @@ export function App() {
                   bookmarksScrollRef={bookmarksScrollRef}
                   openCategoryModal={openCategoryModal}
                 />
-                <Bookmarks userFetched={userFetched} bookmarksScrollRef={bookmarksScrollRef} />
+                <ErrorBoundary
+                  FallbackComponent={BookmarksError}
+                  onReset={() => {
+                    window.location.reload();
+                  }}
+                >
+                  <Bookmarks userFetched={userFetched} bookmarksScrollRef={bookmarksScrollRef} />
+                </ErrorBoundary>
               </Dashboard>
             }
           />
@@ -105,16 +114,36 @@ export function App() {
                   openCategoryModal={openCategoryModal}
                   activeTabState={activeTabState}
                 />
-                <Categories
-                  categoriesArray={categories}
-                  updateCategories={updateCategories}
-                  openCategoryModal={openCategoryModal}
-                />
+                <ErrorBoundary
+                  FallbackComponent={CategoriesError}
+                  onReset={() => {
+                    window.location.reload();
+                  }}
+                >
+                  <Categories
+                    categoriesArray={categories}
+                    updateCategories={updateCategories}
+                    openCategoryModal={openCategoryModal}
+                  />
+                </ErrorBoundary>
               </Dashboard>
             }
           />
           <Route path="/oauth/callback/:query" element={<OauthCallback login={login} />} />
-          <Route path="/categories/:id" element={<Category />} />
+          {/* error boundary here */}
+          <Route
+            path="/categories/:id"
+            element={
+              <ErrorBoundary
+                FallbackComponent={CategoriesError}
+                onReset={() => {
+                  window.location.reload();
+                }}
+              >
+                <Category />
+              </ErrorBoundary>
+            }
+          />
         </Routes>
         {categoryModalState.categoryModalOpen && (
           <CategoryModal
