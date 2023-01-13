@@ -40,7 +40,7 @@
   }
 
   &__page {
-    @apply h-screen w-2/3;
+    @apply h-screen h-[100dvh] w-2/3;
     @apply flex-grow;
     @apply font-body;
 
