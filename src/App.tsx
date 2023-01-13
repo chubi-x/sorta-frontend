@@ -29,6 +29,10 @@ export function App() {
 
   const [logged, setLogged] = useState(false);
   const [user, setUser] = useState<User>(JSON.parse(sessionStorage.getItem("user")!) || null);
+  const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
+    bookmarksActive: true,
+    categoriesActive: false,
+  });
   const [categories, setCategories] = useState<Category[]>(
     JSON.parse(localStorage.getItem("categories")!) || []
   );
@@ -55,11 +59,7 @@ export function App() {
       },
     },
   ]);
-
-  const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
-    bookmarksActive: true,
-    categoriesActive: false,
-  });
+  const [readyToAddBookmarksToCategory, setReadyToAddBookmarksToCategory] = useState(false);
   const [categoryModalState, dispatchCategoryModalState] = useReducer(categoryModalReducer, {
     categoryModalOpen: false,
     categoryModalAction: { createCategory: true, editCategory: false },
@@ -123,6 +123,7 @@ export function App() {
                   activeTabState={activeTabState}
                   bookmarksScrollRef={bookmarksScrollRef}
                   openCategoryModal={openCategoryModal}
+                  readyToAddBookmarks={setReadyToAddBookmarksToCategory}
                 />
                 <ErrorBoundary
                   FallbackComponent={BookmarksError}
@@ -130,7 +131,12 @@ export function App() {
                     window.location.reload();
                   }}
                 >
-                  <Bookmarks userFetched={userFetched} bookmarksScrollRef={bookmarksScrollRef} />
+                  <Bookmarks
+                    userFetched={userFetched}
+                    bookmarksScrollRef={bookmarksScrollRef}
+                    readyToAddToCategory={readyToAddBookmarksToCategory}
+                    resetReadyToAddToCategory={() => setReadyToAddBookmarksToCategory(false)}
+                  />
                 </ErrorBoundary>
               </Dashboard>
             }
@@ -162,7 +168,6 @@ export function App() {
             }
           />
           <Route path="/oauth/callback/:query" element={<OauthCallback login={login} />} />
-          {/* error boundary here */}
           <Route
             path="/categories/:id"
             element={

@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { NavigateFunction } from "react-router-dom";
 import {
+  addBookmarksToCategory,
   createCategory,
   deleteCategory,
   fetchCategories,
@@ -104,14 +105,45 @@ export function usePatchCategory() {
         });
       }
     },
-    async onSettled(data, error, variables, context) {
-      const categoryId = variables.categoryId;
+    async onSettled(data, error, { categoryId }, context) {
       await queryClient.invalidateQueries("fetch-categories");
       await queryClient.invalidateQueries(["fetch-category", categoryId]);
     },
   });
 }
-
+export function useAddBookmarksToCategory() {
+  const queryClient = useQueryClient();
+  return useMutation(addBookmarksToCategory, {
+    async onMutate({ categoryId, body: bookmarks }) {
+      await queryClient.cancelQueries("fetch-categories");
+      await queryClient.cancelQueries(["fetch-category", categoryId]);
+      const oldCategory = queryClient.getQueryData<CategoryResponse>([
+        "fetch-category",
+        categoryId,
+      ]);
+      if (oldCategory) {
+        queryClient.setQueryData(["fetch-category", categoryId], {
+          ...oldCategory,
+          data: {
+            ...oldCategory.data,
+            bookmarks,
+          },
+        });
+      }
+      return { oldCategory };
+    },
+    onError(error, { categoryId }, context) {
+      if (context?.oldCategory) {
+        queryClient.setQueryData<CategoryResponse>(["fetch-category", categoryId], {
+          ...context.oldCategory,
+        });
+      }
+    },
+    async onSettled(data, error, { categoryId }, context) {
+      await queryClient.invalidateQueries(["fetch-category", categoryId]);
+    },
+  });
+}
 export function useDeleteCategory(navigate: NavigateFunction) {
   const queryClient = useQueryClient();
   return useMutation(deleteCategory, {
