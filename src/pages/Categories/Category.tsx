@@ -9,8 +9,8 @@ import { CardDropdown } from "../../components/dropdowns";
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
-import { dropdownItems } from ".";
-import { useFetchCategoryById } from "../../hooks";
+import { useFetchCategoryById } from "../../api/hooks";
+import { BookmarksSkeleton } from "../../assets/animations";
 
 export function Category() {
   const params = useParams();
@@ -51,6 +51,12 @@ export function Category() {
       index={index}
     />
   ));
+  let categoryPage;
+  if (isFetching) {
+    categoryPage = <BookmarksSkeleton />;
+  } else {
+    categoryPage = bookmarks?.length! > 0 ? fullCategory : emptyCategory;
+  }
   const isHex = image?.includes("#");
 
   return (
@@ -93,9 +99,7 @@ export function Category() {
               <span className="hidden md:inline">Need Help?</span>
             </p>
           </div>
-          <div className="category__page__bookmarks">
-            {bookmarks?.length! > 0 ? fullCategory : emptyCategory}
-          </div>
+          <div className="category__page__bookmarks">{categoryPage}</div>
         </div>
       </div>
     </div>
