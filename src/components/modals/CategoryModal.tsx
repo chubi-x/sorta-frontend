@@ -116,8 +116,9 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
         }
       );
     } else {
-      const image = await uploadImage(category!.name);
-      // console.log(image);
+      const image = categoryForm.name
+        ? await uploadImage(categoryForm.name)
+        : await uploadImage(category!.name);
       patchCategory(
         { categoryId: category!.id, body: { ...categoryForm, image } },
         {

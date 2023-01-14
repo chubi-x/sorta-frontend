@@ -10,6 +10,8 @@ import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
 import { useFetchCategoryById } from "../../api/hooks";
+import { BookmarksSkeleton } from "../../assets/animations";
+
 
 type Props = {
   dropdownItems: DropDownItem[];
@@ -58,6 +60,12 @@ export function Category({ dropdownItems }: Props) {
       index={index}
     />
   ));
+  let categoryPage;
+  if (isFetching) {
+    categoryPage = <BookmarksSkeleton />;
+  } else {
+    categoryPage = bookmarks?.length! > 0 ? fullCategory : emptyCategory;
+  }
   const isHex = image?.includes("#");
 
   return (
@@ -100,9 +108,7 @@ export function Category({ dropdownItems }: Props) {
               <span className="hidden md:inline">Need Help?</span>
             </p>
           </div>
-          <div className="category__page__bookmarks">
-            {bookmarks?.length! > 0 ? fullCategory : emptyCategory}
-          </div>
+          <div className="category__page__bookmarks">{categoryPage}</div>
         </div>
       </div>
     </div>
