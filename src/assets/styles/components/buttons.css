@@ -83,7 +83,7 @@
   }
 }
 
-.new-category-btn {
+.dashboard-header-btn {
   @apply flex justify-center;
   @apply w-full  md:w-[250px];
   @apply py-4 px-6;

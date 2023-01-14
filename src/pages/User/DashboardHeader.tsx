@@ -2,16 +2,18 @@ import Lottie from "lottie-react";
 import { StickyDashboardBar } from "../../components/miscellaneous";
 
 import userSkeleton from "../../assets/animations/user-details-skeleton.json";
-import newCategoryIcon from "../../assets/icons/create-category.svg";
+import dashboardHeaderBtnIcon from "../../assets/icons/create-category.svg";
 
 import { useInView } from "react-intersection-observer";
 import { ActiveTabState } from "../../helpers/Reducers";
+import { useLocation } from "react-router-dom";
+import React from "react";
 
 type Props = {
   user: User;
   activeTabState: ActiveTabState;
   bookmarksScrollRef: React.RefObject<HTMLDivElement>;
-
+  readyToAddBookmarks?: React.Dispatch<React.SetStateAction<boolean>>;
   openCategoryModal: (action: "create category" | "edit category", categoryId?: string) => void;
 };
 
@@ -20,7 +22,13 @@ export function DashboardHeader({
   activeTabState,
   bookmarksScrollRef,
   openCategoryModal,
+  readyToAddBookmarks,
 }: Props) {
+  const queryString = useLocation().search;
+  const toAddBookmarksToCategory = queryString.includes("categoryId");
+  function dashboardHeaderBtnAction() {
+    toAddBookmarksToCategory ? readyToAddBookmarks?.(true) : openCategoryModal("create category");
+  }
   const { bookmarksActive, categoriesActive } = activeTabState;
 
   const [inViewRef, inView] = useInView({
@@ -59,10 +67,11 @@ export function DashboardHeader({
 
       <StickyDashboardBar inView={inView} categoriesActive={categoriesActive}>
         <button
-          className={`new-category-btn ${!inView ? "mr-4" : ""}`}
-          onClick={() => openCategoryModal("create category")}
+          className={`dashboard-header-btn ${!inView ? "mr-4" : ""}`}
+          onClick={dashboardHeaderBtnAction}
         >
-          create category <img src={newCategoryIcon} alt="create category icon" />
+          {toAddBookmarksToCategory ? "add to category" : "create category"}
+          <img src={dashboardHeaderBtnIcon} alt="create category icon" />
         </button>
       </StickyDashboardBar>
     </>

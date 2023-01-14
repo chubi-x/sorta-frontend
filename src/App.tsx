@@ -13,23 +13,53 @@ import { Categories, Category } from "./pages/Categories";
 
 // ASSETS
 import "./assets/styles/App.css";
-import { useFetchUser } from "./hooks";
-import { CategoryModal } from "./components/modals";
+import { useDeleteCategory, useFetchUser } from "./api/hooks";
 import { DashboardHeader } from "./pages/User/DashboardHeader";
 import { BookmarksError, CategoriesError } from "./pages/Errors";
+import { DropDownItem } from "./components/dropdowns";
+import { CategoryModal } from "./components/modals";
+
+import addIcon from "./assets/icons/add.svg";
+import editIcon from "./assets/icons/edit.svg";
+import deleteIcon from "./assets/icons/delete.svg";
 
 export function App() {
   const navigate = useNavigate();
+  const { mutate: deleteCategory } = useDeleteCategory(navigate);
+
   const [logged, setLogged] = useState(false);
   const [user, setUser] = useState<User>(JSON.parse(sessionStorage.getItem("user")!) || null);
-  const [categories, setCategories] = useState<Category[]>(
-    JSON.parse(localStorage.getItem("categories")!) || []
-  );
-
   const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
     bookmarksActive: true,
     categoriesActive: false,
   });
+  const [categories, setCategories] = useState<Category[]>(
+    JSON.parse(localStorage.getItem("categories")!) || []
+  );
+  const [categoryDropdownItems, setCategoryDropdownItems] = useState<DropDownItem[]>([
+    {
+      icon: addIcon,
+      text: "Add bookmarks",
+      itemFunction: (categoryId: string) => {
+        navigate(`/dashboard/?action=addToCategory&categoryId=${categoryId}`);
+      },
+    },
+    {
+      icon: editIcon,
+      text: "Edit category",
+      itemFunction: (categoryId: string) => {
+        openCategoryModal("edit category", categoryId);
+      },
+    },
+    {
+      icon: deleteIcon,
+      text: "Delete category",
+      itemFunction: (categoryId: string) => {
+        deleteCategory(categoryId);
+      },
+    },
+  ]);
+  const [readyToAddBookmarksToCategory, setReadyToAddBookmarksToCategory] = useState(false);
   const [categoryModalState, dispatchCategoryModalState] = useReducer(categoryModalReducer, {
     categoryModalOpen: false,
     categoryModalAction: { createCategory: true, editCategory: false },
@@ -93,6 +123,7 @@ export function App() {
                   activeTabState={activeTabState}
                   bookmarksScrollRef={bookmarksScrollRef}
                   openCategoryModal={openCategoryModal}
+                  readyToAddBookmarks={setReadyToAddBookmarksToCategory}
                 />
                 <ErrorBoundary
                   FallbackComponent={BookmarksError}
@@ -100,7 +131,12 @@ export function App() {
                     window.location.reload();
                   }}
                 >
-                  <Bookmarks userFetched={userFetched} bookmarksScrollRef={bookmarksScrollRef} />
+                  <Bookmarks
+                    userFetched={userFetched}
+                    bookmarksScrollRef={bookmarksScrollRef}
+                    readyToAddToCategory={readyToAddBookmarksToCategory}
+                    resetReadyToAddToCategory={() => setReadyToAddBookmarksToCategory(false)}
+                  />
                 </ErrorBoundary>
               </Dashboard>
             }
@@ -125,13 +161,13 @@ export function App() {
                     categoriesArray={categories}
                     updateCategories={updateCategories}
                     openCategoryModal={openCategoryModal}
+                    dropdownItems={categoryDropdownItems}
                   />
                 </ErrorBoundary>
               </Dashboard>
             }
           />
           <Route path="/oauth/callback/:query" element={<OauthCallback login={login} />} />
-          {/* error boundary here */}
           <Route
             path="/categories/:id"
             element={
@@ -141,7 +177,7 @@ export function App() {
                   window.location.reload();
                 }}
               >
-                <Category />
+                <Category dropdownItems={categoryDropdownItems} />
               </ErrorBoundary>
             }
           />

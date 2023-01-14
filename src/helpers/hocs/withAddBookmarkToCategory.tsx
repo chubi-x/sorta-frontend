@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { BookmarkProps } from "../../pages/Bookmarks";
 
-type QueryString = {
-  action?: string;
-  categoryId?: string;
+export type QueryString = {
+  action: string;
+  categoryId: string;
 };
 export type AddToCategoryData = {
   true: boolean;

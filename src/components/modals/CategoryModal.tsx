@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
-import { usePatchCategory, usePostCategory } from "../../hooks";
+import { usePatchCategory, usePostCategory } from "../../api/hooks";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseStorage } from "../../../firebase";
 import { CategoryModalAction } from "../../helpers/Reducers";
