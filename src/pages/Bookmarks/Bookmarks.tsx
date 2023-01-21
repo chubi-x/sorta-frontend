@@ -75,10 +75,10 @@ const Bookmarks = memo(
           categoryId,
           body: JSON.parse(sessionStorage.getItem(`bookmarksToAddToCategory${categoryId}`)!),
         });
+        sessionStorage.removeItem(`bookmarksToAddToCategory${categoryId}`);
         resetReadyToAddToCategory();
         navigate(`/categories/${categoryId}`);
       }
-      return () => sessionStorage.removeItem(`bookmarksToAddToCategory${categoryId}`);
     }, [readyToAddToCategory]);
 
     const checkedBookmarks: Bookmark[] = [];
