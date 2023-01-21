@@ -20,7 +20,7 @@
 }
 .main-container {
   @apply h-full w-[85%] md:w-3/5 md:flex-grow;
-  @apply mb-10 md:mr-4 md:px-10 lg:px-20;
+  @apply mb-10 md:mr-4 md:px-10 xl:px-20;
   @apply relative;
 }
 main {
@@ -36,7 +36,9 @@ main {
     width: 0;
   }
   .dashboard-header-btn-container {
-    @apply h-20 w-full lg:w-5/6;
+    @apply flex flex-col lg:flex-row lg:items-center lg:justify-between;
+    @apply w-full lg:h-16 lg:w-11/12;
+    @apply space-y-5 lg:space-y-0;
     @apply mt-10;
     @apply bg-neutral-7;
     @apply sticky top-[0px] z-30;
