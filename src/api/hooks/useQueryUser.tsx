@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { NavigateFunction } from "react-router-dom";
-import { fetchUser } from "../api";
+import { fetchUser } from "..";
 
 export function useFetchUser(
   logged: boolean,
@@ -8,7 +8,7 @@ export function useFetchUser(
   navigate: NavigateFunction
 ) {
   return useQuery("user", fetchUser, {
-    // enabled: logged,
+    enabled: logged,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     onSuccess(data) {

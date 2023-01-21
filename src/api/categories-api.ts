@@ -2,6 +2,10 @@ export type PatchCategoryOptions = {
   categoryId: string;
   body: Omit<Category, "bookmarks" | "id">;
 };
+export type AddBookmarksToCategory = {
+  categoryId: string;
+  body: Bookmark[];
+};
 export async function fetchCategories() {
   const request = await fetch(`${import.meta.env.VITE_API_URL!}/categories`, {
     credentials: "include",
@@ -38,8 +42,7 @@ export async function createCategory(body: Omit<Category, "bookmarks" | "id">) {
   const response = await request.json();
   return response as CategoryResponse;
 }
-export async function patchCategory(options: PatchCategoryOptions) {
-  const { categoryId, body } = options;
+export async function patchCategory({ categoryId, body }: PatchCategoryOptions) {
   const request = await fetch(`${import.meta.env.VITE_API_URL!}/categories/${categoryId}`, {
     credentials: "include",
     method: "PATCH",
@@ -50,6 +53,24 @@ export async function patchCategory(options: PatchCategoryOptions) {
     },
     body: JSON.stringify(body),
   });
+  const response = await request.json();
+  return response as ServerResponse;
+}
+
+export async function addBookmarksToCategory({ categoryId, body }: AddBookmarksToCategory) {
+  const request = await fetch(
+    `${import.meta.env.VITE_API_URL!}/categories/${categoryId}/bookmarks/add`,
+    {
+      credentials: "include",
+      method: "PATCH",
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ bookmarks: body }),
+    }
+  );
   const response = await request.json();
   return response as ServerResponse;
 }

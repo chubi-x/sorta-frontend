@@ -7,14 +7,15 @@
 
 .bookmarks {
   &__skeleton {
-    padding: var(--padding);
+    &__container {
+      @apply space-y-6;
+    }
     border-radius: 20px;
-    gap: calc(var(--padding) * 1);
     width: 100%;
     //   width: clamp(300px, 80vmin, 30rem);
     height: clamp(150px, 5vmin, 10rem);
     display: grid;
-    grid-template: 10% 1fr / 70px 85%;
+    grid-template: 10% 1fr / 50px 1fr;
     background: var(--surface);
   }
 
@@ -30,7 +31,7 @@
   &__skeleton__block:first-of-type {
     width: 40px;
     border-radius: 50%;
-    place-self: center;
+    place-self: flex-start;
     align-self: flex-start;
     grid-row: 1 / 1;
     aspect-ratio: 1;
@@ -67,11 +68,5 @@
 
       @apply flex flex-wrap justify-between;
     }
-  }
-}
-
-@keyframes load {
-  to {
-    background-position: 200% 0;
   }
 }

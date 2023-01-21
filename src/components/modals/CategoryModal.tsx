@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
-import { usePatchCategory, usePostCategory } from "../../hooks";
+import { usePatchCategory, usePostCategory } from "../../api/hooks";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseStorage } from "../../../firebase";
 import { CategoryModalAction } from "../../helpers/Reducers";
@@ -116,8 +116,9 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
         }
       );
     } else {
-      const image = await uploadImage(category!.name);
-      // console.log(image);
+      const image = categoryForm.name
+        ? await uploadImage(categoryForm.name)
+        : await uploadImage(category!.name);
       patchCategory(
         { categoryId: category!.id, body: { ...categoryForm, image } },
         {

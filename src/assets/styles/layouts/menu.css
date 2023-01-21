@@ -128,13 +128,3 @@
     }
   }
 }
-
-@keyframes buttonText {
-  0% {
-    max-width: 0px;
-  }
-  100% {
-    max-width: 200px;
-  }
-}
-

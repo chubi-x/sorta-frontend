@@ -4,15 +4,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Menu } from "../../layouts";
 import { Bookmark } from "../Bookmarks";
 import { MoreButton } from "../../components/buttons";
-import { CardDropdown } from "../../components/dropdowns";
+import { CardDropdown, DropDownItem } from "../../components/dropdowns";
 
 import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
 import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
-import { dropdownItems } from ".";
-import { useFetchCategoryById } from "../../hooks";
+import { useFetchCategoryById } from "../../api/hooks";
+import { BookmarksSkeleton } from "../../assets/animations";
 
-export function Category() {
+
+type Props = {
+  dropdownItems: DropDownItem[];
+};
+export function Category({ dropdownItems }: Props) {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -40,7 +44,12 @@ export function Category() {
       <p>
         No bookmarks here yet <br /> click on the button below to add bookmarks
       </p>
-      <button className="primary-btn primary-btn--medium">Add bookmarks</button>
+      <button
+        className="primary-btn primary-btn--medium"
+        onClick={() => dropdownItems[0].itemFunction?.(id)}
+      >
+        Add bookmarks
+      </button>
     </div>
   );
   const fullCategory = bookmarks?.map((bookmark, index) => (
@@ -51,6 +60,12 @@ export function Category() {
       index={index}
     />
   ));
+  let categoryPage;
+  if (isFetching) {
+    categoryPage = <BookmarksSkeleton />;
+  } else {
+    categoryPage = bookmarks?.length! > 0 ? fullCategory : emptyCategory;
+  }
   const isHex = image?.includes("#");
 
   return (
@@ -93,9 +108,7 @@ export function Category() {
               <span className="hidden md:inline">Need Help?</span>
             </p>
           </div>
-          <div className="category__page__bookmarks">
-            {bookmarks?.length! > 0 ? fullCategory : emptyCategory}
-          </div>
+          <div className="category__page__bookmarks">{categoryPage}</div>
         </div>
       </div>
     </div>

@@ -1,8 +1,14 @@
 @import "./layouts/navbar.css";
 @import "./layouts/menu.css";
+@import "./components/buttons.css";
+@import "./components/modals.css";
+
 @import "./pages/login.css";
 @import "./pages/dashboard.css";
 @import "./pages/categories.css";
+@import "./pages/category.css";
+
+@import "./animations.css";
 .app {
   height: 100%;
   width: 100%;
@@ -17,19 +23,5 @@
     stroke: white;
     stroke-linecap: round;
     animation: dash 1.5s ease-in-out infinite;
-  }
-}
-@keyframes dash {
-  0% {
-    stroke-dasharray: 1, 150;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -124;
   }
 }
