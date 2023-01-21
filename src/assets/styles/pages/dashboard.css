@@ -31,19 +31,9 @@ main {
   @apply z-10;
   @apply overflow-auto;
   -ms-overflow-style: auto;
+  scrollbar-width: none;
   &::-webkit-scrollbar {
-    width: 5px;
-    padding: 20px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    // background: ;
-    border-radius: 1000px;
-    background-color: transparent;
-    border-bottom: 200px solid theme("colors.primary-1");
+    width: 0;
   }
   .dashboard-header-btn-container {
     @apply h-20 w-full lg:w-5/6;
