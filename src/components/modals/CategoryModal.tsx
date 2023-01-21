@@ -176,7 +176,7 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
             <input
               name="name"
               type="text"
-              className="category__modal__card__form__name"
+              className="category__modal__card__form__name inputs"
               placeholder="Enter name"
               value={categoryForm.name}
               onChange={(e) => handleInputChange(e)}
@@ -186,7 +186,7 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
             {/* <div className="category__modal__card__form__text"> */}
             <textarea
               name="description"
-              className="category__modal__card__form__description"
+              className="category__modal__card__form__description inputs"
               placeholder="Description"
               value={categoryForm.description}
               onChange={(e) => handleInputChange(e)}

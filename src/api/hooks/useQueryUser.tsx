@@ -9,7 +9,6 @@ export function useFetchUser(
 ) {
   return useQuery("user", fetchUser, {
     enabled: logged,
-    refetchOnMount: false,
     refetchOnWindowFocus: false,
     onSuccess(data) {
       if (data?.success) {

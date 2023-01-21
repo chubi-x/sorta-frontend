@@ -27,8 +27,9 @@ export function App() {
   const navigate = useNavigate();
   const { mutate: deleteCategory } = useDeleteCategory(navigate);
 
-  const [logged, setLogged] = useState(false);
-  const [user, setUser] = useState<User>(JSON.parse(sessionStorage.getItem("user")!) || null);
+  const [user, setUser] = useState<User>(
+    JSON.parse(sessionStorage.getItem("user")!) || { isLogged: false }
+  );
   const [activeTabState, dispatchActiveTabState] = useReducer(activeTabReducer, {
     bookmarksActive: true,
     categoriesActive: false,
@@ -66,12 +67,12 @@ export function App() {
     categoryIdToUpdate: undefined,
   });
 
-  const { isStale: userFetched } = useFetchUser(logged, updateUser, navigate);
+  const { isStale: userFetched } = useFetchUser(user.isLogged, updateUser, navigate);
 
   const bookmarksScrollRef = useRef<HTMLDivElement>(null);
 
   function login() {
-    setLogged(true);
+    setUser((prev) => ({ ...prev, isLogged: true }));
   }
 
   function updateUser(user: User) {

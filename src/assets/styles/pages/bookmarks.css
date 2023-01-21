@@ -16,7 +16,7 @@
     background-color: theme("colors.primary-1");
   }
   &__wrapper {
-    @apply h-full w-full lg:w-5/6;
+    @apply h-full w-full lg:w-11/12;
   }
 
   &__loading__modal {

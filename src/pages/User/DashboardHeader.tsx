@@ -66,6 +66,15 @@ export function DashboardHeader({
       </p>
 
       <StickyDashboardBar inView={inView} categoriesActive={categoriesActive}>
+        <form className="flex h-14 items-center lg:w-7/12">
+          <input
+            type="search"
+            name="search"
+            id="search-bar"
+            placeholder="Search everything"
+            className="inputs"
+          />
+        </form>
         <button
           className={`dashboard-header-btn ${!inView ? "mr-4" : ""}`}
           onClick={dashboardHeaderBtnAction}

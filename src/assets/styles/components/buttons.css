@@ -84,8 +84,8 @@
 }
 
 .dashboard-header-btn {
-  @apply flex justify-center;
-  @apply w-full  md:w-[250px];
+  @apply flex items-center justify-center;
+  @apply w-full  lg:w-[250px];
   @apply py-4 px-6;
   @apply hover:bg-neutral-6;
   @apply rounded-md border border-primary-1;
