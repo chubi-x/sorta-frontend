@@ -6,12 +6,18 @@ import { Bookmark } from "../Bookmarks";
 import { MoreButton } from "../../components/buttons";
 import { CardDropdown, DropDownItem } from "../../components/dropdowns";
 
-import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
-import backIcon from "../../assets/icons/back.svg";
 import help from "../../assets/icons/help.svg";
-import { useFetchCategoryById } from "../../api/hooks";
+import {
+  useDeleteBookmark,
+  useFetchCategoryById,
+  useRemoveBookmarksFromCategory,
+} from "../../api/hooks";
 import { BookmarksSkeleton } from "../../assets/animations";
 
+import emptyCategoriesImage from "../../assets/images/empty_categories.svg";
+import backIcon from "../../assets/icons/back.svg";
+import deleteIcon from "../../assets/icons/delete.svg";
+import removeIcon from "../../assets/icons/remove.svg";
 
 type Props = {
   dropdownItems: DropDownItem[];
@@ -19,11 +25,12 @@ type Props = {
 export function Category({ dropdownItems }: Props) {
   const params = useParams();
   const navigate = useNavigate();
-
+  const { mutate: deleteBookmark } = useDeleteBookmark();
+  const { mutate: removeBookmarksFromCategory } = useRemoveBookmarksFromCategory();
   const { id } = params;
   const [category, setCategory] = useState<Category>();
 
-  const { data, isSuccess, isFetching } = useFetchCategoryById(id!);
+  const { data, isSuccess, isFetching } = useFetchCategoryById(id!, navigate);
   const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
@@ -37,6 +44,22 @@ export function Category({ dropdownItems }: Props) {
   function backToCategories() {
     navigate("/categories");
   }
+  const bookmarkDropdownItems = (bookmarkId: string) => [
+    {
+      icon: removeIcon,
+      text: "Remove",
+      itemFunction: () =>
+        removeBookmarksFromCategory({
+          categoryId: id!,
+          bookmarkIdsToDelete: [bookmarkId],
+        }),
+    },
+    {
+      icon: deleteIcon,
+      text: "Delete",
+      itemFunction: () => deleteBookmark(bookmarkId),
+    },
+  ];
 
   const emptyCategory = (
     <div className="categories--empty">
@@ -58,6 +81,7 @@ export function Category({ dropdownItems }: Props) {
       bookmark={bookmark}
       bookmarksLength={bookmarks.length}
       index={index}
+      dropdownItems={bookmarkDropdownItems(bookmark.id)}
     />
   ));
   let categoryPage;

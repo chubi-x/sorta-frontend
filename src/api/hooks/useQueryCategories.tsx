@@ -7,6 +7,7 @@ import {
   fetchCategories,
   fetchCategoryById,
   patchCategory,
+  removeBookmarksFromCategory,
 } from "..";
 
 export function useFetchCategories(
@@ -31,8 +32,17 @@ export function useFetchCategories(
     },
   });
 }
-export function useFetchCategoryById(categoryId: string) {
-  return useQuery(["fetch-category", categoryId], () => fetchCategoryById(categoryId));
+export function useFetchCategoryById(categoryId: string, navigate: NavigateFunction) {
+  return useQuery(["fetch-category", categoryId], () => fetchCategoryById(categoryId), {
+    onSuccess(data) {
+      if (!data.success) {
+        if (data.message?.includes("not logged")) {
+          // alert("You're not logged in!");
+          navigate("/login");
+        }
+      }
+    },
+  });
 }
 export function usePostCategory() {
   const queryClient = useQueryClient();
@@ -127,6 +137,41 @@ export function useAddBookmarksToCategory() {
           data: {
             ...oldCategory.data,
             bookmarks,
+          },
+        });
+      }
+      return { oldCategory };
+    },
+    onError(error, { categoryId }, context) {
+      if (context?.oldCategory) {
+        queryClient.setQueryData<CategoryResponse>(["fetch-category", categoryId], {
+          ...context.oldCategory,
+        });
+      }
+    },
+    async onSettled(data, error, { categoryId }, context) {
+      await queryClient.invalidateQueries(["fetch-category", categoryId]);
+    },
+  });
+}
+export function useRemoveBookmarksFromCategory() {
+  const queryClient = useQueryClient();
+  return useMutation(removeBookmarksFromCategory, {
+    async onMutate({ categoryId, bookmarkIdsToDelete }) {
+      await queryClient.cancelQueries("fetch-categories");
+      await queryClient.cancelQueries(["fetch-category", categoryId]);
+      const oldCategory = queryClient.getQueryData<CategoryResponse>([
+        "fetch-category",
+        categoryId,
+      ]);
+      if (oldCategory) {
+        queryClient.setQueryData(["fetch-category", categoryId], {
+          ...oldCategory,
+          data: {
+            ...oldCategory.data,
+            bookmarks: oldCategory.data.bookmarks.filter(
+              (bookmark) => !bookmarkIdsToDelete.includes(bookmark.id)
+            ),
           },
         });
       }
