@@ -6,6 +6,10 @@ export type AddBookmarksToCategory = {
   categoryId: string;
   body: Bookmark[];
 };
+export type RemoveBookmarksFromCategory = {
+  categoryId: string;
+  bookmarkIdsToDelete: string[];
+};
 export async function fetchCategories() {
   const request = await fetch(`${import.meta.env.VITE_API_URL!}/categories`, {
     credentials: "include",
@@ -74,7 +78,26 @@ export async function addBookmarksToCategory({ categoryId, body }: AddBookmarksT
   const response = await request.json();
   return response as ServerResponse;
 }
-
+export async function removeBookmarksFromCategory({
+  categoryId,
+  bookmarkIdsToDelete,
+}: RemoveBookmarksFromCategory) {
+  const request = await fetch(
+    `${import.meta.env.VITE_API_URL!}/categories/${categoryId}/bookmarks/delete`,
+    {
+      credentials: "include",
+      method: "PATCH",
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ bookmarkIdsToDelete }),
+    }
+  );
+  const response = await request.json();
+  return response as ServerResponse;
+}
 export async function deleteCategory(categoryId: string) {
   const request = await fetch(`${import.meta.env.VITE_API_URL!}/categories/${categoryId}`, {
     credentials: "include",

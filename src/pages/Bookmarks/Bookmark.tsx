@@ -6,14 +6,12 @@ import { MoreButton } from "../../components/buttons";
 
 // ASSETS
 import verifiedIcon from "../../assets/icons/verified.svg";
-import addIcon from "../../assets/icons/add.svg";
-import deleteIcon from "../../assets/icons/delete.svg";
-import { useDeleteBookmark } from "../../api/hooks";
 import { AddToCategoryData } from "../../helpers/hocs/withAddBookmarkToCategory";
 
 export type BookmarkProps = {
   bookmark: Bookmark;
   index?: number;
+  dropdownItems: DropDownItem[];
   bookmarksLength?: number | undefined;
   addToCategory?: AddToCategoryData;
   trackChecked?: (e: React.ChangeEvent<HTMLInputElement>, bookmark: Bookmark) => void;
@@ -22,17 +20,12 @@ export type BookmarkProps = {
 export function Bookmark({
   bookmark,
   index,
+  dropdownItems,
   bookmarksLength,
   addToCategory,
   trackChecked,
 }: BookmarkProps) {
   const [showTooltip, setShowTooltip] = useState(false);
-  const { mutate: deleteBookmark } = useDeleteBookmark();
-
-  const dropdownItems: DropDownItem[] = [
-    { icon: addIcon, text: "Add to category" },
-    { icon: deleteIcon, text: "Delete", itemFunction: () => deleteBookmark(bookmark.id) },
-  ];
 
   function convertDate(date_string: string) {
     let date = new Date(date_string);

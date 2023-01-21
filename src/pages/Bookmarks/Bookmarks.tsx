@@ -15,7 +15,9 @@ import withAddBookmarkToCategory, {
 import { DashboardBarText } from "../../components/miscellaneous";
 import { BookmarksSkeleton, Spinner } from "../../assets/animations";
 import { parse } from "qs";
-import { useAddBookmarksToCategory } from "../../api/hooks";
+import { useAddBookmarksToCategory, useDeleteBookmark } from "../../api/hooks";
+import addIcon from "../../assets/icons/add.svg";
+import deleteIcon from "../../assets/icons/delete.svg";
 
 // TYPES
 type BookmarksProps = {
@@ -39,6 +41,7 @@ const Bookmarks = memo(
     const { categoryId } = queryString as unknown as QueryString;
 
     const { mutate: postBookmarks } = useAddBookmarksToCategory();
+    const { mutate: deleteBookmark } = useDeleteBookmark();
 
     // BOOKMARKS STATE
     const [bookmarksLoading, setBookmarksLoading] = useState(false);
@@ -92,6 +95,14 @@ const Bookmarks = memo(
         JSON.stringify(checkedBookmarks)
       )!;
     }
+    const dropdownItems = (bookmarkId: string) => [
+      { icon: addIcon, text: "Add to category" },
+      {
+        icon: deleteIcon,
+        text: "Delete",
+        itemFunction: () => deleteBookmark(bookmarkId),
+      },
+    ];
     const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
       let renderedBookmarks = [];
       for (let i = 0; i < numOfBookmarksToRender; i++) {
@@ -107,6 +118,7 @@ const Bookmarks = memo(
                 key={bookmarksArray[i].id}
                 index={i}
                 bookmarksLength={bookmarksArray.length}
+                dropdownItems={dropdownItems(bookmarksArray[i].id)}
               />
             );
           }
@@ -151,6 +163,7 @@ const Bookmarks = memo(
             bookmark,
             index,
             bookmarksLength: bookmarks.data.length,
+            dropdownItems: dropdownItems(bookmark.id),
           },
           trackCheckedBookmark
         );
