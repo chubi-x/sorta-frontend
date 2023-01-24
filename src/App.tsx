@@ -22,6 +22,7 @@ import { CategoryModal } from "./components/modals";
 import addIcon from "./assets/icons/add.svg";
 import editIcon from "./assets/icons/edit.svg";
 import deleteIcon from "./assets/icons/delete.svg";
+import { toast, ToastContainer } from "react-toastify";
 
 export function App() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export function App() {
   const [categories, setCategories] = useState<Category[]>(
     JSON.parse(localStorage.getItem("categories")!) || []
   );
+
   const [categoryDropdownItems, setCategoryDropdownItems] = useState<DropDownItem[]>([
     {
       icon: addIcon,
@@ -69,7 +71,7 @@ export function App() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { isStale: userFetched } = useFetchUser(user.isLogged, updateUser, navigate);
+  const { isStale: userFetched } = useFetchUser(updateUser, navigate);
 
   const bookmarksScrollRef = useRef<HTMLDivElement>(null);
 
@@ -166,6 +168,7 @@ export function App() {
                       updateCategories={updateCategories}
                       openCategoryModal={openCategoryModal}
                       dropdownItems={categoryDropdownItems}
+                      key={localStorage.getItem("categories")}
                     />
                   </ErrorBoundary>
                 </Dashboard>
@@ -197,6 +200,7 @@ export function App() {
               closeModal={closeCategoryModal}
             />
           )}
+          <ToastContainer />
         </div>
       </SearchContext.Provider>
     </ActiveContext.Provider>

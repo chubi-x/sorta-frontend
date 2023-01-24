@@ -13,7 +13,7 @@ import { LoginCard } from "../../components/cards";
 
 // ASSETS
 import loginLottie from "../../assets/animations/login.json";
-
+import { toast } from "react-toastify";
 export function Login() {
   const [readyToLogin, setReadyToLogin] = useState(false);
 
@@ -21,6 +21,7 @@ export function Login() {
     const oauth: Oauth = JSON.parse(localStorage.getItem("oauth")!);
     return oauth?.url;
   };
+  const successMessage = () => toast.success("Ready to login!", { position: "bottom-right" });
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -29,6 +30,7 @@ export function Login() {
       if (responseData?.success) {
         localStorage.setItem("oauth", JSON.stringify(responseData?.data));
         setReadyToLogin(true);
+        successMessage();
       }
     };
     fetchOauthFunction();

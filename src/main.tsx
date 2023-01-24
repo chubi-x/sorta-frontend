@@ -5,6 +5,8 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./assets/styles/index.css";
 
 const queryClient = new QueryClient();
