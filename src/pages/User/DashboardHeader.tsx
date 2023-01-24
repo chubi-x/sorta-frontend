@@ -76,7 +76,7 @@ export function DashboardHeader({
         />
         <button
           className={`dashboard-header-btn ${!inView ? "w-2/3 md:w-auto" : ""} ${
-            searchFocus && !inView ? "hidden" : ""
+            searchFocus && !inView ? "hidden md:flex" : ""
           }`}
           onClick={dashboardHeaderBtnAction}
         >
