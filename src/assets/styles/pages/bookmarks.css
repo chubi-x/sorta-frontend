@@ -10,20 +10,10 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
-    width: 0;
+    width: 2px;
   }
-  &::-webkit-scrollbar {
-    width: 3px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
   &::-webkit-scrollbar-thumb {
-    // background: ;
-    border-radius: 1000px;
     background-color: theme("colors.primary-1");
-    // border-bottom: 200px solid theme("colors.primary-1");
   }
   &__wrapper {
     @apply h-full w-full lg:w-5/6;
