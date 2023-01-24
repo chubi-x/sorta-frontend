@@ -15,7 +15,7 @@ import withAddBookmarkToCategory, {
 import { DashboardBarText } from "../../components/miscellaneous";
 import { BookmarksSkeleton, Spinner } from "../../assets/animations";
 import { parse } from "qs";
-import { useAddBookmarksToCategory, useDeleteBookmark } from "../../api/hooks";
+import { errorToast, useAddBookmarksToCategory, useDeleteBookmark } from "../../api/hooks";
 import addIcon from "../../assets/icons/add.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 import { search } from "../Categories";
@@ -95,13 +95,17 @@ const Bookmarks = memo(
           setBookmarks({ ...data.data });
           sessionStorage.setItem("bookmarks", JSON.stringify(data.data));
         } else {
-          if (data?.message) alert(data.message);
+          if (data?.message) errorToast(data.message);
           navigate("/login");
+          sessionStorage.clear();
+          localStorage.clear();
         }
       },
       onError(err) {
         if (err) alert(err);
         navigate("/login");
+        sessionStorage.clear();
+        localStorage.clear();
       },
     });
 

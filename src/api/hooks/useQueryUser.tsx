@@ -10,18 +10,16 @@ export function useFetchUser(updateUser: (user: User) => void, navigate: Navigat
   const fetched = sessionStorage.getItem("user-fetched");
 
   return useQuery("user", fetchUser, {
-    enabled: fetched !== "yes",
-    staleTime: Infinity,
-    retry: false,
+    enabled: fetched === "yes",
     onSuccess(data) {
       if (data?.success) {
         updateUser({ ...data.data, isLogged: true });
         sessionStorage.setItem("user", JSON.stringify({ ...data.data, isLogged: true }));
-        sessionStorage.setItem("user-fetched", "yes");
-        success("Logged in!");
       } else {
         if (data?.message) error(data.message);
         navigate("/login");
+        sessionStorage.clear();
+        localStorage.clear();
       }
     },
     onError(err) {

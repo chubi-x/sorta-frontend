@@ -27,6 +27,8 @@ export function useFetchCategories(
         if (data.message?.includes("not logged")) {
           errorToast("You've been logged out");
           navigate("/login");
+          sessionStorage.clear();
+          localStorage.clear();
         }
       }
     },
@@ -43,6 +45,8 @@ export function useFetchCategoryById(categoryId: string, navigate: NavigateFunct
         if (data.message?.includes("not logged")) {
           errorToast("You've been logged out");
           navigate("/login");
+          sessionStorage.clear();
+          localStorage.clear();
         }
       }
     },
