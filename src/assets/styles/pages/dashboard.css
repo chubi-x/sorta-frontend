@@ -58,7 +58,7 @@ main {
       @apply w-16;
     }
     &--focused {
-      @apply w-full;
+      @apply w-full lg:w-7/12;
     }
   }
 
