@@ -8,6 +8,7 @@ import { useInView } from "react-intersection-observer";
 import { ActiveTabState } from "../../helpers/Reducers";
 import { useLocation } from "react-router-dom";
 import React from "react";
+import SearchBar from "../../components/search";
 
 type Props = {
   user: User;
@@ -66,15 +67,7 @@ export function DashboardHeader({
       </p>
 
       <StickyDashboardBar inView={inView} categoriesActive={categoriesActive}>
-        <form className="flex h-14 items-center lg:w-7/12">
-          <input
-            type="search"
-            name="search"
-            id="search-bar"
-            placeholder="Search everything"
-            className="inputs"
-          />
-        </form>
+        <SearchBar categoriesActive={categoriesActive} />
         <button
           className={`dashboard-header-btn ${!inView ? "mr-4" : ""}`}
           onClick={dashboardHeaderBtnAction}
