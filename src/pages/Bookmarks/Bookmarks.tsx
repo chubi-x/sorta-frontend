@@ -57,6 +57,9 @@ const Bookmarks = memo(
     const [hasMoreBookmarks, setHasMoreBookmarks] = useState(true);
     const [numOfBookmarksToRender, setNumOfBookmarksToRender] = useState(bookmarksPerPage);
     useEffect(() => {
+      setBookmarksList(bookmarks);
+    }, [bookmarks]);
+    useEffect(() => {
       if (location.includes("bookmarks")) {
         setBookmarksList((prev) => {
           return {

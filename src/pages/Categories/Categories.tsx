@@ -29,7 +29,6 @@ function Categories({
   const [categories, setCategories] = useState<Category[]>(categoriesArray);
   const { searchQuery } = useContext(SearchContext);
   const { isLoading } = useFetchCategories(updateCategories, navigate);
-
   useEffect(() => {
     if (location.search.includes("categories")) {
       setCategories(
