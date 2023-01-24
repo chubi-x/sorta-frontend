@@ -1,7 +1,7 @@
 // LIBRARIES
 import { useReducer, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ActiveContext } from "./helpers/Context";
+import { ActiveContext, SearchContext } from "./helpers/Context";
 import { activeTabReducer, categoryModalReducer, CATEGORY_MODAL_ACTIONS } from "./helpers/Reducers";
 
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
@@ -67,6 +67,8 @@ export function App() {
     categoryIdToUpdate: undefined,
   });
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { isStale: userFetched } = useFetchUser(user.isLogged, updateUser, navigate);
 
   const bookmarksScrollRef = useRef<HTMLDivElement>(null);
@@ -110,91 +112,93 @@ export function App() {
         activeTabDispatch: dispatchActiveTabState,
       }}
     >
-      <div className="app">
-        <Routes>
-          <Route path="/" element={root} />
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard/*"
-            element={
-              <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
-                <DashboardHeader
-                  user={user}
-                  activeTabState={activeTabState}
-                  bookmarksScrollRef={bookmarksScrollRef}
-                  openCategoryModal={openCategoryModal}
-                  readyToAddBookmarks={setReadyToAddBookmarksToCategory}
-                />
-                <ErrorBoundary
-                  FallbackComponent={BookmarksError}
-                  onReset={() => {
-                    window.location.reload();
-                  }}
-                >
-                  <Bookmarks
-                    userFetched={userFetched}
+      <SearchContext.Provider value={{ searchQuery, setSearchQuery }}>
+        <div className="app">
+          <Routes>
+            <Route path="/" element={root} />
+            <Route path="*" element={<Navigate to="/dashboard" />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/dashboard/*"
+              element={
+                <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
+                  <DashboardHeader
+                    user={user}
+                    activeTabState={activeTabState}
                     bookmarksScrollRef={bookmarksScrollRef}
-                    readyToAddToCategory={readyToAddBookmarksToCategory}
-                    resetReadyToAddToCategory={() => setReadyToAddBookmarksToCategory(false)}
+                    openCategoryModal={openCategoryModal}
+                    readyToAddBookmarks={setReadyToAddBookmarksToCategory}
                   />
-                </ErrorBoundary>
-              </Dashboard>
-            }
-          />
-          <Route
-            path="/categories"
-            element={
-              <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
-                <DashboardHeader
-                  user={user}
-                  bookmarksScrollRef={bookmarksScrollRef}
-                  openCategoryModal={openCategoryModal}
-                  activeTabState={activeTabState}
-                />
+                  <ErrorBoundary
+                    FallbackComponent={BookmarksError}
+                    onReset={() => {
+                      window.location.reload();
+                    }}
+                  >
+                    <Bookmarks
+                      userFetched={userFetched}
+                      bookmarksScrollRef={bookmarksScrollRef}
+                      readyToAddToCategory={readyToAddBookmarksToCategory}
+                      resetReadyToAddToCategory={() => setReadyToAddBookmarksToCategory(false)}
+                    />
+                  </ErrorBoundary>
+                </Dashboard>
+              }
+            />
+            <Route
+              path="/categories"
+              element={
+                <Dashboard activeTabState={activeTabState} bookmarksScrollRef={bookmarksScrollRef}>
+                  <DashboardHeader
+                    user={user}
+                    bookmarksScrollRef={bookmarksScrollRef}
+                    openCategoryModal={openCategoryModal}
+                    activeTabState={activeTabState}
+                  />
+                  <ErrorBoundary
+                    FallbackComponent={CategoriesError}
+                    onReset={() => {
+                      window.location.reload();
+                    }}
+                  >
+                    <Categories
+                      categoriesArray={categories}
+                      updateCategories={updateCategories}
+                      openCategoryModal={openCategoryModal}
+                      dropdownItems={categoryDropdownItems}
+                    />
+                  </ErrorBoundary>
+                </Dashboard>
+              }
+            />
+            <Route path="/oauth/callback/:query" element={<OauthCallback login={login} />} />
+            <Route
+              path="/categories/:id"
+              element={
                 <ErrorBoundary
                   FallbackComponent={CategoriesError}
                   onReset={() => {
                     window.location.reload();
                   }}
                 >
-                  <Categories
-                    categoriesArray={categories}
-                    updateCategories={updateCategories}
-                    openCategoryModal={openCategoryModal}
-                    dropdownItems={categoryDropdownItems}
-                  />
+                  <Category dropdownItems={categoryDropdownItems} />
                 </ErrorBoundary>
-              </Dashboard>
-            }
-          />
-          <Route path="/oauth/callback/:query" element={<OauthCallback login={login} />} />
-          <Route
-            path="/categories/:id"
-            element={
-              <ErrorBoundary
-                FallbackComponent={CategoriesError}
-                onReset={() => {
-                  window.location.reload();
-                }}
-              >
-                <Category dropdownItems={categoryDropdownItems} />
-              </ErrorBoundary>
-            }
-          />
-        </Routes>
+              }
+            />
+          </Routes>
 
-        {categoryModalState.categoryModalOpen && (
-          <CategoryModal
-            action={categoryModalState.categoryModalAction}
-            category={categories.find(
-              (category) => category.id === categoryModalState.categoryIdToUpdate
-            )}
-            user={user}
-            closeModal={closeCategoryModal}
-          />
-        )}
-      </div>
+          {categoryModalState.categoryModalOpen && (
+            <CategoryModal
+              action={categoryModalState.categoryModalAction}
+              category={categories.find(
+                (category) => category.id === categoryModalState.categoryIdToUpdate
+              )}
+              user={user}
+              closeModal={closeCategoryModal}
+            />
+          )}
+        </div>
+      </SearchContext.Provider>
     </ActiveContext.Provider>
   );
 }
