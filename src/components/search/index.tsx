@@ -26,8 +26,8 @@ export default function SearchBar({ categoriesActive, stickyBar, focus, setFocus
   }
   return (
     <form
-      className={`flex h-14 items-center  ${stickyBar ? "w-2" : "lg:w-7/12"} ${
-        focus ? "w-full" : ""
+      className={`search-form  ${stickyBar ? "search-form--stuck" : ""} ${
+        focus ? "search-form--focused" : ""
       }`}
     >
       <input

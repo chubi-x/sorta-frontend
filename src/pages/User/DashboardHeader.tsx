@@ -75,7 +75,7 @@ export function DashboardHeader({
           setFocus={setSearchFocus}
         />
         <button
-          className={`dashboard-header-btn ${!inView ? "mr-4" : ""} ${
+          className={`dashboard-header-btn ${!inView ? "w-2/3 md:w-auto" : ""} ${
             searchFocus && !inView ? "hidden" : ""
           }`}
           onClick={dashboardHeaderBtnAction}

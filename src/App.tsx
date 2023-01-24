@@ -22,7 +22,7 @@ import { CategoryModal } from "./components/modals";
 import addIcon from "./assets/icons/add.svg";
 import editIcon from "./assets/icons/edit.svg";
 import deleteIcon from "./assets/icons/delete.svg";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 export function App() {
   const navigate = useNavigate();

@@ -44,10 +44,21 @@ main {
 
     &--stuck {
       @apply sticky top-[0px] z-30;
-
+      @apply space-y-0;
       @apply h-[100px];
-      @apply flex items-center justify-between;
+      @apply flex flex-row items-center justify-between;
       box-shadow: 3px 10px 4px -6px rgba(0, 0, 0, 0.04);
+    }
+  }
+  .search-form {
+    @apply flex items-center;
+    @apply h-14 w-full lg:w-7/12;
+
+    &--stuck {
+      @apply w-16;
+    }
+    &--focused {
+      @apply w-full lg:w-7/12;
     }
   }
 
