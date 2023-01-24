@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import { deleteBookmark } from "../bookmarks-api";
+import { errorToast, success } from "./useQueryCategories";
 
 export function useDeleteBookmark() {
   const queryClient = useQueryClient();
@@ -25,9 +26,11 @@ export function useDeleteBookmark() {
           context.oldBookmarksResponse
         );
       }
+      errorToast("Error deleting bookmark");
     },
     async onSettled() {
       await queryClient.invalidateQueries("fetch-bookmarks");
+      success("Bookmark deleted successfully");
     },
   });
 }

@@ -41,9 +41,10 @@ main {
     @apply space-y-5 lg:space-y-0;
     @apply mt-10;
     @apply bg-neutral-7;
-    @apply sticky top-[0px] z-30;
 
     &--stuck {
+      @apply sticky top-[0px] z-30;
+
       @apply h-[100px];
       @apply flex items-center justify-between;
       box-shadow: 3px 10px 4px -6px rgba(0, 0, 0, 0.04);

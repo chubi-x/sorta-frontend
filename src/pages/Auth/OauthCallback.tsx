@@ -15,6 +15,7 @@ import { LoginCard } from "../../components/cards";
 
 // ASSETS
 import loadingAnimation from "../../assets/animations/loading.json";
+import { toast } from "react-toastify";
 
 type Props = {
   login: () => void;
@@ -22,6 +23,7 @@ type Props = {
 export function OauthCallback({ login }: Props) {
   const params = useLocation();
   const navigate = useNavigate();
+  const errorMessage = (message: string) => toast.error(message, { position: "bottom-right" });
 
   useEffect(() => {
     const oauth: Oauth = JSON.parse(localStorage.getItem("oauth")!);
@@ -34,10 +36,14 @@ export function OauthCallback({ login }: Props) {
       const oauthResponse = await completeOauth(callbackParams, oauth, abortController);
       if (oauthResponse?.success) {
         login();
+        sessionStorage.setItem("user-fetched", "yes");
+
         navigate("/dashboard");
       } else {
-        if (oauthResponse?.message) alert(oauthResponse.message);
+        if (oauthResponse?.message) errorMessage(oauthResponse.error!);
         navigate("/login");
+        sessionStorage.clear();
+        localStorage.clear();
       }
     };
     completeOauthFunction();
