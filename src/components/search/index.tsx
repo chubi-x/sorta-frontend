@@ -4,31 +4,40 @@ import { useNavigate } from "react-router-dom";
 
 type Props = {
   categoriesActive: boolean;
+  stickyBar: boolean;
+  focus: boolean;
+  setFocus: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export default function SearchBar({ categoriesActive }: Props) {
+export default function SearchBar({ categoriesActive, stickyBar, focus, setFocus }: Props) {
   const navigate = useNavigate();
   const { searchQuery, setSearchQuery } = useContext(SearchContext);
   useEffect(() => {}, []);
-  function search(e: React.FocusEvent<HTMLInputElement>) {
+  function beginSearch(e: React.FocusEvent<HTMLInputElement>) {
     navigate(
       {
         search: `?search=${categoriesActive ? "categories" : "bookmarks"}`,
       },
       { replace: false }
     );
+    setFocus(true);
   }
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchQuery(e.target.value);
   }
   return (
-    <form className="flex h-14 items-center lg:w-7/12">
+    <form
+      className={`flex h-14 items-center  ${stickyBar ? "w-2" : "lg:w-7/12"} ${
+        focus ? "w-full" : ""
+      }`}
+    >
       <input
         type="search"
         name="search"
         id="search-bar"
         placeholder={`Search ${categoriesActive ? "categories" : "bookmarks"}`}
         className="inputs"
-        onFocus={(e) => search(e)}
+        onFocus={(e) => beginSearch(e)}
+        onBlur={(e) => setFocus(false)}
         onChange={(e) => handleSearch(e)}
         value={searchQuery}
       />

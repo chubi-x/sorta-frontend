@@ -7,7 +7,7 @@ import dashboardHeaderBtnIcon from "../../assets/icons/create-category.svg";
 import { useInView } from "react-intersection-observer";
 import { ActiveTabState } from "../../helpers/Reducers";
 import { useLocation } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import SearchBar from "../../components/search";
 
 type Props = {
@@ -32,6 +32,7 @@ export function DashboardHeader({
   }
   const { bookmarksActive, categoriesActive } = activeTabState;
 
+  const [searchFocus, setSearchFocus] = useState(false);
   const [inViewRef, inView] = useInView({
     root: document.querySelector(".dashboard"),
     initialInView: true,
@@ -67,9 +68,16 @@ export function DashboardHeader({
       </p>
 
       <StickyDashboardBar inView={inView} categoriesActive={categoriesActive}>
-        <SearchBar categoriesActive={categoriesActive} />
+        <SearchBar
+          stickyBar={!inView}
+          categoriesActive={categoriesActive}
+          focus={searchFocus}
+          setFocus={setSearchFocus}
+        />
         <button
-          className={`dashboard-header-btn ${!inView ? "mr-4" : ""}`}
+          className={`dashboard-header-btn ${!inView ? "mr-4" : ""} ${
+            searchFocus && !inView ? "hidden" : ""
+          }`}
           onClick={dashboardHeaderBtnAction}
         >
           {toAddBookmarksToCategory ? "add to category" : "create category"}
