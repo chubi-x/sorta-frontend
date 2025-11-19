@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
 import { usePatchCategory, usePostCategory } from "../../api/hooks";
-// import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-// import { firebaseStorage } from "../../../firebase";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { firebaseStorage } from "../../../firebase";
 import { CategoryModalAction } from "../../helpers/Reducers";
 
 import cancelIcon from "../../assets/icons/cancel.svg";
@@ -73,15 +73,15 @@ export function CategoryModal({ closeModal, user, action, category }: CategoryMo
     });
   }
   async function uploadImage(categoryName: string) {
-    // if (!imageFileBlob || categoryName.length < 1) return;
-    // const imageRef = ref(firebaseStorage, `images/${user.id}/categories/${categoryName}/image`);
-    // try {
-    //   const uploadedImage = await uploadBytes(imageRef, imageFileBlob);
-    //   const imageUrl = await getDownloadURL(uploadedImage.ref);
-    //   return imageUrl;
-    // } catch (e) {
-    //   alert("There was an error uploading your file. Please try again.");
-    // }
+    if (!imageFileBlob || categoryName.length < 1) return;
+    const imageRef = ref(firebaseStorage, `images/${user.id}/categories/${categoryName}/image`);
+    try {
+      const uploadedImage = await uploadBytes(imageRef, imageFileBlob);
+      const imageUrl = await getDownloadURL(uploadedImage.ref);
+      return imageUrl;
+    } catch (e) {
+      alert("There was an error uploading your file. Please try again.");
+    }
   }
   function handleInputChange(e: React.ChangeEvent<any>) {
     const { name, value } = e.target;
