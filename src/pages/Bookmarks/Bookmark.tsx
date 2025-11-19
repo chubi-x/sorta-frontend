@@ -29,7 +29,7 @@ export function Bookmark({
 
   function convertDate(date_string: string) {
     let date = new Date(date_string);
-    return `${date.getDate()}/${[date.getMonth()]}/${date.getFullYear()}`;
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
   function openOnTwitter(bookmark: Bookmark) {
     const url = `https://twitter.com/${bookmark.author_username}/status/${bookmark.id}`;
