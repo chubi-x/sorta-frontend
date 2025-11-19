@@ -35,15 +35,15 @@ export function OauthCallback({ login }: Props) {
     const completeOauthFunction = async () => {
       const oauthResponse = await completeOauth(callbackParams, oauth, abortController);
       if (oauthResponse?.success) {
-        login();
         sessionStorage.setItem("user-fetched", "yes");
+        login();
 
         navigate("/dashboard");
       } else {
         if (oauthResponse?.message) errorMessage(oauthResponse.error!);
-        navigate("/login");
         sessionStorage.clear();
         localStorage.clear();
+        navigate("/login");
       }
     };
     completeOauthFunction();

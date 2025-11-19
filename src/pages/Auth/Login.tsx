@@ -25,12 +25,9 @@ export function Login() {
   const error = (msg: string) => toast.error(msg, { position: "bottom-right" });
   useEffect(() => {
     const abortController = new AbortController();
-    console.log("effect is running");
     const fetchOauthFunction = async () => {
       const responseData = await fetchOauth(abortController);
-      console.log(responseData);
       if (responseData?.success) {
-        console.log("successMessage");
         localStorage.setItem("oauth", JSON.stringify(responseData?.data));
         setReadyToLogin(true);
         successMessage("Ready to login!");
@@ -57,7 +54,7 @@ export function Login() {
             <Lottie animationData={loginLottie} loop={true} autoplay={true} />
           </div>
 
-          <PrimaryButton authLink={authLink} loginReady={true} />
+          <PrimaryButton authLink={authLink} loginReady={readyToLogin} />
         </LoginCard>
       </div>
     </>
