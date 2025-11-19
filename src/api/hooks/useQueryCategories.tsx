@@ -204,7 +204,7 @@ export function useRemoveBookmarksFromCategory() {
           ...context.oldCategory,
         });
       }
-      errorToast("There was an removing these bookmarks");
+      errorToast(` ${error} `);
     },
     async onSettled(data, error, { categoryId }, context) {
       await queryClient.invalidateQueries(["fetch-category", categoryId]);

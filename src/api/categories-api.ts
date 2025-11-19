@@ -96,6 +96,9 @@ export async function removeBookmarksFromCategory({
     }
   );
   const response = await request.json();
+  if (!request.ok) {
+    throw new Error(response?.message || "Server returned an error");
+  }
   return response as ServerResponse;
 }
 export async function deleteCategory(categoryId: string) {
