@@ -29,6 +29,7 @@ interface Bookmarks {
 
 interface Bookmark {
   text: string;
+  firebaseId: string;
   id: string;
   author_id: string;
   author_name: string;
