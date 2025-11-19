@@ -61,11 +61,7 @@ export function Bookmark({
   return (
     <div className={`bookmark__card ${roundedBorder}`}>
       <div className="bookmark__card__author__img">
-        <img
-          src={bookmark?.author_pfp}
-          alt="bookmark tweet author profile picture"
-          loading="eager"
-        />
+        <img src={bookmark?.author_pfp} alt="author profile picture" loading="eager" />
       </div>
       <div className=" bookmark__card__text__wrapper ">
         <div className="bookmark__card__details">

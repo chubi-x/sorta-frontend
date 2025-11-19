@@ -130,13 +130,9 @@ const Bookmarks = memo(
     ];
     const renderBookmarks = (bookmarksArray: Bookmark[] | undefined): JSX.Element[] => {
       let renderedBookmarks = [];
-      for (let i = 0; i < numOfBookmarksToRender; i++) {
-        if (bookmarksArray) {
+      if (bookmarksArray) {
+        for (let i = 0; i < numOfBookmarksToRender; i++) {
           if (i < bookmarksArray.length) {
-            // const bookmark = bookmarksArray[i];
-            // const index = i;
-            // const bookmarksLength = bookmarksArray.length;
-
             renderedBookmarks.push(
               <Bookmark
                 bookmark={bookmarksArray[i]}
