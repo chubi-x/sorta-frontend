@@ -1,0 +1,19 @@
+.inputs {
+  @apply border-2 border-neutral-6;
+  @apply px-[20px] md:px-[30px];
+  @apply text-primary-1;
+
+  &:focus {
+    outline: 1px solid theme("colors.primary-1");
+    @apply border-none;
+  }
+}
+#search-bar {
+  background-image: url(../../icons/search.svg);
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  text-indent: 50px;
+  @apply h-full w-full;
+  @apply text-center;
+  @apply rounded-[100px];
+}

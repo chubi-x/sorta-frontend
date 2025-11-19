@@ -1,0 +1,36 @@
+:root {
+  --bg-gradient: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) -30.5%,
+    rgba(136, 136, 136, 0) 7.64%,
+    rgba(89, 89, 89, 0.03) 20.88%,
+    rgba(0, 0, 0, 0.37) 45.54%,
+    rgba(0, 0, 0, 0.5) 62.7%
+  );
+
+  --bg-blur: blur(4.5px);
+}
+.categories {
+  @apply pb-40 md:pb-20;
+  &--empty {
+    @apply flex flex-col items-center justify-center;
+    @apply space-y-6 pb-20;
+
+    p {
+      @apply w-full md:w-96;
+      @apply text-center;
+      @apply text-neutral-5;
+      @apply text-[14px];
+      line-height: 20px;
+    }
+  }
+
+  &--full {
+    @apply z-10;
+    @apply w-auto;
+    @apply md:rounded-[40px] md:border md:border-neutral-6;
+    @apply py-[30px] md:px-[30px];
+
+    @apply flex flex-wrap justify-between;
+  }
+}

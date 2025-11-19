@@ -1,0 +1,116 @@
+.nav {
+  @apply h-[70px] w-11/12;
+  @apply flex items-center justify-between;
+  @apply mx-auto pt-4 sm:px-8;
+
+  &__logo {
+    @apply mb-[5px];
+    @apply flex justify-center;
+    @apply space-x-2 pl-4 md:pl-12;
+    @apply h-full;
+
+    span {
+      @apply font-header-2 text-[20px] font-bold;
+      @apply text-primary-1;
+    }
+
+    &__mobile {
+      @apply h-auto;
+      @apply pl-0;
+      @apply items-center justify-start;
+      @apply w-1/3;
+
+      h1 {
+        @apply text-neutral-8;
+        @apply text-[20px];
+      }
+    }
+  }
+  &__left {
+    @apply flex items-center justify-between;
+    @apply space-x-6;
+
+    .nav__links {
+      @apply h-full;
+      @apply font-body text-xs font-semibold;
+      @apply hidden items-end lg:flex lg:self-center;
+      @apply space-x-10;
+    }
+  }
+
+  &__right {
+    @apply mb-1 flex;
+
+    .hamburger {
+      @apply flex-col items-center;
+
+      &__btn {
+        @apply bg-neutral-1;
+        width: 23px;
+        height: 3px;
+        margin: 3px;
+        border-radius: 300px;
+
+        &__middle {
+          width: 16px;
+        }
+        &__bottom {
+          width: 9px;
+        }
+      }
+    }
+  }
+  &__mobile__container {
+    @apply fixed top-0 left-0;
+    @apply overflow-y-scroll;
+    @apply h-[105vh] w-3/4 sm:w-1/2;
+    transition: all 0.3s ease;
+    z-index: 1;
+
+    .nav__links {
+      a {
+        display: block;
+        transition: all 0.3s ease;
+        @apply hover:underline;
+      }
+    }
+
+    &--closed {
+      width: 0px;
+      opacity: 0;
+    }
+  }
+  &__mobile {
+    @apply h-[120vh] w-full;
+    @apply bg-primary-1;
+    @apply flex flex-col items-center;
+    @apply font-body text-xs font-semibold text-neutral-8;
+
+    .nav__links {
+      @apply space-y-16 pt-10 lg:px-10;
+      @apply w-1/3;
+      @apply flex flex-col items-start;
+      @apply text-start;
+    }
+  }
+  &__cancel {
+    @apply absolute top-[20px] left-[5%];
+    @apply cursor-pointer;
+
+    &__top {
+      rotate: 45deg;
+      transform: translate(2px);
+    }
+    &__bottom {
+      rotate: -45deg;
+      transform: translate(2px);
+    }
+    &__top,
+    &__bottom {
+      display: block;
+      height: 2.5px;
+      width: 20px;
+      background-color: theme("colors.neutral-2");
+    }
+  }
+}

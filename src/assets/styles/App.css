@@ -1,0 +1,29 @@
+@import "./layouts/navbar.css";
+@import "./layouts/menu.css";
+@import "./components/buttons.css";
+@import "./components/modals.css";
+@import "./components/inputs.css";
+
+@import "./pages/login.css";
+@import "./pages/dashboard.css";
+@import "./pages/categories.css";
+@import "./pages/category.css";
+
+@import "./animations.css";
+
+.app {
+  height: 100%;
+  width: 100%;
+}
+
+.spinner {
+  animation: rotate 2s linear infinite;
+  width: 20px;
+  height: 20px;
+
+  & .path {
+    stroke: white;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+}

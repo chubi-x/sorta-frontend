@@ -1,0 +1,75 @@
+@import "./bookmarks.css";
+
+.dashboard {
+  @apply flex justify-center;
+  @apply h-screen h-[100dvh];
+  @apply relative;
+  @apply overflow-hidden;
+
+  &__header {
+    @apply flex items-center space-x-3 pt-10;
+
+    &__text {
+      @apply font-header-2 text-md font-medium text-primary-1;
+
+      span {
+        @apply font-body text-[20px] font-normal;
+      }
+    }
+  }
+}
+.main-container {
+  @apply h-full w-[85%] md:w-3/5 md:flex-grow;
+  @apply mb-10 md:mr-4 md:px-10 xl:px-20;
+  @apply relative;
+}
+main {
+  @apply h-full w-full;
+  @apply sm:pr-6;
+  @apply font-body;
+  @apply relative;
+  @apply z-10;
+  @apply overflow-auto;
+  -ms-overflow-style: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+  .dashboard-header-btn-container {
+    @apply flex flex-col lg:flex-row lg:items-center lg:justify-between;
+    @apply w-full lg:h-16 lg:w-11/12;
+    @apply space-y-5 lg:space-y-0;
+    @apply mt-10;
+    @apply bg-neutral-7;
+
+    &--stuck {
+      @apply sticky top-[0px] z-30;
+      @apply space-y-0;
+      @apply h-[100px];
+      @apply flex flex-row items-center justify-between;
+      box-shadow: 3px 10px 4px -6px rgba(0, 0, 0, 0.04);
+    }
+  }
+  .search-form {
+    @apply flex items-center;
+    @apply h-14 w-full lg:w-7/12;
+
+    &--stuck {
+      @apply w-16;
+    }
+    &--focused {
+      @apply w-full lg:w-7/12;
+    }
+  }
+
+  .logo__container {
+    @apply mt-4 mb-14 pl-0 md:mb-6;
+
+    @media screen and (min-width: 770px) {
+      @apply hidden;
+    }
+  }
+  .need-help {
+    @apply mr-1 flex cursor-help items-center space-x-2 self-start font-medium;
+  }
+}
