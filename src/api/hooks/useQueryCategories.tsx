@@ -19,6 +19,7 @@ export function useFetchCategories(
   navigate: NavigateFunction
 ) {
   return useQuery("fetch-categories", fetchCategories, {
+    refetchOnWindowFocus: false,
     onSuccess(data) {
       if (data.success) {
         setCategories(data.data);
@@ -40,6 +41,7 @@ export function useFetchCategories(
 }
 export function useFetchCategoryById(categoryId: string, navigate: NavigateFunction) {
   return useQuery(["fetch-category", categoryId], () => fetchCategoryById(categoryId), {
+    refetchOnWindowFocus: false,
     onSuccess(data) {
       if (!data.success) {
         if (data.message?.includes("not logged")) {
