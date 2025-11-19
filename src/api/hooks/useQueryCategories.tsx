@@ -52,7 +52,8 @@ export function useFetchCategoryById(categoryId: string, navigate: NavigateFunct
         }
       }
     },
-    onError() {
+    onError({ e }) {
+      console.log(e);
       errorToast("There was an error fetching this category");
     },
   });
@@ -157,7 +158,7 @@ export function useAddBookmarksToCategory() {
           ...oldCategory,
           data: {
             ...oldCategory.data,
-            bookmarks,
+            bookmarks: [...oldCategory.data.bookmarks, ...bookmarks],
           },
         });
       }
@@ -171,10 +172,10 @@ export function useAddBookmarksToCategory() {
         });
       }
     },
-    async onSettled(data, error, { categoryId }, context) {
-      await queryClient.invalidateQueries(["fetch-category", categoryId]);
-      success("Category updated successfully");
-    },
+    // async onSettled(data, error, { categoryId }, context) {
+    //   await queryClient.invalidateQueries(["fetch-category", categoryId]);
+    //   success("Category updated successfully");
+    // },
   });
 }
 export function useRemoveBookmarksFromCategory() {

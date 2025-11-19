@@ -28,16 +28,17 @@ export function Category({ dropdownItems }: Props) {
   const { mutate: deleteBookmark } = useDeleteBookmark();
   const { mutate: removeBookmarksFromCategory } = useRemoveBookmarksFromCategory();
   const { id } = params;
-  const [category, setCategory] = useState<Category>();
+  // const [category, setCategory] = useState<Category>();
 
   const { data, isSuccess, isFetching } = useFetchCategoryById(id!, navigate);
+  const category = data?.data;
   const [showTooltip, setShowTooltip] = useState(false);
 
-  useEffect(() => {
-    if (isSuccess) {
-      setCategory(data.data);
-    }
-  }, [isSuccess, isFetching]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setCategory(data.data);
+  //   }
+  // }, [isSuccess, isFetching]);
 
   const { name, image, description, bookmarks } = { ...category };
 
@@ -81,7 +82,7 @@ export function Category({ dropdownItems }: Props) {
       bookmark={bookmark}
       bookmarksLength={bookmarks.length}
       index={index}
-      dropdownItems={bookmarkDropdownItems(bookmark.id)}
+      dropdownItems={bookmarkDropdownItems(bookmark.firebaseId)}
     />
   ));
   let categoryPage;
